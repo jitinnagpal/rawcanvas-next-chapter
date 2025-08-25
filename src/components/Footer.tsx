@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
+import logoImage from '@/assets/raw-canvas-logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -35,14 +36,12 @@ const Footer = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="lg:col-span-2">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-heading font-bold text-lg">RC</span>
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-xl">Raw Canvas</h3>
-                  <p className="text-sm text-secondary-foreground/80 -mt-1">Interiors</p>
-                </div>
+              <div className="mb-6">
+                <img 
+                  src={logoImage} 
+                  alt="Raw Canvas Interiors Logo" 
+                  className="h-16 w-auto"
+                />
               </div>
               
               <p className="text-secondary-foreground/80 mb-6 max-w-md leading-relaxed">
@@ -65,7 +64,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-primary" />
-                  <span className="text-secondary-foreground/80">Mumbai, India</span>
+                  <span className="text-secondary-foreground/80">Hyderabad, India</span>
                 </div>
               </div>
             </div>

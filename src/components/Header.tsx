@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logoImage from '@/assets/raw-canvas-logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,14 +31,12 @@ const Header = () => {
       <nav className="container-max">
         <div className="flex items-center justify-between h-20 px-6">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg">RC</span>
-            </div>
-            <div>
-              <h1 className="font-heading font-bold text-xl text-foreground">Raw Canvas</h1>
-              <p className="text-xs text-muted-foreground -mt-1">Interiors</p>
-            </div>
+          <div className="flex items-center space-x-3">
+            <img 
+              src={logoImage} 
+              alt="Raw Canvas Interiors Logo" 
+              className="h-12 w-auto"
+            />
           </div>
 
           {/* Desktop Navigation */}
