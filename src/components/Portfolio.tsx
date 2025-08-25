@@ -1,0 +1,138 @@
+import { useState } from 'react';
+import { ExternalLink, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import kitchenImage from '@/assets/portfolio-kitchen.jpg';
+import bedroomImage from '@/assets/portfolio-bedroom.jpg';
+import officeImage from '@/assets/portfolio-office.jpg';
+import diningImage from '@/assets/portfolio-dining.jpg';
+
+const Portfolio = () => {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const categories = ['All', 'Residential', 'Commercial', 'Kitchen', 'Bedroom'];
+
+  const projects = [
+    {
+      id: 1,
+      title: 'Modern Kitchen Design',
+      category: 'Kitchen',
+      type: 'Residential',
+      image: kitchenImage,
+      description: 'Contemporary kitchen with gold hardware and natural materials'
+    },
+    {
+      id: 2,
+      title: 'Luxury Master Bedroom',
+      category: 'Bedroom',
+      type: 'Residential',
+      image: bedroomImage,
+      description: 'Elegant bedroom design with warm neutral tones and luxury finishes'
+    },
+    {
+      id: 3,
+      title: 'Executive Office Space',
+      category: 'Office',
+      type: 'Commercial',
+      image: officeImage,
+      description: 'Professional office design with built-in storage and elegant workspace'
+    },
+    {
+      id: 4,
+      title: 'Elegant Dining Room',
+      category: 'Dining',
+      type: 'Residential',
+      image: diningImage,
+      description: 'Sophisticated dining area with contemporary lighting and luxury finishes'
+    }
+  ];
+
+  const filteredProjects = activeCategory === 'All' 
+    ? projects 
+    : projects.filter(project => 
+        project.category === activeCategory || project.type === activeCategory
+      );
+
+  return (
+    <section id="portfolio" className="section-padding bg-muted/30">
+      <div className="container-max">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
+            Our Portfolio
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            Explore our collection of beautifully designed spaces that showcase 
+            our expertise in creating functional and aesthetically pleasing interiors.
+          </p>
+
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={activeCategory === category ? "default" : "outline"}
+                onClick={() => setActiveCategory(category)}
+                className={`${
+                  activeCategory === category 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'border-border hover:bg-accent'
+                }`}
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+          {filteredProjects.map((project) => (
+            <div key={project.id} className="elegant-card group p-0 overflow-hidden">
+              <div className="relative overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <Button variant="secondary" size="sm" className="w-full">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      View Details
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+                    {project.type}
+                  </span>
+                </div>
+                <h3 className="text-xl font-heading font-bold text-foreground mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  {project.description}
+                </p>
+                <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary">
+                  View Project
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+            View All Projects
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Portfolio;
