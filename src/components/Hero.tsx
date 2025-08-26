@@ -32,7 +32,7 @@ const Hero = () => {
                 <Phone className="w-5 h-5 mr-2" />
                 Free Consultation
               </Button>
-              <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/20 hover:text-white bg-transparent">
                 <Mail className="w-5 h-5 mr-2" />
                 View Portfolio
               </Button>
