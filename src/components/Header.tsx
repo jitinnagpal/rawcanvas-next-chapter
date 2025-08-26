@@ -35,7 +35,7 @@ const Header = () => {
             <img 
               src={logoImage} 
               alt="Raw Canvas Interiors Logo" 
-              className="h-12 w-auto"
+              className="h-16 w-auto"
             />
           </div>
 
