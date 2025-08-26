@@ -1,5 +1,5 @@
 import { Award, Users, Home, Briefcase } from 'lucide-react';
-import prernaPortrait from '@/assets/prerna-portrait.jpg';
+import prernaPortrait from '@/assets/prerna-photo.png';
 
 const About = () => {
   const stats = [
