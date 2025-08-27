@@ -5,7 +5,7 @@ const Testimonials = () => {
     {
       id: 1,
       name: 'Sarah Johnson',
-      location: 'Mumbai',
+      location: 'Hyderabad',
       project: 'Residential Villa',
       rating: 5,
       text: 'Raw Canvas Interiors transformed our home beyond our expectations. The attention to detail and quality of work is exceptional. Prerna understood our vision perfectly and brought it to life.',
