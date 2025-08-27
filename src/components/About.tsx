@@ -1,5 +1,4 @@
 import { Award, Users, Home, Briefcase } from 'lucide-react';
-import prernaPortrait from '@/assets/prerna-photo.png';
 
 const About = () => {
   const stats = [
@@ -53,7 +52,7 @@ const About = () => {
             <div className="text-center">
               <div className="relative inline-block mb-6">
                 <img
-                  src={prernaPortrait}
+                  src="/lovable-uploads/e20549e2-f45b-4e0e-b155-38e0560d4793.png"
                   alt="Prerna Mokha - Principal Designer at Raw Canvas Interiors"
                   className="w-48 h-48 rounded-full object-cover mx-auto border-4 border-primary/20"
                 />
