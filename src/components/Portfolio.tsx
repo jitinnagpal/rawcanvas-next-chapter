@@ -64,23 +64,6 @@ const Portfolio = () => {
             our expertise in creating functional and aesthetically pleasing interiors.
           </p>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={activeCategory === category ? "default" : "outline"}
-                onClick={() => setActiveCategory(category)}
-                className={`${
-                  activeCategory === category 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'border-border hover:bg-accent'
-                }`}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
         </div>
 
         {/* Project Grid */}
