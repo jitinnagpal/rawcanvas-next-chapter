@@ -20,7 +20,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: 'Location',
-      details: 'Mumbai, India',
+      details: 'Hyderabad, India',
       action: '#'
     },
     {
