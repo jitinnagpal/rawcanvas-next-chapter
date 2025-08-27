@@ -14,7 +14,7 @@ const Testimonials = () => {
     {
       id: 2,
       name: 'Rajesh Patel',
-      location: 'Pune',
+      location: 'Hyderabad',
       project: 'Office Space',
       rating: 5,
       text: 'Professional, timely, and absolutely stunning results. The team managed our office renovation seamlessly while we continued working. The new space has improved our team productivity significantly.',
@@ -23,7 +23,7 @@ const Testimonials = () => {
     {
       id: 3,
       name: 'Meera Sharma',
-      location: 'Delhi',
+      location: 'Hyderabad',
       project: 'Apartment Renovation',
       rating: 5,
       text: 'From design to execution, everything was handled with utmost care. The team is creative, responsive, and delivers exactly what they promise. Our apartment now feels like a luxury hotel.',
