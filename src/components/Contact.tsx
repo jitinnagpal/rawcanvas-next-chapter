@@ -14,8 +14,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'rawcanvas22@gmail.com',
-      action: 'mailto:rawcanvas22@gmail.com'
+      details: 'mokhadesigns@outlook.com',
+      action: 'mailto:mokhadesigns@outlook.com'
     },
     {
       icon: MapPin,
