@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
-const logoImage = '/lovable-uploads/1f7694de-a457-47a5-b253-ba1352ed31e0.png';
+const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
