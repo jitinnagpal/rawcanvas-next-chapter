@@ -15,11 +15,11 @@ const About = () => {
           {/* Content */}
           <div>
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-              About Raw Canvas
+              About Mokha Designs
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Raw canvas is created with the intent to design spaces that are beautiful 
+              Mokha Designs is created with the intent to design spaces that are beautiful 
               and have a practical flow of movement to them. We are associated with 
               reliable & resourceful contractors to cater to all aspects of interior 
               design and execution.
@@ -53,7 +53,7 @@ const About = () => {
               <div className="relative inline-block mb-6">
                 <img
                   src="/lovable-uploads/9a7e1767-4789-4491-bf0c-2cb59015a3b4.png"
-                  alt="Prerna Mokha - Principal Designer at Raw Canvas Interiors"
+                  alt="Prerna Mokha - Principal Designer at Mokha Designs"
                   className="w-48 h-48 rounded-full object-cover mx-auto border-4 border-primary/20"
                 />
                 <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary rounded-full flex items-center justify-center">

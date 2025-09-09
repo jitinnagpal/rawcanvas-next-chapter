@@ -76,7 +76,7 @@ const Contact = () => {
 
             <div className="bg-card border border-border rounded-xl p-6">
               <h4 className="font-heading font-semibold text-foreground mb-4">
-                Why Choose Raw Canvas?
+                Why Choose Mokha Designs?
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3">

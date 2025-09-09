@@ -104,7 +104,7 @@ const Footer = () => {
         <div className="border-t border-secondary-foreground/20 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-secondary-foreground/60 text-sm">
-              © {currentYear} Raw Canvas Interiors. All rights reserved.
+              © {currentYear} Mokha Designs. All rights reserved.
             </p>
             
             <div className="flex items-center gap-6">

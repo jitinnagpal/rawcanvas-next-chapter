@@ -8,7 +8,7 @@ const Testimonials = () => {
       location: 'Hyderabad',
       project: 'Residential Villa',
       rating: 5,
-      text: 'Raw Canvas Interiors transformed our home beyond our expectations. The attention to detail and quality of work is exceptional. Prerna understood our vision perfectly and brought it to life.',
+      text: 'Mokha Designs transformed our home beyond our expectations. The attention to detail and quality of work is exceptional. Prerna understood our vision perfectly and brought it to life.',
       avatar: 'SJ'
     },
     {
@@ -51,7 +51,7 @@ const Testimonials = () => {
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Don't just take our word for it. Here's what our satisfied clients 
-            have to say about their experience with Raw Canvas Interiors.
+            have to say about their experience with Mokha Designs.
           </p>
         </div>
 
