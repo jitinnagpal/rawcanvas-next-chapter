@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
-import logoImage from '/lovable-uploads/17cdb443-19b9-40e3-8046-4dbbe26e98af.png';
+import logoImage from '@/assets/mokha-designs-logo-matched.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
