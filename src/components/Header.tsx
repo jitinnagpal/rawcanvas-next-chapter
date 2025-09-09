@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logoImage from '@/assets/mokha-designs-logo-final.png';
+import logoImage from '@/assets/mokha-designs-logo-flat.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
