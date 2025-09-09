@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
-import logoImage from '@/assets/raw-canvas-logo.png';
+import logoImage from '/lovable-uploads/17cdb443-19b9-40e3-8046-4dbbe26e98af.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -39,7 +39,7 @@ const Footer = () => {
               <div className="mb-6">
                 <img 
                   src={logoImage} 
-                  alt="Raw Canvas Interiors Logo" 
+                  alt="Mokha Designs Logo" 
                   className="h-16 w-auto"
                 />
               </div>

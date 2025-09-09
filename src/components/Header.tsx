@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logoImage from '@/assets/raw-canvas-logo.png';
+import logoImage from '/lovable-uploads/17cdb443-19b9-40e3-8046-4dbbe26e98af.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ const Header = () => {
           <div className="flex items-center space-x-3">
             <img 
               src={logoImage} 
-              alt="Raw Canvas Interiors Logo" 
+              alt="Mokha Designs Logo" 
               className="h-16 w-auto"
             />
           </div>
