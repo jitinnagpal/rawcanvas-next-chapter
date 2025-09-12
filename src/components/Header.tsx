@@ -54,9 +54,11 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              <Phone className="w-4 h-4 mr-2" />
-              Free Consultation
+            <Button asChild variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              <a href="#contact">
+                <Phone className="w-4 h-4 mr-2" />
+                Free Consultation
+              </a>
             </Button>
           </div>
 
@@ -84,9 +86,11 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <Button variant="outline" size="sm" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground mt-4">
-                <Phone className="w-4 h-4 mr-2" />
-                Free Consultation
+              <Button asChild variant="outline" size="sm" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground mt-4">
+                <a href="#contact">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Free Consultation
+                </a>
               </Button>
             </div>
           </div>

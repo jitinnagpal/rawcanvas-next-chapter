@@ -69,8 +69,10 @@ const Services = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
-            Get Free Consultation
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+            <a href="#contact">
+              Get Free Consultation
+            </a>
           </Button>
         </div>
       </div>
