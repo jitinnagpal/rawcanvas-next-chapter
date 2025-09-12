@@ -236,7 +236,7 @@ const Contact = () => {
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="5bhk" id="5bhk" />
-                        <Label htmlFor="5bhk">5BHK</Label>
+                        <Label htmlFor="5bhk">5BHK+</Label>
                       </div>
                     </RadioGroup>
                   </div>
