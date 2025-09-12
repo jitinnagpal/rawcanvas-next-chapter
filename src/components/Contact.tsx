@@ -343,7 +343,7 @@ const Contact = () => {
 
               <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
                 <Send className="w-5 h-5 mr-2" />
-                Book It
+                Design My Space
               </Button>
             </form>
           </div>
