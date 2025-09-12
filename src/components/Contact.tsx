@@ -1,9 +1,23 @@
-import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 const Contact = () => {
+  const [projectType, setProjectType] = useState('');
+  const [propertyType, setPropertyType] = useState('');
+  const [apartmentSize, setApartmentSize] = useState('');
+  const [propertyStatus, setPropertyStatus] = useState('');
+  const [nextStep, setNextStep] = useState('');
+  const [consultationDate, setConsultationDate] = useState<Date>();
+
   const contactInfo = [
     {
       icon: Phone,
@@ -102,88 +116,210 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="elegant-card">
             <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              Send Us a Message
+              Let's Get Started
             </h3>
             
             <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
+              {/* Basic Information */}
+              <div className="space-y-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
-                    First Name
-                  </label>
+                  <Label htmlFor="name" className="text-sm font-medium text-foreground">
+                    Full Name *
+                  </Label>
                   <Input 
-                    id="firstName" 
-                    placeholder="Your first name"
-                    className="bg-background border-border"
+                    id="name" 
+                    placeholder="Your full name"
+                    className="bg-background border-border mt-2"
+                    required
                   />
                 </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+                      Phone Number
+                    </Label>
+                    <Input 
+                      id="phone" 
+                      type="tel" 
+                      placeholder="+91 Your phone number"
+                      className="bg-background border-border mt-2"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-sm font-medium text-foreground">
+                      Email Address
+                    </Label>
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      placeholder="your@email.com"
+                      className="bg-background border-border mt-2"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
-                    Last Name
-                  </label>
-                  <Input 
-                    id="lastName" 
-                    placeholder="Your last name"
-                    className="bg-background border-border"
-                  />
+                  <Label htmlFor="location" className="text-sm font-medium text-foreground">
+                    Property Location *
+                  </Label>
+                  <Select>
+                    <SelectTrigger className="bg-background border-border mt-2">
+                      <SelectValue placeholder="Is your property in Hyderabad or elsewhere in India?" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border">
+                      <SelectItem value="hyderabad">Hyderabad</SelectItem>
+                      <SelectItem value="elsewhere">Elsewhere in India</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                  Email Address
-                </label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="your@email.com"
-                  className="bg-background border-border"
-                />
+              {/* Project Details */}
+              <div className="space-y-4 pt-4 border-t border-border">
+                <div>
+                  <Label className="text-sm font-medium text-foreground mb-3 block">
+                    Type of Project *
+                  </Label>
+                  <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="residential" id="residential" />
+                      <Label htmlFor="residential">Residential</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="commercial" id="commercial" />
+                      <Label htmlFor="commercial">Commercial</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                {/* Conditional: Residential Property Type */}
+                {projectType === 'residential' && (
+                  <div>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Property Type
+                    </Label>
+                    <RadioGroup value={propertyType} onValueChange={setPropertyType} className="flex gap-6">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="apartment" id="apartment" />
+                        <Label htmlFor="apartment">Apartment</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="villa" id="villa" />
+                        <Label htmlFor="villa">Villa</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                )}
+
+                {/* Conditional: Apartment Size */}
+                {projectType === 'residential' && propertyType === 'apartment' && (
+                  <div>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Apartment Size
+                    </Label>
+                    <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="2bhk" id="2bhk" />
+                        <Label htmlFor="2bhk">2BHK</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="3bhk" id="3bhk" />
+                        <Label htmlFor="3bhk">3BHK</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="4bhk+" id="4bhk+" />
+                        <Label htmlFor="4bhk+">4BHK+</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                )}
+
+                {/* Property Status */}
+                {projectType && (
+                  <div>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Status of Property
+                    </Label>
+                    <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="under-construction" id="under-construction" />
+                        <Label htmlFor="under-construction">Under construction</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="handed-over" id="handed-over" />
+                        <Label htmlFor="handed-over">Handed over (new)</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="renovation" id="renovation" />
+                        <Label htmlFor="renovation">Renovation required</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                )}
               </div>
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                  Phone Number
-                </label>
-                <Input 
-                  id="phone" 
-                  type="tel" 
-                  placeholder="+91 Your phone number"
-                  className="bg-background border-border"
-                />
-              </div>
+              {/* Next Step Preference */}
+              {projectType && (
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <div>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Next Step Preference
+                    </Label>
+                    <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="callback" id="callback" />
+                        <Label htmlFor="callback">Request a callback</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="consultation" id="consultation" />
+                        <Label htmlFor="consultation">Schedule a free consultation</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="direct-call" id="direct-call" />
+                        <Label htmlFor="direct-call">I'll call you directly</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
 
-              <div>
-                <label htmlFor="projectType" className="block text-sm font-medium text-foreground mb-2">
-                  Project Type
-                </label>
-                <select 
-                  id="projectType"
-                  className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="">Select project type</option>
-                  <option value="residential">Residential</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="renovation">Renovation</option>
-                  <option value="consultation">Consultation Only</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                  Message
-                </label>
-                <Textarea 
-                  id="message" 
-                  placeholder="Tell us about your project..."
-                  rows={4}
-                  className="bg-background border-border"
-                />
-              </div>
+                  {/* Conditional: Calendar Picker */}
+                  {nextStep === 'consultation' && (
+                    <div>
+                      <Label className="text-sm font-medium text-foreground mb-3 block">
+                        Preferred Consultation Date
+                      </Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal bg-background border-border",
+                              !consultationDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {consultationDate ? format(consultationDate, "PPP") : <span>Pick a date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-background border-border" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={consultationDate}
+                            onSelect={setConsultationDate}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
                 <Send className="w-5 h-5 mr-2" />
-                Send Message
+                Book Your Free Design Consultation
               </Button>
             </form>
           </div>
