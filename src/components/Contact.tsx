@@ -117,7 +117,7 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="elegant-card">
             <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              Book Your Free Design Consultation
+              Begin Your Design Journey With Us
             </h3>
             
             <form className="space-y-6">
