@@ -117,7 +117,7 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="elegant-card">
             <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              Let's Get Started
+              Book Your Free Design Consultation
             </h3>
             
             <form className="space-y-6">
@@ -138,13 +138,15 @@ const Contact = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-                      Phone Number
+                      Phone Number *
                     </Label>
                     <Input 
                       id="phone" 
                       type="tel" 
                       placeholder="+91 Your phone number"
                       className="bg-background border-border mt-2"
+                      required
+                      pattern="[+]?[0-9\s\-\(\)]+"
                     />
                   </div>
                   <div>
@@ -166,11 +168,15 @@ const Contact = () => {
                   </Label>
                   <Select>
                     <SelectTrigger className="bg-background border-border mt-2">
-                      <SelectValue placeholder="Is your property in Hyderabad or elsewhere in India?" />
+                      <SelectValue placeholder="Select your city" />
                     </SelectTrigger>
                     <SelectContent className="bg-background border-border">
                       <SelectItem value="hyderabad">Hyderabad</SelectItem>
-                      <SelectItem value="elsewhere">Elsewhere in India</SelectItem>
+                      <SelectItem value="delhi">Delhi</SelectItem>
+                      <SelectItem value="mumbai">Mumbai</SelectItem>
+                      <SelectItem value="bengaluru">Bengaluru</SelectItem>
+                      <SelectItem value="goa">Goa</SelectItem>
+                      <SelectItem value="dubai">Dubai</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -213,26 +219,43 @@ const Contact = () => {
                   </div>
                 )}
 
-                {/* Conditional: Apartment Size */}
-                {projectType === 'residential' && propertyType === 'apartment' && (
+                {/* Conditional: Residential Property Size */}
+                {projectType === 'residential' && (propertyType === 'apartment' || propertyType === 'villa') && (
                   <div>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Apartment Size
+                      Residential Property Size
                     </Label>
                     <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="2bhk" id="2bhk" />
-                        <Label htmlFor="2bhk">2BHK</Label>
-                      </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="3bhk" id="3bhk" />
                         <Label htmlFor="3bhk">3BHK</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="4bhk+" id="4bhk+" />
-                        <Label htmlFor="4bhk+">4BHK+</Label>
+                        <RadioGroupItem value="4bhk" id="4bhk" />
+                        <Label htmlFor="4bhk">4BHK</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="5bhk" id="5bhk" />
+                        <Label htmlFor="5bhk">5BHK</Label>
                       </div>
                     </RadioGroup>
+                  </div>
+                )}
+
+                {/* Conditional: Commercial Property Size */}
+                {projectType === 'commercial' && (
+                  <div>
+                    <Label htmlFor="commercial-size" className="text-sm font-medium text-foreground">
+                      Commercial Property Size (sqft) *
+                    </Label>
+                    <Input 
+                      id="commercial-size" 
+                      type="number" 
+                      placeholder="Enter size in square feet"
+                      className="bg-background border-border mt-2"
+                      min="1"
+                      required
+                    />
                   </div>
                 )}
 
@@ -320,7 +343,7 @@ const Contact = () => {
 
               <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
                 <Send className="w-5 h-5 mr-2" />
-                Book Your Free Design Consultation
+                Book It
               </Button>
             </form>
           </div>
