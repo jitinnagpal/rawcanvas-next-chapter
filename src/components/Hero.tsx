@@ -1,15 +1,38 @@
 import { ArrowDown, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-interior.jpg';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useState } from 'react';
 
 const Hero = () => {
+  const videos = [
+    '/videos/hero-video-1.mov',
+    '/videos/hero-video-2.mov',
+    '/videos/hero-video-3.mov'
+  ];
+
   return (
     <section id="home" className="hero-section">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+      {/* Background Video Carousel */}
+      <div className="absolute inset-0">
+        <Carousel className="w-full h-full" opts={{ loop: true }}>
+          <CarouselContent>
+            {videos.map((video, index) => (
+              <CarouselItem key={index}>
+                <video
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src={video} type="video/mp4" />
+                </video>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-4" />
+        </Carousel>
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/80 via-secondary/60 to-transparent"></div>
       </div>
 
