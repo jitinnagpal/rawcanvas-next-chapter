@@ -22,7 +22,7 @@ const Portfolio = () => {
     },
     {
       id: 2,
-      title: 'Luxury Master Bedroom',
+      title: 'Luxury Bedrooms',
       category: 'Bedroom',
       type: 'Residential',
       image: bedroomImage,
