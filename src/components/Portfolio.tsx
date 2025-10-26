@@ -30,7 +30,7 @@ const Portfolio = () => {
     },
     {
       id: 3,
-      title: 'Executive Office Space',
+      title: 'Living Spaces',
       category: 'Office',
       type: 'Commercial',
       image: officeImage,
