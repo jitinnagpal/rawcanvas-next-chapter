@@ -4,30 +4,33 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useState } from 'react';
 
 const Hero = () => {
-  const videos = [
-    '/videos/hero-video-1.mov',
-    '/videos/hero-video-2.mov',
-    '/videos/hero-video-3.mov'
+  const images = [
+    '/images/hero-1.jpg',
+    '/images/hero-2.jpg',
+    '/images/hero-3.jpg',
+    '/images/hero-4.jpg',
+    '/images/hero-5.jpg',
+    '/images/hero-6.jpg',
+    '/images/hero-7.jpg',
+    '/images/hero-8.jpg',
+    '/images/hero-9.jpg',
+    '/images/hero-10.jpg'
   ];
 
   return (
     <section id="home" className="hero-section">
-      {/* Background Video Carousel */}
+      {/* Background Image Carousel */}
       <div className="absolute inset-0">
         <Carousel className="w-full h-full" opts={{ loop: true }}>
           <CarouselContent>
-            {videos.map((video, index) => (
+            {images.map((image, index) => (
                 <CarouselItem key={index} className="h-full">
-                  <div className="w-full h-full flex items-center justify-center bg-secondary">
-                    <video
-                      className="max-w-full max-h-full object-contain"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                    >
-                      <source src={video} type="video/mp4" />
-                    </video>
+                  <div className="w-full h-full">
+                    <img
+                      src={image}
+                      alt={`Interior design showcase ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </CarouselItem>
             ))}
