@@ -3,7 +3,7 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
 import bedroomImage from '@/assets/portfolio-bedroom.jpg';
-import officeImage from '@/assets/portfolio-office.jpg';
+import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
 import diningImage from '@/assets/portfolio-dining.jpg';
 
 const Portfolio = () => {
@@ -31,10 +31,10 @@ const Portfolio = () => {
     {
       id: 3,
       title: 'Living Spaces',
-      category: 'Office',
-      type: 'Commercial',
-      image: officeImage,
-      description: 'Professional office design with built-in storage and elegant workspace'
+      category: 'Living',
+      type: 'Residential',
+      image: livingSpaceImage,
+      description: 'Warm and inviting living space with artistic wall features and elegant furnishings'
     },
     {
       id: 4,
