@@ -19,7 +19,7 @@ const Hero = () => {
             {videos.map((video, index) => (
               <CarouselItem key={index}>
                 <video
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   autoPlay
                   loop
                   muted
