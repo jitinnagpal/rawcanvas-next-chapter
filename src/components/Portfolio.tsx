@@ -74,7 +74,9 @@ const Portfolio = () => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                  className={`w-full h-64 group-hover:scale-105 transition-transform duration-500 ${
+                    project.id === 3 ? 'object-cover' : 'object-contain'
+                  }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 right-4">
