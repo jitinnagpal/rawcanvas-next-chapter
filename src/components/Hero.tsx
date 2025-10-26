@@ -17,17 +17,19 @@ const Hero = () => {
         <Carousel className="w-full h-full" opts={{ loop: true }}>
           <CarouselContent>
             {videos.map((video, index) => (
-              <CarouselItem key={index}>
-                <video
-                  className="w-full h-full object-contain"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                >
-                  <source src={video} type="video/mp4" />
-                </video>
-              </CarouselItem>
+                <CarouselItem key={index} className="h-full">
+                  <div className="w-full h-full flex items-center justify-center bg-secondary">
+                    <video
+                      className="max-w-full max-h-full object-contain"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    >
+                      <source src={video} type="video/mp4" />
+                    </video>
+                  </div>
+                </CarouselItem>
             ))}
           </CarouselContent>
           <CarouselPrevious className="left-4" />
