@@ -34,11 +34,11 @@ const Hero = () => {
           <CarouselContent>
             {images.map((image, index) => (
                 <CarouselItem key={index} className="h-full">
-                  <div className="w-full h-full">
+                  <div className="w-full h-full flex items-center justify-center bg-secondary">
                     <img
                       src={image}
                       alt={`Interior design showcase ${index + 1}`}
-                      className="w-full h-full object-cover transition-opacity duration-1000"
+                      className="max-w-full max-h-full object-contain transition-opacity duration-1000"
                     />
                   </div>
                 </CarouselItem>
