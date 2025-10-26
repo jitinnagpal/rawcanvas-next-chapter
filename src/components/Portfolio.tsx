@@ -14,7 +14,7 @@ const Portfolio = () => {
   const projects = [
     {
       id: 1,
-      title: 'Modern Kitchen Design',
+      title: 'Modern Kitchen Designs',
       category: 'Kitchen',
       type: 'Residential',
       image: kitchenImage,
