@@ -13,6 +13,7 @@ import kitchen4 from '@/assets/gallery/kitchen-4.jpg';
 import kitchen5 from '@/assets/gallery/kitchen-5.jpg';
 import kitchen6 from '@/assets/gallery/kitchen-6.jpg';
 import kitchen7 from '@/assets/gallery/kitchen-7.jpg';
+import kitchenVideo1 from '@/assets/gallery/kitchen-7.mov';
 
 const galleryData = {
   kitchen: {
@@ -25,7 +26,7 @@ const galleryData = {
       { src: kitchen4, alt: 'Modern kitchen showroom display' },
       { src: kitchen5, alt: 'Kitchen with sage green island and dining setup' },
       { src: kitchen6, alt: 'Minimalist kitchen with marble island' },
-      { src: kitchen7, alt: 'Contemporary kitchen with wood tone cabinets' },
+      { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video', poster: kitchen7 },
     ]
   },
   bedroom: {
@@ -94,11 +95,22 @@ const Gallery = () => {
                   className="elegant-card p-0 overflow-hidden cursor-pointer group"
                   onClick={() => setSelectedImage(index)}
                 >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {image.type === 'video' ? (
+                    <video
+                      src={image.src}
+                      poster={(image as any).poster}
+                      className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                      muted
+                      playsInline
+                      controls
+                    />
+                  ) : (
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -125,12 +137,24 @@ const Gallery = () => {
                 <X className="w-6 h-6" />
               </Button>
               <div className="max-w-7xl max-h-[90vh] relative">
-                <img
-                  src={gallery.images[selectedImage].src}
-                  alt={gallery.images[selectedImage].alt}
-                  className="max-w-full max-h-[90vh] object-contain"
-                  onClick={(e) => e.stopPropagation()}
-                />
+                {(gallery.images[selectedImage] as any).type === 'video' ? (
+                  <video
+                    src={gallery.images[selectedImage].src}
+                    poster={(gallery.images[selectedImage] as any).poster}
+                    className="max-w-full max-h-[90vh] object-contain"
+                    controls
+                    autoPlay
+                    playsInline
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                ) : (
+                  <img
+                    src={gallery.images[selectedImage].src}
+                    alt={gallery.images[selectedImage].alt}
+                    className="max-w-full max-h-[90vh] object-contain"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                )}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                   {selectedImage > 0 && (
                     <Button
