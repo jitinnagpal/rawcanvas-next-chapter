@@ -1,9 +1,14 @@
 import { ArrowDown, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { useState } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
+import { useRef } from 'react';
 
 const Hero = () => {
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  );
+
   const images = [
     '/images/hero-1.jpg',
     '/images/hero-2.jpg',
@@ -21,7 +26,11 @@ const Hero = () => {
     <section id="home" className="hero-section">
       {/* Background Image Carousel */}
       <div className="absolute inset-0">
-        <Carousel className="w-full h-full" opts={{ loop: true }}>
+        <Carousel 
+          className="w-full h-full" 
+          opts={{ loop: true }}
+          plugins={[plugin.current]}
+        >
           <CarouselContent>
             {images.map((image, index) => (
                 <CarouselItem key={index} className="h-full">
@@ -29,7 +38,7 @@ const Hero = () => {
                     <img
                       src={image}
                       alt={`Interior design showcase ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-opacity duration-1000"
                     />
                   </div>
                 </CarouselItem>
