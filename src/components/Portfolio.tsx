@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
@@ -18,7 +19,8 @@ const Portfolio = () => {
       category: 'Kitchen',
       type: 'Residential',
       image: kitchenImage,
-      description: 'Contemporary kitchen with gold hardware and natural materials'
+      description: 'Contemporary kitchen with gold hardware and natural materials',
+      galleryLink: '/gallery/kitchen'
     },
     {
       id: 2,
@@ -26,7 +28,8 @@ const Portfolio = () => {
       category: 'Bedroom',
       type: 'Residential',
       image: bedroomImage,
-      description: 'Elegant bedroom design with warm neutral tones and luxury finishes'
+      description: 'Elegant bedroom design with warm neutral tones and luxury finishes',
+      galleryLink: '/gallery/bedroom'
     },
     {
       id: 3,
@@ -34,7 +37,8 @@ const Portfolio = () => {
       category: 'Living',
       type: 'Residential',
       image: livingSpaceImage,
-      description: 'Warm and inviting living space with artistic wall features and elegant furnishings'
+      description: 'Warm and inviting living space with artistic wall features and elegant furnishings',
+      galleryLink: '/gallery/living'
     },
     {
       id: 4,
@@ -42,7 +46,8 @@ const Portfolio = () => {
       category: 'Dining',
       type: 'Residential',
       image: diningImage,
-      description: 'Sophisticated dining area with contemporary lighting and luxury finishes'
+      description: 'Sophisticated dining area with contemporary lighting and luxury finishes',
+      galleryLink: '/gallery/dining'
     }
   ];
 
@@ -98,10 +103,12 @@ const Portfolio = () => {
                 <p className="text-muted-foreground mb-4">
                   {project.description}
                 </p>
-                <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary">
-                  View Projects
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                </Button>
+                <Link to={project.galleryLink}>
+                  <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary">
+                    View Projects
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
