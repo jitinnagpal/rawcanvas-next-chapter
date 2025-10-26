@@ -15,6 +15,13 @@ import kitchen6 from '@/assets/gallery/kitchen-6.jpg';
 import kitchen7 from '@/assets/gallery/kitchen-7.jpg';
 import kitchenVideo1 from '@/assets/gallery/kitchen-7.mov';
 
+// Bedroom images
+import bedroom1 from '@/assets/gallery/bedroom-1.jpg';
+import bedroom2 from '@/assets/gallery/bedroom-2.jpg';
+import bedroom3 from '@/assets/gallery/bedroom-3.jpg';
+import bedroom4 from '@/assets/gallery/bedroom-4.jpg';
+import bedroom5 from '@/assets/gallery/bedroom-5.jpg';
+
 const galleryData = {
   kitchen: {
     title: 'Modern Kitchens',
@@ -32,7 +39,13 @@ const galleryData = {
   bedroom: {
     title: 'Luxury Bedrooms',
     description: 'Discover our elegant bedroom designs with warm neutral tones and luxury finishes.',
-    images: []
+    images: [
+      { src: bedroom1, alt: 'Modern bedroom with gold sunburst mirror and textured wall' },
+      { src: bedroom2, alt: 'Contemporary bedroom with ambient lighting and mirrored wardrobe' },
+      { src: bedroom3, alt: 'Elegant bedroom with palm leaf wallpaper and purple accents' },
+      { src: bedroom4, alt: 'Serene bedroom with textured wallpaper and breakfast tray' },
+      { src: bedroom5, alt: 'Cozy bedroom with textured walls and garden view' },
+    ]
   },
   living: {
     title: 'Living Spaces',
