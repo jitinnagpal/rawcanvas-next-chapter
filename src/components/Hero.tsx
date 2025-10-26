@@ -38,7 +38,7 @@ const Hero = () => {
                     <img
                       src={image}
                       alt={`Interior design showcase ${index + 1}`}
-                      className="max-w-full max-h-full object-contain transition-opacity duration-1000"
+                      className="w-auto h-auto max-w-full max-h-full object-contain transition-opacity duration-1000"
                     />
                   </div>
                 </CarouselItem>
