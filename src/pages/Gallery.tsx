@@ -82,7 +82,7 @@ const galleryData = {
     ]
   },
   dining: {
-    title: 'Transitions',
+    title: 'Transformations',
     description: 'View our sophisticated dining area designs with contemporary lighting and luxury finishes.',
     images: []
   }
