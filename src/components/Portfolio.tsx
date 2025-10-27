@@ -74,10 +74,12 @@ const Portfolio = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 right-4">
-                    <Button variant="secondary" size="sm" className="w-full">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      View Details
-                    </Button>
+                    <Link to={project.galleryLink}>
+                      <Button variant="secondary" size="sm" className="w-full">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        View Projects
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
