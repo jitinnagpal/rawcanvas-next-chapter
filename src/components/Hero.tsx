@@ -71,9 +71,11 @@ const Hero = () => {
                   Free Consultation
                 </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/20 hover:text-white bg-transparent">
-                <Mail className="w-5 h-5 mr-2" />
-                View Portfolio
+              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/20 hover:text-white bg-transparent">
+                <a href="#portfolio">
+                  <Mail className="w-5 h-5 mr-2" />
+                  View Portfolio
+                </a>
               </Button>
             </div>
 
