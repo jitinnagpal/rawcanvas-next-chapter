@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://www.instagram.com/rawcanvas.interior/', label: 'Instagram' },
+    { icon: Instagram, href: 'https://www.instagram.com/mokhadesigns/', label: 'Instagram' },
     { icon: Facebook, href: 'https://www.facebook.com/rawcanvasinteriors', label: 'Facebook' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' }
   ];
