@@ -292,10 +292,6 @@ const Contact = () => {
                     </Label>
                     <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="callback" id="callback" />
-                        <Label htmlFor="callback">Request a callback</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="consultation" id="consultation" />
                         <Label htmlFor="consultation">Schedule a free consultation</Label>
                       </div>
