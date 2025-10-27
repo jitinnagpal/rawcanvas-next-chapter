@@ -50,10 +50,12 @@ async function createJWT(serviceAccount: any): Promise<string> {
   const privateKey = serviceAccount.private_key;
   const pemHeader = "-----BEGIN PRIVATE KEY-----";
   const pemFooter = "-----END PRIVATE KEY-----";
-  const pemContents = privateKey.substring(
-    pemHeader.length,
-    privateKey.length - pemFooter.length
-  ).trim();
+  
+  // Remove header, footer, and all whitespace/newlines
+  const pemContents = privateKey
+    .replace(pemHeader, "")
+    .replace(pemFooter, "")
+    .replace(/\s/g, "");
 
   const binaryKey = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
 
