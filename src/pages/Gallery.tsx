@@ -35,6 +35,7 @@ import living7 from '@/assets/gallery/living-7.jpg';
 import living8 from '@/assets/gallery/living-8.jpg';
 import living9 from '@/assets/gallery/living-9.jpg';
 import living10 from '@/assets/gallery/living-10.jpg';
+import living11 from '@/assets/gallery/living-11.jpg';
 
 const galleryData = {
   kitchen: {
@@ -77,6 +78,7 @@ const galleryData = {
       { src: living8, alt: 'Reading nook with wooden bookshelf and modern wall art' },
       { src: living9, alt: 'Corner seating with warm tones and artistic wallpaper' },
       { src: living10, alt: 'Balcony garden with red cushions and plants' },
+      { src: living11, alt: 'Elegant entryway with wood paneling and decorative wall accents' },
     ]
   },
   dining: {
