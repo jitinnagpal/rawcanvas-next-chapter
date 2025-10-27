@@ -22,6 +22,18 @@ import bedroom3 from '@/assets/gallery/bedroom-3.jpg';
 import bedroom4 from '@/assets/gallery/bedroom-4.jpg';
 import bedroom5 from '@/assets/gallery/bedroom-5.jpg';
 
+// Living space images
+import living1 from '@/assets/gallery/living-1.jpg';
+import living2 from '@/assets/gallery/living-2.jpg';
+import living3 from '@/assets/gallery/living-3.jpg';
+import living4 from '@/assets/gallery/living-4.jpg';
+import living5 from '@/assets/gallery/living-5.jpg';
+import living6 from '@/assets/gallery/living-6.jpg';
+import living7 from '@/assets/gallery/living-7.jpg';
+import living8 from '@/assets/gallery/living-8.jpg';
+import living9 from '@/assets/gallery/living-9.jpg';
+import living10 from '@/assets/gallery/living-10.jpg';
+
 const galleryData = {
   kitchen: {
     title: 'Modern Kitchens',
@@ -50,7 +62,18 @@ const galleryData = {
   living: {
     title: 'Living Spaces',
     description: 'Browse our warm and inviting living space designs with artistic wall features and elegant furnishings.',
-    images: []
+    images: [
+      { src: living1, alt: 'Modern living room with gold coffee tables and blue accents' },
+      { src: living2, alt: 'Contemporary living space with modern entertainment center' },
+      { src: living3, alt: 'Elegant living room with crystal chandeliers and tufted sofas' },
+      { src: living4, alt: 'Cozy living space with textured ceiling and warm orange tones' },
+      { src: living5, alt: 'Stylish bar area with metallic accents and blue seating' },
+      { src: living6, alt: 'Hallway with decorative accents and traditional furnishings' },
+      { src: living7, alt: 'Study area with display cabinet and telescope' },
+      { src: living8, alt: 'Reading nook with wooden bookshelf and modern wall art' },
+      { src: living9, alt: 'Corner seating with warm tones and artistic wallpaper' },
+      { src: living10, alt: 'Balcony garden with red cushions and plants' },
+    ]
   },
   dining: {
     title: 'Elegant Dining Rooms',
