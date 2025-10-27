@@ -33,7 +33,7 @@ const Portfolio = () => {
     },
     {
       id: 3,
-      title: 'Living Spaces',
+      title: 'Vibrant Living Spaces',
       category: 'Living',
       type: 'Residential',
       image: livingSpaceImage,
