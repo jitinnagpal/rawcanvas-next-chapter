@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react';
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
 const Footer = () => {
@@ -6,8 +6,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Instagram, href: 'https://www.instagram.com/mokhadesigns/', label: 'Instagram' },
-    { icon: Facebook, href: 'https://www.facebook.com/Mokhadesigns', label: 'Facebook' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' }
+    { icon: Facebook, href: 'https://www.facebook.com/Mokhadesigns', label: 'Facebook' }
   ];
 
   const quickLinks = [
