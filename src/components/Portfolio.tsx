@@ -42,7 +42,7 @@ const Portfolio = () => {
     },
     {
       id: 4,
-      title: 'Elegant Dining Room',
+      title: 'Transitions',
       category: 'Dining',
       type: 'Residential',
       image: diningImage,
