@@ -10,6 +10,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { downloadVCard } from '@/utils/generateVCard';
+import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 
 const Contact = () => {
   const [projectType, setProjectType] = useState('');
@@ -18,6 +22,9 @@ const Contact = () => {
   const [propertyStatus, setPropertyStatus] = useState('');
   const [nextStep, setNextStep] = useState('');
   const [consultationDate, setConsultationDate] = useState<Date>();
+  const [propertyLocation, setPropertyLocation] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const contactInfo = [
     {
@@ -45,6 +52,104 @@ const Contact = () => {
       action: '#'
     }
   ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Get form data
+      const formElement = e.currentTarget;
+      const formData = new FormData(formElement);
+      
+      const name = formData.get('name') as string;
+      const phone = formData.get('phone') as string;
+      const email = formData.get('email') as string;
+      const commercialSize = formData.get('commercial-size') as string;
+
+      // Validate required fields
+      if (!name || !phone || !propertyLocation || !projectType) {
+        toast({
+          title: "Missing Information",
+          description: "Please fill in all required fields.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Collect visitor metadata
+      const deviceType = detectDeviceType();
+      const browser = detectBrowser();
+      const visitorLocation = await getVisitorLocation();
+
+      // Prepare submission data
+      const submissionData = {
+        name: name.trim(),
+        phone: phone.trim(),
+        email: email?.trim() || '',
+        propertyLocation,
+        projectType,
+        propertyType: propertyType || '',
+        propertySize: projectType === 'commercial' ? commercialSize : apartmentSize,
+        propertyStatus: propertyStatus || '',
+        nextStep,
+        consultationDate: consultationDate ? format(consultationDate, 'PPP') : '',
+        visitorLocation,
+        deviceType,
+        browser,
+      };
+
+      console.log('Submitting form data:', submissionData);
+
+      // Call edge function to submit to Google Sheets
+      const { data, error } = await supabase.functions.invoke('submit-contact-form', {
+        body: submissionData,
+      });
+
+      if (error) {
+        console.error('Error submitting form:', error);
+        throw error;
+      }
+
+      console.log('Form submitted successfully:', data);
+
+      // Show success message
+      if (nextStep === 'direct-call') {
+        toast({
+          title: "Thank You!",
+          description: "Your information has been saved. Save our contact to call us.",
+        });
+        // Trigger vCard download
+        downloadVCard();
+      } else {
+        toast({
+          title: "Thank You!",
+          description: "We'll contact you soon to schedule your consultation.",
+        });
+      }
+
+      // Reset form
+      formElement.reset();
+      setProjectType('');
+      setPropertyType('');
+      setApartmentSize('');
+      setPropertyStatus('');
+      setNextStep('');
+      setConsultationDate(undefined);
+      setPropertyLocation('');
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Submission Failed",
+        description: "Unable to submit form. Please try again or call us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="section-padding bg-muted/30">
@@ -120,7 +225,7 @@ const Contact = () => {
               Begin Your Design Journey With Us
             </h3>
             
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Information */}
               <div className="space-y-4">
                 <div>
@@ -128,10 +233,12 @@ const Contact = () => {
                     Full Name *
                   </Label>
                   <Input 
-                    id="name" 
+                    id="name"
+                    name="name"
                     placeholder="Your full name"
                     className="bg-background border-border mt-2"
                     required
+                    maxLength={100}
                   />
                 </div>
 
@@ -141,7 +248,8 @@ const Contact = () => {
                       Phone Number *
                     </Label>
                     <Input 
-                      id="phone" 
+                      id="phone"
+                      name="phone"
                       type="tel" 
                       placeholder="+91 Your phone number"
                       className="bg-background border-border mt-2"
@@ -154,7 +262,8 @@ const Contact = () => {
                       Email Address
                     </Label>
                     <Input 
-                      id="email" 
+                      id="email"
+                      name="email"
                       type="email" 
                       placeholder="your@email.com"
                       className="bg-background border-border mt-2"
@@ -166,7 +275,7 @@ const Contact = () => {
                   <Label htmlFor="location" className="text-sm font-medium text-foreground">
                     Property Location *
                   </Label>
-                  <Select>
+                  <Select value={propertyLocation} onValueChange={setPropertyLocation} required>
                     <SelectTrigger className="bg-background border-border mt-2">
                       <SelectValue placeholder="Select your city" />
                     </SelectTrigger>
@@ -188,7 +297,7 @@ const Contact = () => {
                   <Label className="text-sm font-medium text-foreground mb-3 block">
                     Type of Project *
                   </Label>
-                  <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6">
+                  <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6" required>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="residential" id="residential" />
                       <Label htmlFor="residential">Residential</Label>
@@ -249,7 +358,8 @@ const Contact = () => {
                       Commercial Property Size (sqft) *
                     </Label>
                     <Input 
-                      id="commercial-size" 
+                      id="commercial-size"
+                      name="commercial-size"
                       type="number" 
                       placeholder="Enter size in square feet"
                       className="bg-background border-border mt-2"
@@ -337,9 +447,28 @@ const Contact = () => {
                 </div>
               )}
 
-              <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90">
-                <Send className="w-5 h-5 mr-2" />
-                Design My Space
+              {/* Privacy Notice */}
+              <div className="pt-2">
+                <p className="text-xs text-muted-foreground">
+                  By submitting this form, you consent to the collection of your device and location 
+                  information for service improvement purposes.
+                </p>
+              </div>
+
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full bg-primary hover:bg-primary/90"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>Processing...</>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    Design My Space
+                  </>
+                )}
               </Button>
             </form>
           </div>
