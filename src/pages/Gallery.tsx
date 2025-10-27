@@ -1,7 +1,7 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -90,19 +90,33 @@ const galleryData = {
 
 const Gallery = () => {
   const { category } = useParams<{ category: string }>();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   
+  // Scroll to top when gallery loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [category]);
+  
   const gallery = category ? galleryData[category as keyof typeof galleryData] : null;
+  
+  const handleBackToPortfolio = () => {
+    navigate('/');
+    setTimeout(() => {
+      const portfolioSection = document.getElementById('portfolio');
+      if (portfolioSection) {
+        portfolioSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   if (!gallery) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-heading font-bold mb-4">Gallery not found</h1>
-          <Link to="/#portfolio">
-            <Button>Back to Portfolio</Button>
-          </Link>
-        </div>
+          <div className="text-center">
+            <h1 className="text-2xl font-heading font-bold mb-4">Gallery not found</h1>
+            <Button onClick={handleBackToPortfolio}>Back to Portfolio</Button>
+          </div>
       </div>
     );
   }
@@ -114,12 +128,10 @@ const Gallery = () => {
         <div className="container-max">
           {/* Header */}
           <div className="mb-12">
-            <Link to="/#portfolio">
-              <Button variant="ghost" className="mb-6">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Portfolio
-              </Button>
-            </Link>
+            <Button variant="ghost" className="mb-6" onClick={handleBackToPortfolio}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Portfolio
+            </Button>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
               {gallery.title}
             </h1>
