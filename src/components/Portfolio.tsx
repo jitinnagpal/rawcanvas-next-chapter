@@ -39,15 +39,6 @@ const Portfolio = () => {
       image: livingSpaceImage,
       description: 'Warm and inviting living space with artistic wall features and elegant furnishings',
       galleryLink: '/gallery/living'
-    },
-    {
-      id: 4,
-      title: 'Transformations',
-      category: 'Dining',
-      type: 'Residential',
-      image: diningImage,
-      description: 'Sophisticated dining area with contemporary lighting and luxury finishes',
-      galleryLink: '/gallery/dining'
     }
   ];
 
