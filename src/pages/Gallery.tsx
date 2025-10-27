@@ -14,6 +14,8 @@ import kitchen5 from '@/assets/gallery/kitchen-5.jpg';
 import kitchen6 from '@/assets/gallery/kitchen-6.jpg';
 import kitchen7 from '@/assets/gallery/kitchen-7.jpg';
 import kitchenVideo1 from '@/assets/gallery/kitchen-7.mov';
+import kitchen8 from '@/assets/gallery/kitchen-8.jpg';
+import kitchen9 from '@/assets/gallery/kitchen-9.jpg';
 
 // Bedroom images
 import bedroom1 from '@/assets/gallery/bedroom-1.jpg';
@@ -46,6 +48,8 @@ const galleryData = {
       { src: kitchen5, alt: 'Kitchen with sage green island and dining setup' },
       { src: kitchen6, alt: 'Minimalist kitchen with marble island' },
       { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video', poster: kitchen7 },
+      { src: kitchen8, alt: 'Modern kitchen island with decorative styling and wood accents' },
+      { src: kitchen9, alt: 'Contemporary kitchen with concrete walls and artistic tile display' },
     ]
   },
   bedroom: {
