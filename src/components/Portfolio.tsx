@@ -111,7 +111,7 @@ const Portfolio = () => {
         <div className="text-center mt-12">
           <Button 
             size="lg" 
-            className="bg-[#D4AF37] hover:bg-[#B8941F] text-white font-semibold px-8 py-6 text-lg"
+            className="bg-primary hover:bg-primary/90"
             onClick={() => {
               const link = document.createElement('a');
               link.href = '/brochures/mokha-designs-portfolio.pdf';
