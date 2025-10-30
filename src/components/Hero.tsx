@@ -10,16 +10,11 @@ const Hero = () => {
   );
 
   const images = [
-    '/images/hero-1.jpg',
-    '/images/hero-2.jpg',
-    '/images/hero-3.jpg',
-    '/images/hero-4.jpg',
-    '/images/hero-5.jpg',
-    '/images/hero-6.jpg',
-    '/images/hero-7.jpg',
-    '/images/hero-8.jpg',
-    '/images/hero-9.jpg',
-    '/images/hero-10.jpg'
+    '/images/hero-new-1.jpg',
+    '/images/hero-new-2.jpg',
+    '/images/hero-new-3.jpg',
+    '/images/hero-new-4.jpg',
+    '/images/hero-new-5.jpg'
   ];
 
   return (
