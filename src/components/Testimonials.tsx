@@ -4,12 +4,12 @@ const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
+      name: 'Sindhura Reddy',
       location: 'Hyderabad',
       project: 'Residential Villa',
       rating: 5,
       text: 'Mokha Designs transformed our home beyond our expectations. The attention to detail and quality of work is exceptional. Prerna understood our vision perfectly and brought it to life.',
-      avatar: 'SJ'
+      avatar: 'SR'
     },
     {
       id: 2,
