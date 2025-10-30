@@ -28,6 +28,33 @@ const Testimonials = () => {
       rating: 5,
       text: 'From design to execution, everything was handled with utmost care. The team is creative, responsive, and delivers exactly what they promise. Our apartment now feels like a luxury hotel.',
       avatar: 'MS'
+    },
+    {
+      id: 4,
+      name: 'Pallavi Bhatt',
+      location: 'Hyderabad',
+      project: 'New Apartment',
+      rating: 5,
+      text: 'Even though we were not in the country the design and execution was handled very well. Their team kept us updated via emails, WhatsApp messages so we were aware of the progress and were able to take timely decisions for material selections.',
+      avatar: 'PB'
+    },
+    {
+      id: 5,
+      name: 'Nishant Vijayvergiya',
+      location: 'Hyderabad',
+      project: 'Apartment Renovation',
+      rating: 5,
+      text: "Our's was a full renovation job and we had quite a few specific requests to personalize our home. Mokha Designs ensured to keep in mind our customized requests while still keeping it within the budget. We are very happy with the finished outcome.",
+      avatar: 'NV'
+    },
+    {
+      id: 6,
+      name: 'Rahul Vardareddy',
+      location: 'Vishakapatnam',
+      project: 'Hotel Room Renovation',
+      rating: 5,
+      text: 'We approached Mokha Designs to create the concept & designs for our hotel room renovation in Araku valley, the design matched our brief for creating a rustic yet functional hospitality experience for our guest. The documentation provided was very detailed and that allowed us to follow through on the execution from our end.',
+      avatar: 'RV'
     }
   ];
 
