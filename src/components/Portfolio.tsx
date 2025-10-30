@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { downloadBrochure } from '@/utils/downloadBrochure';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
 import bedroomImage from '@/assets/portfolio-bedroom.jpg';
 import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
@@ -110,18 +111,11 @@ const Portfolio = () => {
         {/* Download Brochure Button */}
         <div className="text-center mt-12">
           <Button 
-            asChild
             size="lg" 
             className="bg-primary hover:bg-primary/90"
+            onClick={downloadBrochure}
           >
-            <a 
-              href="/brochures/mokha-designs-portfolio.pdf" 
-              download="Mokha-Designs-Portfolio.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download Brochure
-            </a>
+            Download Brochure
           </Button>
         </div>
 
