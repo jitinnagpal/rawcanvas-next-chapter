@@ -110,16 +110,18 @@ const Portfolio = () => {
         {/* Download Brochure Button */}
         <div className="text-center mt-12">
           <Button 
+            asChild
             size="lg" 
             className="bg-primary hover:bg-primary/90"
-            onClick={() => {
-              const link = document.createElement('a');
-              link.href = '/brochures/mokha-designs-portfolio.pdf';
-              link.download = 'Mokha-Designs-Portfolio.pdf';
-              link.click();
-            }}
           >
-            Download Brochure
+            <a 
+              href="/brochures/mokha-designs-portfolio.pdf" 
+              download="Mokha-Designs-Portfolio.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download Brochure
+            </a>
           </Button>
         </div>
 
