@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { setGlobalEntryMode } from '@/hooks/useEntryMode';
+import { trackTopCtaClicked } from '@/utils/analytics';
+
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
 const Header = () => {
@@ -23,6 +26,28 @@ const Header = () => {
     { href: '#testimonials', label: 'Testimonials' },
     { href: '#contact', label: 'Contact' }
   ];
+
+  const handleEstimateCostClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setGlobalEntryMode('estimate');
+    trackTopCtaClicked('estimate_cost');
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
+  const handleFreeConsultationClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setGlobalEntryMode('consult');
+    trackTopCtaClicked('free_consultation');
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -52,13 +77,25 @@ const Header = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button asChild variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              <a href="#contact">
-                <Phone className="w-4 h-4 mr-2" />
-                Free Consultation
-              </a>
+          {/* CTA Buttons */}
+          <div className="hidden md:flex items-center space-x-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              onClick={handleEstimateCostClick}
+            >
+              <Calculator className="w-4 h-4 mr-2" />
+              Estimate Cost
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              onClick={handleFreeConsultationClick}
+            >
+              <Phone className="w-4 h-4 mr-2" />
+              Free Consultation
             </Button>
           </div>
 
@@ -86,12 +123,26 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <Button asChild variant="outline" size="sm" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground mt-4">
-                <a href="#contact">
+              <div className="flex flex-col gap-2 mt-4">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  onClick={handleEstimateCostClick}
+                >
+                  <Calculator className="w-4 h-4 mr-2" />
+                  Estimate Cost
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  onClick={handleFreeConsultationClick}
+                >
                   <Phone className="w-4 h-4 mr-2" />
                   Free Consultation
-                </a>
-              </Button>
+                </Button>
+              </div>
             </div>
           </div>
         )}
