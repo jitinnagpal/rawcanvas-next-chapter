@@ -5,6 +5,7 @@ export type ScopeOfWork = 'kitchen-only' | 'kitchen-wardrobes' | 'kitchen-wardro
 export type FinishLevel = 'essential' | 'premium' | 'luxe';
 export type StorageRequirement = 'light' | 'standard' | 'heavy';
 export type PropertyStatus = 'under-construction' | 'handed-over' | 'renovation';
+export type BHKSize = '3bhk' | '4bhk' | '5bhk';
 
 export interface EstimateInputs {
   scope: ScopeOfWork;
@@ -13,6 +14,7 @@ export interface EstimateInputs {
   hasElectricalChanges: boolean;
   hasPaintingChanges: boolean;
   propertyStatus: PropertyStatus;
+  bhkSize: BHKSize;
 }
 
 export interface EstimateResult {
@@ -28,6 +30,8 @@ export interface EstimateResult {
     renovationMultiplier: number;
     finishMultiplier: number;
     storageMultiplier: number;
+    sizeMultiplier: number;
+    bhkSize: BHKSize;
   };
 }
 
@@ -52,10 +56,17 @@ const STORAGE_MULTIPLIERS: Record<StorageRequirement, number> = {
   'heavy': 1.20,
 };
 
-// Electrical Add (₹ Lakh)
+// Size Multipliers (BHK-based)
+const SIZE_MULTIPLIERS: Record<BHKSize, number> = {
+  '3bhk': 1.00,
+  '4bhk': 1.15,
+  '5bhk': 1.35,
+};
+
+// Electrical Add (₹ Lakh) - base values before size scaling
 const ELECTRICAL_ADD: [number, number] = [0.9, 1.8];
 
-// Painting Add (₹ Lakh)
+// Painting Add (₹ Lakh) - base values before size scaling
 const PAINTING_ADD: [number, number] = [0.8, 4.0];
 
 // Renovation Multiplier
@@ -66,20 +77,25 @@ export const calculateEstimate = (inputs: EstimateInputs): EstimateResult => {
   const [baseLow, baseHigh] = SCOPE_RANGES[inputs.scope];
   const finishM = FINISH_MULTIPLIERS[inputs.finish];
   const storageM = STORAGE_MULTIPLIERS[inputs.storage];
+  const sizeM = SIZE_MULTIPLIERS[inputs.bhkSize];
   
-  const elecLow = inputs.hasElectricalChanges ? ELECTRICAL_ADD[0] : 0;
-  const elecHigh = inputs.hasElectricalChanges ? ELECTRICAL_ADD[1] : 0;
+  // Apply size multiplier to base carpentry first, then finish and storage
+  const baseCarpentryLowSized = baseLow * sizeM;
+  const baseCarpentryHighSized = baseHigh * sizeM;
+  const carpentryLow = baseCarpentryLowSized * finishM * storageM;
+  const carpentryHigh = baseCarpentryHighSized * finishM * storageM;
   
-  const paintLow = inputs.hasPaintingChanges ? PAINTING_ADD[0] : 0;
-  const paintHigh = inputs.hasPaintingChanges ? PAINTING_ADD[1] : 0;
+  // Apply size multiplier to electrical add
+  const elecLow = inputs.hasElectricalChanges ? ELECTRICAL_ADD[0] * sizeM : 0;
+  const elecHigh = inputs.hasElectricalChanges ? ELECTRICAL_ADD[1] * sizeM : 0;
+  
+  // Apply size multiplier to painting add
+  const paintLow = inputs.hasPaintingChanges ? PAINTING_ADD[0] * sizeM : 0;
+  const paintHigh = inputs.hasPaintingChanges ? PAINTING_ADD[1] * sizeM : 0;
   
   const renovM = inputs.propertyStatus === 'renovation' ? RENOVATION_MULTIPLIER : NO_RENOVATION_MULTIPLIER;
   
-  // Calculate adjusted carpentry ranges
-  const carpentryLow = baseLow * finishM * storageM;
-  const carpentryHigh = baseHigh * finishM * storageM;
-  
-  // Apply formulas
+  // Apply formulas: (Carpentry + Electrical + Painting) * RenovM
   const totalLow = (carpentryLow + elecLow + paintLow) * renovM;
   const totalHigh = (carpentryHigh + elecHigh + paintHigh) * renovM;
   
@@ -89,13 +105,15 @@ export const calculateEstimate = (inputs: EstimateInputs): EstimateResult => {
     breakdown: {
       carpentryLow: Math.round(carpentryLow * 10) / 10,
       carpentryHigh: Math.round(carpentryHigh * 10) / 10,
-      electricalLow: elecLow,
-      electricalHigh: elecHigh,
-      paintingLow: paintLow,
-      paintingHigh: paintHigh,
+      electricalLow: Math.round(elecLow * 10) / 10,
+      electricalHigh: Math.round(elecHigh * 10) / 10,
+      paintingLow: Math.round(paintLow * 10) / 10,
+      paintingHigh: Math.round(paintHigh * 10) / 10,
       renovationMultiplier: renovM,
       finishMultiplier: finishM,
       storageMultiplier: storageM,
+      sizeMultiplier: sizeM,
+      bhkSize: inputs.bhkSize,
     },
   };
 };
@@ -103,4 +121,14 @@ export const calculateEstimate = (inputs: EstimateInputs): EstimateResult => {
 // Helper to format currency in Lakhs
 export const formatLakhs = (value: number): string => {
   return `₹ ${value.toFixed(1)} L`;
+};
+
+// Helper to get size multiplier label
+export const getSizeLabel = (bhkSize: BHKSize): string => {
+  const labels: Record<BHKSize, string> = {
+    '3bhk': '3BHK (1.00x)',
+    '4bhk': '4BHK (1.15x)',
+    '5bhk': '5BHK+ (1.35x)',
+  };
+  return labels[bhkSize];
 };
