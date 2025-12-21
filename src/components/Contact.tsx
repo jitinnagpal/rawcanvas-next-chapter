@@ -1,19 +1,22 @@
-import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon, Calculator, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Checkbox } from '@/components/ui/checkbox';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
+import { useEntryMode } from '@/hooks/useEntryMode';
+import { calculateEstimate, formatLakhs, type ScopeOfWork, type FinishLevel, type StorageRequirement, type PropertyStatus } from '@/utils/estimateCalculator';
+import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked } from '@/utils/analytics';
 
 const Contact = () => {
   const [projectType, setProjectType] = useState('');
@@ -24,7 +27,43 @@ const Contact = () => {
   const [consultationDate, setConsultationDate] = useState<Date>();
   const [propertyLocation, setPropertyLocation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // New estimate fields
+  const [scopeOfWork, setScopeOfWork] = useState<ScopeOfWork | ''>('');
+  const [finishLevel, setFinishLevel] = useState<FinishLevel | ''>('');
+  const [storageRequirement, setStorageRequirement] = useState<StorageRequirement | ''>('');
+  const [upgrades, setUpgrades] = useState<string[]>([]);
+  
+  // Estimate state
+  const [estimateResult, setEstimateResult] = useState<{
+    totalLow: number;
+    totalHigh: number;
+    breakdown: {
+      carpentryLow: number;
+      carpentryHigh: number;
+      electricalLow: number;
+      electricalHigh: number;
+      paintingLow: number;
+      paintingHigh: number;
+      renovationMultiplier: number;
+    };
+  } | null>(null);
+  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [estimateWasGenerated, setEstimateWasGenerated] = useState(false);
+  const [highlightMissingFields, setHighlightMissingFields] = useState(false);
+  
+  const { entryMode, setEntryMode } = useEntryMode();
   const { toast } = useToast();
+  
+  // Refs for scrolling to missing fields
+  const locationRef = useRef<HTMLDivElement>(null);
+  const propertyTypeRef = useRef<HTMLDivElement>(null);
+  const sizeRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const scopeRef = useRef<HTMLDivElement>(null);
+  const finishRef = useRef<HTMLDivElement>(null);
+  const storageRef = useRef<HTMLDivElement>(null);
+  const upgradesRef = useRef<HTMLDivElement>(null);
 
   const contactInfo = [
     {
@@ -53,13 +92,143 @@ const Contact = () => {
     }
   ];
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Check if all estimate required fields are filled
+  const isEstimateReady = () => {
+    return (
+      propertyLocation &&
+      projectType === 'residential' &&
+      propertyType &&
+      apartmentSize &&
+      propertyStatus &&
+      scopeOfWork &&
+      finishLevel &&
+      storageRequirement &&
+      upgrades.length > 0
+    );
+  };
+
+  // Find first missing estimate field and scroll to it
+  const scrollToFirstMissingField = () => {
+    if (!propertyLocation) {
+      locationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (projectType !== 'residential') {
+      // Can't estimate for commercial
+      toast({
+        title: "Residential Only",
+        description: "Cost estimates are currently available for residential projects only.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!propertyType) {
+      propertyTypeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!apartmentSize) {
+      sizeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!propertyStatus) {
+      statusRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!scopeOfWork) {
+      scopeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!finishLevel) {
+      finishRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!storageRequirement) {
+      storageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (upgrades.length === 0) {
+      upgradesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  };
+
+  // Auto-focus on first missing field when in estimate mode
+  useEffect(() => {
+    if (entryMode === 'estimate') {
+      setHighlightMissingFields(true);
+      // Small delay to allow scroll to complete
+      setTimeout(() => {
+        scrollToFirstMissingField();
+      }, 500);
+    }
+  }, [entryMode]);
+
+  const handleUpgradeChange = (upgrade: string, checked: boolean) => {
+    if (checked) {
+      // If selecting "No major changes", clear other selections
+      if (upgrade === 'no-changes') {
+        setUpgrades(['no-changes']);
+      } else {
+        // Remove "no-changes" if selecting other options
+        setUpgrades(prev => [...prev.filter(u => u !== 'no-changes'), upgrade]);
+      }
+    } else {
+      setUpgrades(prev => prev.filter(u => u !== upgrade));
+    }
+  };
+
+  const handleGenerateEstimate = async () => {
+    trackEstimateGenerateClicked();
+    
+    if (!isEstimateReady()) {
+      setHighlightMissingFields(true);
+      scrollToFirstMissingField();
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields to generate an estimate.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Calculate estimate
+    const hasElectricalChanges = upgrades.includes('electrical');
+    const hasPaintingChanges = upgrades.includes('painting');
+    
+    const result = calculateEstimate({
+      scope: scopeOfWork as ScopeOfWork,
+      finish: finishLevel as FinishLevel,
+      storage: storageRequirement as StorageRequirement,
+      hasElectricalChanges,
+      hasPaintingChanges,
+      propertyStatus: propertyStatus as PropertyStatus,
+    });
+
+    setEstimateResult(result);
+    setEstimateWasGenerated(true);
+
+    // Track analytics
+    trackEstimateGenerated({
+      scope: scopeOfWork,
+      finish: finishLevel,
+      storage: storageRequirement,
+      upgrades,
+      status: propertyStatus,
+      location: propertyLocation,
+      totalLow: result.totalLow,
+      totalHigh: result.totalHigh,
+      entryMode: entryMode || 'direct',
+    });
+
+    // Also submit the lead
+    await submitLead(true);
+  };
+
+  const submitLead = async (fromEstimate: boolean = false) => {
     setIsSubmitting(true);
 
     try {
-      // Get form data
-      const formElement = e.currentTarget;
+      const formElement = document.querySelector('form') as HTMLFormElement;
       const formData = new FormData(formElement);
       
       const name = formData.get('name') as string;
@@ -69,13 +238,15 @@ const Contact = () => {
 
       // Validate required fields
       if (!name || !phone || !propertyLocation || !projectType) {
-        toast({
-          title: "Missing Information",
-          description: "Please fill in all required fields.",
-          variant: "destructive",
-        });
+        if (!fromEstimate) {
+          toast({
+            title: "Missing Information",
+            description: "Please fill in all required fields.",
+            variant: "destructive",
+          });
+        }
         setIsSubmitting(false);
-        return;
+        return false;
       }
 
       // Collect visitor metadata
@@ -83,7 +254,7 @@ const Contact = () => {
       const browser = detectBrowser();
       const visitorLocation = await getVisitorLocation();
 
-      // Prepare submission data
+      // Prepare submission data with new fields
       const submissionData = {
         name: name.trim(),
         phone: phone.trim(),
@@ -98,6 +269,15 @@ const Contact = () => {
         visitorLocation,
         deviceType,
         browser,
+        // New estimate fields
+        scopeOfWork: scopeOfWork || '',
+        finishLevel: finishLevel || '',
+        storageRequirement: storageRequirement || '',
+        upgrades: upgrades.join(', '),
+        entryMode: entryMode || 'direct',
+        estimateGenerated: fromEstimate,
+        estimateLow: estimateResult?.totalLow || null,
+        estimateHigh: estimateResult?.totalHigh || null,
       };
 
       console.log('Submitting form data:', submissionData);
@@ -113,7 +293,34 @@ const Contact = () => {
       }
 
       console.log('Form submitted successfully:', data);
+      return true;
 
+    } catch (error) {
+      console.error('Form submission error:', error);
+      if (!fromEstimate) {
+        toast({
+          title: "Submission Failed",
+          description: "Unable to submit form. Please try again or call us directly.",
+          variant: "destructive",
+        });
+      }
+      return false;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    trackDesignMySpaceClicked({
+      entryMode: entryMode || 'direct',
+      estimateWasGenerated,
+    });
+
+    const success = await submitLead(false);
+    
+    if (success) {
       // Show success message
       if (nextStep === 'direct-call') {
         toast({
@@ -130,6 +337,7 @@ const Contact = () => {
       }
 
       // Reset form
+      const formElement = e.currentTarget;
       formElement.reset();
       setProjectType('');
       setPropertyType('');
@@ -138,17 +346,21 @@ const Contact = () => {
       setNextStep('');
       setConsultationDate(undefined);
       setPropertyLocation('');
-
-    } catch (error) {
-      console.error('Form submission error:', error);
-      toast({
-        title: "Submission Failed",
-        description: "Unable to submit form. Please try again or call us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
+      setScopeOfWork('');
+      setFinishLevel('');
+      setStorageRequirement('');
+      setUpgrades([]);
+      setEstimateResult(null);
+      setEstimateWasGenerated(false);
+      setHighlightMissingFields(false);
+      setEntryMode(null);
     }
+  };
+
+  const getMissingFieldClass = (value: string | string[]) => {
+    if (!highlightMissingFields) return '';
+    const isEmpty = Array.isArray(value) ? value.length === 0 : !value;
+    return isEmpty ? 'ring-2 ring-destructive/50 ring-offset-2' : '';
   };
 
   return (
@@ -271,7 +483,7 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div>
+                <div ref={locationRef} className={cn("rounded-lg", getMissingFieldClass(propertyLocation))}>
                   <Label htmlFor="location" className="text-sm font-medium text-foreground">
                     Property Location *
                   </Label>
@@ -311,9 +523,9 @@ const Contact = () => {
 
                 {/* Conditional: Residential Property Type */}
                 {projectType === 'residential' && (
-                  <div>
+                  <div ref={propertyTypeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyType))}>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Property Type
+                      Property Type *
                     </Label>
                     <RadioGroup value={propertyType} onValueChange={setPropertyType} className="flex gap-6">
                       <div className="flex items-center space-x-2">
@@ -330,9 +542,9 @@ const Contact = () => {
 
                 {/* Conditional: Residential Property Size */}
                 {projectType === 'residential' && (propertyType === 'apartment' || propertyType === 'villa') && (
-                  <div>
+                  <div ref={sizeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(apartmentSize))}>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Residential Property Size
+                      Residential Property Size *
                     </Label>
                     <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
                       <div className="flex items-center space-x-2">
@@ -371,9 +583,9 @@ const Contact = () => {
 
                 {/* Property Status */}
                 {projectType && (
-                  <div>
+                  <div ref={statusRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyStatus))}>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Status of Property
+                      Status of Property *
                     </Label>
                     <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
                       <div className="flex items-center space-x-2">
@@ -392,6 +604,178 @@ const Contact = () => {
                   </div>
                 )}
               </div>
+
+              {/* New Estimate Fields - Only for Residential */}
+              {projectType === 'residential' && (
+                <div className="space-y-4 pt-4 border-t border-border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calculator className="w-5 h-5 text-primary" />
+                    <span className="text-sm font-semibold text-primary">Cost Estimate Details</span>
+                  </div>
+
+                  {/* Scope of Work */}
+                  <div ref={scopeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(scopeOfWork))}>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Scope of Work *
+                    </Label>
+                    <RadioGroup value={scopeOfWork} onValueChange={(v) => setScopeOfWork(v as ScopeOfWork)} className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="kitchen-only" id="kitchen-only" />
+                        <Label htmlFor="kitchen-only">Kitchen only</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="kitchen-wardrobes" id="kitchen-wardrobes" />
+                        <Label htmlFor="kitchen-wardrobes">Kitchen + Wardrobes</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="kitchen-wardrobes-living" id="kitchen-wardrobes-living" />
+                        <Label htmlFor="kitchen-wardrobes-living">Kitchen + Wardrobes + Living / TV / Utility</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  {/* Finish Level */}
+                  <div ref={finishRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(finishLevel))}>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Finish Level *
+                    </Label>
+                    <RadioGroup value={finishLevel} onValueChange={(v) => setFinishLevel(v as FinishLevel)} className="flex gap-4 flex-wrap">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="essential" id="essential" />
+                        <Label htmlFor="essential">Essential</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="premium" id="premium" />
+                        <Label htmlFor="premium">Premium</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="luxe" id="luxe" />
+                        <Label htmlFor="luxe">Luxe</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  {/* Storage Requirement */}
+                  <div ref={storageRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(storageRequirement))}>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Storage Requirement *
+                    </Label>
+                    <RadioGroup value={storageRequirement} onValueChange={(v) => setStorageRequirement(v as StorageRequirement)} className="flex gap-4 flex-wrap">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="light" id="light" />
+                        <Label htmlFor="light">Light</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="standard" id="standard" />
+                        <Label htmlFor="standard">Standard</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="heavy" id="heavy" />
+                        <Label htmlFor="heavy">Heavy</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  {/* Upgrades Beyond Carpentry */}
+                  <div ref={upgradesRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(upgrades))}>
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Upgrades Beyond Carpentry *
+                    </Label>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="electrical" 
+                          checked={upgrades.includes('electrical')}
+                          onCheckedChange={(checked) => handleUpgradeChange('electrical', checked as boolean)}
+                        />
+                        <Label htmlFor="electrical" className="cursor-pointer">Lighting / electrical changes</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="painting" 
+                          checked={upgrades.includes('painting')}
+                          onCheckedChange={(checked) => handleUpgradeChange('painting', checked as boolean)}
+                        />
+                        <Label htmlFor="painting" className="cursor-pointer">Repainting / wall textures</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="no-changes" 
+                          checked={upgrades.includes('no-changes')}
+                          onCheckedChange={(checked) => handleUpgradeChange('no-changes', checked as boolean)}
+                        />
+                        <Label htmlFor="no-changes" className="cursor-pointer">No major changes</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Generate Estimate Button */}
+                  <Button 
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    onClick={handleGenerateEstimate}
+                    disabled={isSubmitting}
+                  >
+                    <Calculator className="w-5 h-5 mr-2" />
+                    Generate Estimate
+                  </Button>
+
+                  {/* Estimate Result */}
+                  {estimateResult && (
+                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground mb-2">Estimated interior cost range</p>
+                        <p className="text-2xl md:text-3xl font-bold text-primary">
+                          {formatLakhs(estimateResult.totalLow)} – {formatLakhs(estimateResult.totalHigh)}
+                        </p>
+                      </div>
+                      
+                      <p className="text-xs text-muted-foreground text-center">
+                        This is an estimate. Final cost depends on site measurements, detailed scope, and material selections.
+                      </p>
+
+                      {/* Optional Breakdown Toggle */}
+                      <button
+                        type="button"
+                        className="flex items-center justify-center gap-1 text-sm text-primary hover:underline mx-auto"
+                        onClick={() => setShowBreakdown(!showBreakdown)}
+                      >
+                        {showBreakdown ? 'Hide' : 'View'} breakdown
+                        {showBreakdown ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      </button>
+
+                      {showBreakdown && (
+                        <div className="text-sm space-y-2 pt-2 border-t border-primary/20">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Carpentry</span>
+                            <span className="font-medium">{formatLakhs(estimateResult.breakdown.carpentryLow)} – {formatLakhs(estimateResult.breakdown.carpentryHigh)}</span>
+                          </div>
+                          {(estimateResult.breakdown.electricalLow > 0 || estimateResult.breakdown.electricalHigh > 0) && (
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Electrical</span>
+                              <span className="font-medium">+{formatLakhs(estimateResult.breakdown.electricalLow)} – {formatLakhs(estimateResult.breakdown.electricalHigh)}</span>
+                            </div>
+                          )}
+                          {(estimateResult.breakdown.paintingLow > 0 || estimateResult.breakdown.paintingHigh > 0) && (
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Painting</span>
+                              <span className="font-medium">+{formatLakhs(estimateResult.breakdown.paintingLow)} – {formatLakhs(estimateResult.breakdown.paintingHigh)}</span>
+                            </div>
+                          )}
+                          {estimateResult.breakdown.renovationMultiplier > 1 && (
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Renovation factor</span>
+                              <span className="font-medium">+20%</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Next Step Preference */}
               {projectType && (
