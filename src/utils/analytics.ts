@@ -44,6 +44,8 @@ export const trackEstimateGenerated = (data: {
   totalLow: number;
   totalHigh: number;
   entryMode: string;
+  bhkSize: string;
+  sizeMultiplier: number;
 }) => {
   trackEvent('estimate_generated', data);
 };

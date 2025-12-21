@@ -15,7 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 import { useEntryMode } from '@/hooks/useEntryMode';
-import { calculateEstimate, formatLakhs, type ScopeOfWork, type FinishLevel, type StorageRequirement, type PropertyStatus } from '@/utils/estimateCalculator';
+import { calculateEstimate, formatLakhs, getSizeLabel, type ScopeOfWork, type FinishLevel, type StorageRequirement, type PropertyStatus, type BHKSize } from '@/utils/estimateCalculator';
 import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked } from '@/utils/analytics';
 
 const Contact = () => {
@@ -46,6 +46,10 @@ const Contact = () => {
       paintingLow: number;
       paintingHigh: number;
       renovationMultiplier: number;
+      finishMultiplier: number;
+      storageMultiplier: number;
+      sizeMultiplier: number;
+      bhkSize: BHKSize;
     };
   } | null>(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
@@ -152,16 +156,7 @@ const Contact = () => {
     }
   };
 
-  // Auto-focus on first missing field when in estimate mode
-  useEffect(() => {
-    if (entryMode === 'estimate') {
-      setHighlightMissingFields(true);
-      // Small delay to allow scroll to complete
-      setTimeout(() => {
-        scrollToFirstMissingField();
-      }, 500);
-    }
-  }, [entryMode]);
+  // Reset highlight when entry mode changes (removed auto-focus behavior)
 
   const handleUpgradeChange = (upgrade: string, checked: boolean) => {
     if (checked) {
@@ -202,6 +197,7 @@ const Contact = () => {
       hasElectricalChanges,
       hasPaintingChanges,
       propertyStatus: propertyStatus as PropertyStatus,
+      bhkSize: apartmentSize as BHKSize,
     });
 
     setEstimateResult(result);
@@ -218,6 +214,8 @@ const Contact = () => {
       totalLow: result.totalLow,
       totalHigh: result.totalHigh,
       entryMode: entryMode || 'direct',
+      bhkSize: apartmentSize,
+      sizeMultiplier: result.breakdown.sizeMultiplier,
     });
 
     // Also submit the lead
@@ -278,6 +276,8 @@ const Contact = () => {
         estimateGenerated: fromEstimate,
         estimateLow: estimateResult?.totalLow || null,
         estimateHigh: estimateResult?.totalHigh || null,
+        bhkSize: apartmentSize || '',
+        sizeMultiplier: estimateResult?.breakdown.sizeMultiplier || null,
       };
 
       console.log('Submitting form data:', submissionData);
@@ -764,6 +764,10 @@ const Contact = () => {
                               <span className="font-medium">+{formatLakhs(estimateResult.breakdown.paintingLow)} – {formatLakhs(estimateResult.breakdown.paintingHigh)}</span>
                             </div>
                           )}
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Size factor</span>
+                            <span className="font-medium">{getSizeLabel(estimateResult.breakdown.bhkSize)}</span>
+                          </div>
                           {estimateResult.breakdown.renovationMultiplier > 1 && (
                             <div className="flex justify-between">
                               <span className="text-muted-foreground">Renovation factor</span>
