@@ -139,7 +139,7 @@ function getISTTimestamp(): string {
 
 // Function to append row to Google Sheets
 async function appendToSheet(accessToken: string, sheetId: string, values: string[][]): Promise<void> {
-  const range = "Sheet1!A:O"; // Extended to include Estimate Generated column
+  const range = "Sheet1!A:X"; // Extended to include all estimate fields
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
   const response = await fetch(url, {
@@ -224,6 +224,15 @@ serve(async (req) => {
       formData.browser,
       timestamp,
       formData.estimateGenerated ? 'Yes' : 'No',
+      formData.scopeOfWork || '',
+      formData.finishLevel || '',
+      formData.storageRequirement || '',
+      formData.upgrades || '',
+      formData.bhkSize || '',
+      formData.entryMode || '',
+      formData.estimateLow != null ? String(formData.estimateLow) : '',
+      formData.estimateHigh != null ? String(formData.estimateHigh) : '',
+      formData.sizeMultiplier != null ? String(formData.sizeMultiplier) : '',
     ];
 
     console.log("Appending row to sheet...");
