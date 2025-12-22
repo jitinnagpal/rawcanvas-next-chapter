@@ -172,9 +172,60 @@ const Contact = () => {
     }
   };
 
+  // Phone validation helper
+  const isValidPhone = (phone: string): boolean => {
+    // Allow digits, spaces, hyphens, parentheses, and optional leading +
+    // Must have at least 10 digits
+    const digitsOnly = phone.replace(/\D/g, '');
+    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  };
+
+  // Check if contact fields are valid for estimate
+  const areContactFieldsValid = (): { valid: boolean; message?: string } => {
+    const formElement = document.querySelector('form') as HTMLFormElement;
+    if (!formElement) return { valid: false, message: "Form not found" };
+    
+    const formData = new FormData(formElement);
+    const name = (formData.get('name') as string)?.trim();
+    const phone = (formData.get('phone') as string)?.trim();
+    
+    if (!name) {
+      return { valid: false, message: "Please enter your name." };
+    }
+    if (name.length < 2) {
+      return { valid: false, message: "Name must be at least 2 characters." };
+    }
+    if (!phone) {
+      return { valid: false, message: "Please enter your phone number." };
+    }
+    if (!isValidPhone(phone)) {
+      return { valid: false, message: "Please enter a valid phone number (at least 10 digits)." };
+    }
+    if (!propertyLocation) {
+      return { valid: false, message: "Please select a property location." };
+    }
+    if (!projectType) {
+      return { valid: false, message: "Please select a project type." };
+    }
+    
+    return { valid: true };
+  };
+
   const handleGenerateEstimate = async () => {
     trackEstimateGenerateClicked();
     
+    // First validate contact fields (mandatory for estimate too)
+    const contactValidation = areContactFieldsValid();
+    if (!contactValidation.valid) {
+      toast({
+        title: "Missing Information",
+        description: contactValidation.message,
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Then validate estimate-specific fields
     if (!isEstimateReady()) {
       setHighlightMissingFields(true);
       scrollToFirstMissingField();
