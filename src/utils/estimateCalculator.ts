@@ -37,22 +37,22 @@ export interface EstimateResult {
 
 // Base Carpentry Range (₹ Lakh) by Scope
 const SCOPE_RANGES: Record<ScopeOfWork, [number, number]> = {
-  'kitchen-only': [4.5, 8],
-  'kitchen-wardrobes': [10, 18],
-  'kitchen-wardrobes-living': [13, 24],
+  'kitchen-only': [2.5, 4.0],
+  'kitchen-wardrobes': [4.5, 8.0],
+  'kitchen-wardrobes-living': [5.5, 10.0],
 };
 
 // Finish Multipliers
 const FINISH_MULTIPLIERS: Record<FinishLevel, number> = {
-  'essential': 0.90,
-  'premium': 1.00,
+  'essential': 0.50,
+  'premium': 0.90,
   'luxe': 1.25,
 };
 
 // Storage Multipliers
 const STORAGE_MULTIPLIERS: Record<StorageRequirement, number> = {
-  'light': 0.90,
-  'standard': 1.00,
+  'light': 0.50,
+  'standard': 0.90,
   'heavy': 1.20,
 };
 
@@ -63,11 +63,11 @@ const SIZE_MULTIPLIERS: Record<BHKSize, number> = {
   '5bhk': 1.35,
 };
 
-// Electrical Add (₹ Lakh) - base values before size scaling
-const ELECTRICAL_ADD: [number, number] = [0.9, 1.8];
+// Electrical Add (₹ Lakh) - flat addition, not size-scaled
+const ELECTRICAL_ADD: [number, number] = [0.3, 0.8];
 
-// Painting Add (₹ Lakh) - base values before size scaling
-const PAINTING_ADD: [number, number] = [0.8, 4.0];
+// Painting Add (₹ Lakh) - flat addition, not size-scaled
+const PAINTING_ADD: [number, number] = [0.6, 1.5];
 
 // Renovation Multiplier
 const RENOVATION_MULTIPLIER = 1.20;
@@ -79,20 +79,21 @@ export const calculateEstimate = (inputs: EstimateInputs): EstimateResult => {
   const storageM = STORAGE_MULTIPLIERS[inputs.storage];
   const sizeM = SIZE_MULTIPLIERS[inputs.bhkSize];
   
-  // Apply size multiplier to base carpentry first, then finish and storage
+  // Step 1: Size-adjusted base carpentry
   const baseCarpentryLowSized = baseLow * sizeM;
   const baseCarpentryHighSized = baseHigh * sizeM;
+  
+  // Step 2: Apply finish and storage multipliers
   const carpentryLow = baseCarpentryLowSized * finishM * storageM;
   const carpentryHigh = baseCarpentryHighSized * finishM * storageM;
   
-  // Apply size multiplier to electrical add
-  const elecLow = inputs.hasElectricalChanges ? ELECTRICAL_ADD[0] * sizeM : 0;
-  const elecHigh = inputs.hasElectricalChanges ? ELECTRICAL_ADD[1] * sizeM : 0;
+  // Step 3: Add selected upgrades (flat additions, not size-scaled)
+  const elecLow = inputs.hasElectricalChanges ? ELECTRICAL_ADD[0] : 0;
+  const elecHigh = inputs.hasElectricalChanges ? ELECTRICAL_ADD[1] : 0;
+  const paintLow = inputs.hasPaintingChanges ? PAINTING_ADD[0] : 0;
+  const paintHigh = inputs.hasPaintingChanges ? PAINTING_ADD[1] : 0;
   
-  // Apply size multiplier to painting add
-  const paintLow = inputs.hasPaintingChanges ? PAINTING_ADD[0] * sizeM : 0;
-  const paintHigh = inputs.hasPaintingChanges ? PAINTING_ADD[1] * sizeM : 0;
-  
+  // Renovation multiplier
   const renovM = inputs.propertyStatus === 'renovation' ? RENOVATION_MULTIPLIER : NO_RENOVATION_MULTIPLIER;
   
   // Apply formulas: (Carpentry + Electrical + Painting) * RenovM
