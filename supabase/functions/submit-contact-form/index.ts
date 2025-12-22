@@ -217,7 +217,7 @@ serve(async (req) => {
       formData.propertyType || '',
       formData.propertySize || '',
       formData.propertyStatus || '',
-      formData.nextStep === 'consultation' ? 'Schedule a free consultation' : "I'll call you directly",
+      formData.nextStep === 'consultation' ? 'Schedule a free consultation' : (formData.nextStep === 'call' ? "I'll call you directly" : ''),
       formData.consultationDate || '',
       formData.visitorLocation,
       formData.deviceType,
