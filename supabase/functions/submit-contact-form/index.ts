@@ -20,6 +20,16 @@ interface FormData {
   visitorLocation: string;
   deviceType: string;
   browser: string;
+  estimateGenerated?: boolean;
+  scopeOfWork?: string;
+  finishLevel?: string;
+  storageRequirement?: string;
+  upgrades?: string;
+  estimateLow?: number | null;
+  estimateHigh?: number | null;
+  bhkSize?: string;
+  sizeMultiplier?: number | null;
+  entryMode?: string;
 }
 
 // Function to create JWT token for Google Sheets API authentication
@@ -109,9 +119,27 @@ async function getAccessToken(serviceAccount: any): Promise<string> {
   return data.access_token;
 }
 
+// Function to convert UTC to IST timestamp
+function getISTTimestamp(): string {
+  const now = new Date();
+  // IST is UTC + 5:30
+  const istOffset = 5.5 * 60 * 60 * 1000;
+  const istDate = new Date(now.getTime() + istOffset);
+  
+  // Format as "DD/MM/YYYY HH:mm:ss"
+  const day = String(istDate.getUTCDate()).padStart(2, '0');
+  const month = String(istDate.getUTCMonth() + 1).padStart(2, '0');
+  const year = istDate.getUTCFullYear();
+  const hours = String(istDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(istDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(istDate.getUTCSeconds()).padStart(2, '0');
+  
+  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} IST`;
+}
+
 // Function to append row to Google Sheets
 async function appendToSheet(accessToken: string, sheetId: string, values: string[][]): Promise<void> {
-  const range = "Sheet1!A:N"; // Adjust sheet name if different
+  const range = "Sheet1!A:O"; // Extended to include Estimate Generated column
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
   const response = await fetch(url, {
@@ -178,8 +206,8 @@ serve(async (req) => {
     const accessToken = await getAccessToken(serviceAccount);
     console.log("Access token obtained successfully");
 
-    // Prepare row data
-    const timestamp = new Date().toISOString();
+    // Prepare row data with IST timestamp
+    const timestamp = getISTTimestamp();
     const rowData = [
       formData.name,
       formData.phone,
@@ -195,6 +223,7 @@ serve(async (req) => {
       formData.deviceType,
       formData.browser,
       timestamp,
+      formData.estimateGenerated ? 'Yes' : 'No',
     ];
 
     console.log("Appending row to sheet...");
