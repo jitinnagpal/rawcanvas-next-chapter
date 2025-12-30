@@ -1,13 +1,17 @@
-import { ArrowDown, Phone, Mail } from 'lucide-react';
+import { ArrowDown, Phone, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { useEntryMode } from '@/hooks/useEntryMode';
+import { trackEstimateCostClicked, trackFreeConsultationClicked } from '@/utils/analytics';
 
 const Hero = () => {
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   );
+  const { setEntryMode } = useEntryMode();
+  const [showPulse, setShowPulse] = useState(true);
 
   const images = [
     '/images/hero-new-1.jpg',
@@ -16,6 +20,37 @@ const Hero = () => {
     '/images/hero-new-4.jpg',
     '/images/hero-new-5.jpg'
   ];
+
+  // Stop pulse animation after 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowPulse(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleEstimateCostClick = () => {
+    setEntryMode('estimate');
+    trackEstimateCostClicked();
+    
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+      // Auto-focus first field after scroll
+      setTimeout(() => {
+        const firstInput = contactSection.querySelector('input[name="name"]') as HTMLInputElement;
+        if (firstInput) firstInput.focus();
+      }, 800);
+    }
+  };
+
+  const handleConsultationClick = () => {
+    setEntryMode('consult');
+    trackFreeConsultationClicked();
+    
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section id="home" className="hero-section">
@@ -59,20 +94,45 @@ const Hero = () => {
               with practical flow and stunning aesthetics.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-                <a href="#contact">
-                  <Phone className="w-5 h-5 mr-2" />
-                  Free Consultation
-                </a>
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              {/* Primary CTA - Estimate Cost */}
+              <Button 
+                size="lg" 
+                className={`bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 ${showPulse ? 'animate-pulse-glow' : ''}`}
+                onClick={handleEstimateCostClick}
+              >
+                <Calculator className="w-5 h-5 mr-2" />
+                Estimate Cost
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/20 hover:text-white bg-transparent">
+              
+              {/* Secondary CTA - Free Consultation */}
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
+                onClick={handleConsultationClick}
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Free Consultation
+              </Button>
+              
+              {/* Tertiary CTA - View Portfolio */}
+              <Button 
+                asChild 
+                variant="ghost" 
+                size="lg" 
+                className="text-white/70 hover:text-white hover:bg-white/10"
+              >
                 <a href="#portfolio">
-                  <Mail className="w-5 h-5 mr-2" />
-                  View Portfolio
+                  View Portfolio →
                 </a>
               </Button>
             </div>
+
+            {/* Pre-qualification hint */}
+            <p className="text-sm text-white/60 mb-6">
+              Typical projects start from ₹8–15 Lakhs
+            </p>
 
             <div className="flex flex-wrap gap-6 text-white/80">
               <div className="flex items-center gap-2">
