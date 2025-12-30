@@ -90,7 +90,7 @@ const Header = () => {
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              className="border-primary/40 text-primary bg-transparent hover:bg-primary/10 hover:text-primary"
               onClick={handleFreeConsultationClick}
             >
               <Phone className="w-4 h-4 mr-2" />
@@ -134,7 +134,7 @@ const Header = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  className="w-full border-primary/40 text-primary bg-transparent hover:bg-primary/10 hover:text-primary"
                   onClick={handleFreeConsultationClick}
                 >
                   <Phone className="w-4 h-4 mr-2" />
