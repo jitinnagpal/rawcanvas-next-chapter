@@ -17,6 +17,7 @@ import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/det
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { calculateEstimate, formatLakhs, getSizeLabel, type ScopeOfWork, type FinishLevel, type StorageRequirement, type PropertyStatus, type BHKSize } from '@/utils/estimateCalculator';
 import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked } from '@/utils/analytics';
+import { validatePhone, normalizePhone, shouldShowValidation } from '@/utils/phoneValidation';
 
 const Contact = () => {
   const [projectType, setProjectType] = useState('');
@@ -58,6 +59,11 @@ const Contact = () => {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [estimateWasGenerated, setEstimateWasGenerated] = useState(false);
   const [highlightMissingFields, setHighlightMissingFields] = useState(false);
+  
+  // Phone validation state
+  const [phoneValue, setPhoneValue] = useState('');
+  const [phoneError, setPhoneError] = useState<string | undefined>();
+  const [phoneTouched, setPhoneTouched] = useState(false);
   
   // Progress tracking for estimate flow
   const [currentStep, setCurrentStep] = useState(1);
@@ -201,13 +207,38 @@ const Contact = () => {
     }
   };
 
-  // Phone validation helper
-  const isValidPhone = (phone: string): boolean => {
-    // Allow digits, spaces, hyphens, parentheses, and optional leading +
-    // Must have at least 10 digits
-    const digitsOnly = phone.replace(/\D/g, '');
-    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  // Handle phone input change with inline validation
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPhoneValue(value);
+    
+    // Show validation after 4+ digits or if already touched
+    if (shouldShowValidation(value) || phoneTouched) {
+      const result = validatePhone(value, propertyLocation);
+      setPhoneError(result.valid ? undefined : result.error);
+    } else {
+      setPhoneError(undefined);
+    }
   };
+
+  // Handle phone blur for validation
+  const handlePhoneBlur = () => {
+    setPhoneTouched(true);
+    if (phoneValue.trim()) {
+      const result = validatePhone(phoneValue, propertyLocation);
+      setPhoneError(result.valid ? undefined : result.error);
+    } else {
+      setPhoneError('Phone number is required.');
+    }
+  };
+
+  // Re-validate phone when city changes
+  useEffect(() => {
+    if (phoneTouched && phoneValue.trim()) {
+      const result = validatePhone(phoneValue, propertyLocation);
+      setPhoneError(result.valid ? undefined : result.error);
+    }
+  }, [propertyLocation, phoneValue, phoneTouched]);
 
   // Check if contact fields are valid for estimate
   const areContactFieldsValid = (): { valid: boolean; message?: string } => {
@@ -216,7 +247,6 @@ const Contact = () => {
     
     const formData = new FormData(formElement);
     const name = (formData.get('name') as string)?.trim();
-    const phone = (formData.get('phone') as string)?.trim();
     
     if (!name) {
       return { valid: false, message: "Please enter your name." };
@@ -224,12 +254,16 @@ const Contact = () => {
     if (name.length < 2) {
       return { valid: false, message: "Name must be at least 2 characters." };
     }
-    if (!phone) {
-      return { valid: false, message: "Please enter your phone number." };
+    if (!phoneValue.trim()) {
+      return { valid: false, message: "Phone number is required." };
     }
-    if (!isValidPhone(phone)) {
-      return { valid: false, message: "Please enter a valid phone number (at least 10 digits)." };
+    
+    // Use city-aware phone validation
+    const phoneValidation = validatePhone(phoneValue, propertyLocation);
+    if (!phoneValidation.valid) {
+      return { valid: false, message: phoneValidation.error };
     }
+    
     if (!propertyLocation) {
       return { valid: false, message: "Please select a property location." };
     }
@@ -310,12 +344,15 @@ const Contact = () => {
       const formData = new FormData(formElement);
       
       const name = formData.get('name') as string;
-      const phone = formData.get('phone') as string;
       const email = formData.get('email') as string;
       const commercialSize = formData.get('commercial-size') as string;
 
+      // Get normalized phone number for storage
+      const phoneValidation = validatePhone(phoneValue, propertyLocation);
+      const normalizedPhoneDigits = phoneValidation.normalizedDigits;
+
       // Validate required fields
-      if (!name || !phone || !propertyLocation || !projectType) {
+      if (!name || !phoneValue.trim() || !propertyLocation || !projectType) {
         if (!fromEstimate) {
           toast({
             title: "Missing Information",
@@ -338,7 +375,7 @@ const Contact = () => {
       
       const submissionData = {
         name: name.trim(),
-        phone: phone.trim(),
+        phone: normalizedPhoneDigits, // Store normalized digits
         email: email?.trim() || '',
         propertyLocation,
         projectType,
@@ -436,6 +473,10 @@ const Contact = () => {
       setEstimateWasGenerated(false);
       setHighlightMissingFields(false);
       setEntryMode(null);
+      // Reset phone state
+      setPhoneValue('');
+      setPhoneError(undefined);
+      setPhoneTouched(false);
     }
   };
 
@@ -549,11 +590,19 @@ const Contact = () => {
                       id="phone"
                       name="phone"
                       type="tel" 
-                      placeholder="+91 Your phone number"
-                      className="bg-background border-border mt-2"
+                      placeholder={propertyLocation === 'dubai' ? 'Your phone number' : '+91 Your phone number'}
+                      className={cn(
+                        "bg-background border-border mt-2",
+                        phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
+                      )}
+                      value={phoneValue}
+                      onChange={handlePhoneChange}
+                      onBlur={handlePhoneBlur}
                       required
-                      pattern="[+]?[0-9\s\-\(\)]+"
                     />
+                    {phoneError && phoneTouched && (
+                      <p className="text-sm text-destructive mt-1">{phoneError}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="email" className="text-sm font-medium text-foreground">
