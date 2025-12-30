@@ -550,9 +550,8 @@ const Contact = () => {
             {/* Progress Indicator for Estimate Flow */}
             {intent === 'estimate' && (
               <div className="mb-6">
-                <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                <div className="text-sm text-muted-foreground mb-2">
                   <span>Step {currentStep} of {totalSteps}</span>
-                  <span>{Math.round((currentStep / totalSteps) * 100)}% complete</span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div 
