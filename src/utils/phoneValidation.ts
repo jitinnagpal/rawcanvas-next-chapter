@@ -141,7 +141,7 @@ function validateIndiaPhone(digits: string): { valid: boolean; error?: string } 
   // Must start with 6, 7, 8, or 9
   const firstDigit = parseInt(digits[0], 10);
   if (firstDigit < 6) {
-    return { valid: false, error: 'Enter a valid Indian mobile number (starts with 6–9).' };
+    return { valid: false, error: 'Enter a valid Indian mobile number.' };
   }
   
   // Check junk patterns
