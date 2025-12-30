@@ -85,7 +85,7 @@ const Header = () => {
               onClick={handleEstimateCostClick}
             >
               <Calculator className="w-4 h-4 mr-2" />
-              Get a Cost Preview
+              Get a Quick Estimate
             </Button>
             <Button 
               variant="outline" 
@@ -129,7 +129,7 @@ const Header = () => {
                   onClick={handleEstimateCostClick}
                 >
                   <Calculator className="w-4 h-4 mr-2" />
-                  Get a Cost Preview
+                  Get a Quick Estimate
                 </Button>
                 <Button 
                   variant="outline" 
