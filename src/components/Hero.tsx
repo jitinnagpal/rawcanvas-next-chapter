@@ -95,17 +95,17 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
-              {/* Primary CTA - Estimate Cost */}
+              {/* Primary CTA - Get a Cost Preview */}
               <Button 
                 size="lg" 
                 className={`bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 ${showPulse ? 'animate-pulse-glow' : ''}`}
                 onClick={handleEstimateCostClick}
               >
                 <Calculator className="w-5 h-5 mr-2" />
-                Estimate Cost
+                Get a Cost Preview
               </Button>
               
-              {/* Secondary CTA - Free Consultation */}
+              {/* Secondary CTA - Talk to a Designer */}
               <Button 
                 variant="outline" 
                 size="lg" 
@@ -113,7 +113,7 @@ const Hero = () => {
                 onClick={handleConsultationClick}
               >
                 <Phone className="w-5 h-5 mr-2" />
-                Free Consultation
+                Talk to a Designer
               </Button>
               
               {/* Tertiary CTA - View Portfolio */}

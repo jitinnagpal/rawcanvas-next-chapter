@@ -449,12 +449,12 @@ const Contact = () => {
       <div className="container-max">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Get a Cost Estimate for Your Space
+            Get a Cost Preview for Your Space
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Answer a few quick questions to get an approximate budget range.
+            Answer a few quick questions to see an approximate budget range.
             <br className="hidden sm:block" />
-            You can also request a consultation if you'd like expert guidance.
+            Or speak with a designer if you'd like guidance before deciding.
           </p>
         </div>
 
@@ -518,31 +518,47 @@ const Contact = () => {
             {/* Intent Selection Toggle */}
             <div className="mb-6">
               <div className="flex rounded-lg bg-muted p-1 gap-1">
-                <button
+              <button
                   type="button"
                   onClick={() => setIntent('estimate')}
                   className={cn(
-                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2",
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
                     intent === 'estimate' 
                       ? "bg-primary text-primary-foreground shadow-sm" 
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <Calculator className="w-4 h-4" />
-                  I want a cost estimate
+                  <span className="flex items-center gap-2">
+                    <Calculator className="w-4 h-4" />
+                    Get a Cost Preview
+                  </span>
+                  <span className={cn(
+                    "text-xs",
+                    intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+                  )}>
+                    ~1 minute · No commitment
+                  </span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setIntent('consultation')}
                   className={cn(
-                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2",
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
                     intent === 'consultation' 
                       ? "bg-primary text-primary-foreground shadow-sm" 
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <Phone className="w-4 h-4" />
-                  I want a consultation
+                  <span className="flex items-center gap-2">
+                    <Phone className="w-4 h-4" />
+                    Talk to a Designer
+                  </span>
+                  <span className={cn(
+                    "text-xs",
+                    intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+                  )}>
+                    Discuss ideas, budget & feasibility
+                  </span>
                 </button>
               </div>
             </div>
@@ -551,7 +567,7 @@ const Contact = () => {
             {intent === 'estimate' && (
               <div className="mb-6">
                 <div className="text-sm text-muted-foreground mb-2">
-                  <span>Step {currentStep} of {totalSteps}</span>
+                  <span>Step {currentStep} of {totalSteps} · Takes ~1 minute</span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div 
@@ -563,7 +579,7 @@ const Contact = () => {
             )}
 
             <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              {intent === 'estimate' ? 'Tell Us About Your Space' : 'Request a Consultation'}
+              {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -969,7 +985,9 @@ const Contact = () => {
               {/* Privacy Notice */}
               <div className="pt-2">
                 <p className="text-xs text-muted-foreground text-center">
-                  No spam. No obligation. We use your details only to personalize your estimate or consultation.
+                  No spam. No pressure.
+                  <br />
+                  Your details are used only to personalize your cost preview or consultation.
                 </p>
               </div>
 

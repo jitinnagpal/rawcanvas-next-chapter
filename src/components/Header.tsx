@@ -85,7 +85,7 @@ const Header = () => {
               onClick={handleEstimateCostClick}
             >
               <Calculator className="w-4 h-4 mr-2" />
-              Estimate Cost
+              Get a Cost Preview
             </Button>
             <Button 
               variant="outline" 
@@ -94,7 +94,7 @@ const Header = () => {
               onClick={handleFreeConsultationClick}
             >
               <Phone className="w-4 h-4 mr-2" />
-              Free Consultation
+              Talk to a Designer
             </Button>
           </div>
 
@@ -129,7 +129,7 @@ const Header = () => {
                   onClick={handleEstimateCostClick}
                 >
                   <Calculator className="w-4 h-4 mr-2" />
-                  Estimate Cost
+                  Get a Cost Preview
                 </Button>
                 <Button 
                   variant="outline" 
@@ -138,7 +138,7 @@ const Header = () => {
                   onClick={handleFreeConsultationClick}
                 >
                   <Phone className="w-4 h-4 mr-2" />
-                  Free Consultation
+                  Talk to a Designer
                 </Button>
               </div>
             </div>
