@@ -449,10 +449,10 @@ const Contact = () => {
       <div className="container-max">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Get a Cost Preview for Your Space
+            Get a Quick Estimate for Your Space
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Answer a few quick questions to see an approximate budget range.
+            Answer a few quick questions to see an approximate estimate range.
             <br className="hidden sm:block" />
             Or speak with a designer if you'd like guidance before deciding.
           </p>
@@ -530,7 +530,7 @@ const Contact = () => {
                 >
                   <span className="flex items-center gap-2">
                     <Calculator className="w-4 h-4" />
-                    Get a Cost Preview
+                    Get a Quick Estimate
                   </span>
                   <span className={cn(
                     "text-xs",
@@ -987,7 +987,7 @@ const Contact = () => {
                 <p className="text-xs text-muted-foreground text-center">
                   No spam. No pressure.
                   <br />
-                  Your details are used only to personalize your cost preview or consultation.
+                  Your details are used only to personalize your quick estimate or consultation.
                 </p>
               </div>
 
