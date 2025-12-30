@@ -129,11 +129,6 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Pre-qualification hint */}
-            <p className="text-sm text-white/60 mb-6">
-              Typical projects start from ₹8–15 Lakhs
-            </p>
-
             <div className="flex flex-wrap gap-6 text-white/80">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary"></div>
