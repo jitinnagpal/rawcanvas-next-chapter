@@ -28,6 +28,9 @@ const Contact = () => {
   const [propertyLocation, setPropertyLocation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  // Intent selection - cost estimate vs consultation
+  const [intent, setIntent] = useState<'estimate' | 'consultation'>('estimate');
+  
   // New estimate fields
   const [scopeOfWork, setScopeOfWork] = useState<ScopeOfWork | ''>('');
   const [finishLevel, setFinishLevel] = useState<FinishLevel | ''>('');
@@ -56,8 +59,34 @@ const Contact = () => {
   const [estimateWasGenerated, setEstimateWasGenerated] = useState(false);
   const [highlightMissingFields, setHighlightMissingFields] = useState(false);
   
+  // Progress tracking for estimate flow
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 3;
+  
   const { entryMode, setEntryMode } = useEntryMode();
   const { toast } = useToast();
+  
+  // Sync intent with entry mode from header/hero
+  useEffect(() => {
+    if (entryMode === 'estimate') {
+      setIntent('estimate');
+    } else if (entryMode === 'consult') {
+      setIntent('consultation');
+    }
+  }, [entryMode]);
+  
+  // Update step based on form progress
+  useEffect(() => {
+    if (intent === 'estimate') {
+      if (!propertyLocation || !projectType) {
+        setCurrentStep(1);
+      } else if (!scopeOfWork || !finishLevel || !storageRequirement || upgrades.length === 0) {
+        setCurrentStep(2);
+      } else {
+        setCurrentStep(3);
+      }
+    }
+  }, [intent, propertyLocation, projectType, scopeOfWork, finishLevel, storageRequirement, upgrades]);
   
   // Refs for scrolling to missing fields
   const locationRef = useRef<HTMLDivElement>(null);
@@ -324,6 +353,7 @@ const Contact = () => {
         storageRequirement: storageRequirement || '',
         upgrades: upgrades.join(', '),
         entryMode: entryMode || 'direct',
+        intent, // Added intent field
         estimateGenerated: fromEstimate,
         estimateLow: estimateResult?.totalLow || null,
         estimateHigh: estimateResult?.totalHigh || null,
@@ -419,11 +449,12 @@ const Contact = () => {
       <div className="container-max">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Get In Touch
+            Get a Cost Estimate for Your Space
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ready to transform your space? Contact us for a free consultation 
-            and let's discuss how we can bring your vision to life.
+            Answer a few quick questions to get an approximate budget range.
+            <br className="hidden sm:block" />
+            You can also request a consultation if you'd like expert guidance.
           </p>
         </div>
 
@@ -484,8 +515,56 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="elegant-card">
+            {/* Intent Selection Toggle */}
+            <div className="mb-6">
+              <div className="flex rounded-lg bg-muted p-1 gap-1">
+                <button
+                  type="button"
+                  onClick={() => setIntent('estimate')}
+                  className={cn(
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2",
+                    intent === 'estimate' 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Calculator className="w-4 h-4" />
+                  I want a cost estimate
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIntent('consultation')}
+                  className={cn(
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2",
+                    intent === 'consultation' 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Phone className="w-4 h-4" />
+                  I want a consultation
+                </button>
+              </div>
+            </div>
+
+            {/* Progress Indicator for Estimate Flow */}
+            {intent === 'estimate' && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                  <span>Step {currentStep} of {totalSteps}</span>
+                  <span>{Math.round((currentStep / totalSteps) * 100)}% complete</span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary transition-all duration-300 rounded-full"
+                    style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
             <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              Begin Your Design Journey With Us
+              {intent === 'estimate' ? 'Tell Us About Your Space' : 'Request a Consultation'}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -656,8 +735,8 @@ const Contact = () => {
                 )}
               </div>
 
-              {/* New Estimate Fields - Only for Residential */}
-              {projectType === 'residential' && (
+              {/* Estimate Fields - Only for Residential and estimate intent */}
+              {projectType === 'residential' && intent === 'estimate' && (
                 <div className="space-y-4 pt-4 border-t border-border">
                   <div className="flex items-center gap-2 mb-2">
                     <Calculator className="w-5 h-5 text-primary" />
@@ -763,15 +842,17 @@ const Contact = () => {
                   {/* Generate Estimate Button */}
                   <Button 
                     type="button"
-                    variant="outline"
                     size="lg"
-                    className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    className="w-full bg-primary hover:bg-primary/90"
                     onClick={handleGenerateEstimate}
                     disabled={isSubmitting}
                   >
                     <Calculator className="w-5 h-5 mr-2" />
                     Generate Estimate
                   </Button>
+                  <p className="text-xs text-center text-muted-foreground">
+                    You'll also receive a detailed consultation if needed.
+                  </p>
 
                   {/* Estimate Result */}
                   {estimateResult && (
@@ -832,12 +913,12 @@ const Contact = () => {
                 </div>
               )}
 
-              {/* Next Step Preference */}
-              {projectType && (
+              {/* Next Step Preference - for consultation intent or after estimate */}
+              {projectType && (intent === 'consultation' || estimateWasGenerated) && (
                 <div className="space-y-4 pt-4 border-t border-border">
                   <div>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Next Step Preference
+                      {intent === 'consultation' ? 'How would you like to proceed?' : 'Next Step Preference'}
                     </Label>
                     <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
                       <div className="flex items-center space-x-2">
@@ -888,27 +969,47 @@ const Contact = () => {
 
               {/* Privacy Notice */}
               <div className="pt-2">
-                <p className="text-xs text-muted-foreground">
-                  By submitting this form, you consent to the collection of your device and location 
-                  information for service improvement purposes.
+                <p className="text-xs text-muted-foreground text-center">
+                  No spam. No obligation. We use your details only to personalize your estimate or consultation.
                 </p>
               </div>
 
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full bg-primary hover:bg-primary/90"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>Processing...</>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5 mr-2" />
-                    Design My Space
-                  </>
-                )}
-              </Button>
+              {/* Submit Button - different based on intent */}
+              {intent === 'consultation' && (
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full bg-primary hover:bg-primary/90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>Processing...</>
+                  ) : (
+                    <>
+                      <Phone className="w-5 h-5 mr-2" />
+                      Request Consultation
+                    </>
+                  )}
+                </Button>
+              )}
+              
+              {intent === 'estimate' && estimateWasGenerated && (
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>Processing...</>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-2" />
+                      Request Detailed Quote
+                    </>
+                  )}
+                </Button>
+              )}
             </form>
           </div>
         </div>

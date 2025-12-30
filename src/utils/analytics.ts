@@ -30,6 +30,14 @@ export const trackTopCtaClicked = (cta: 'estimate_cost' | 'free_consultation') =
   trackEvent('top_cta_clicked', { cta });
 };
 
+export const trackEstimateCostClicked = () => {
+  trackEvent('estimate_cost_clicked', { source: 'hero' });
+};
+
+export const trackFreeConsultationClicked = () => {
+  trackEvent('free_consultation_clicked', { source: 'hero' });
+};
+
 export const trackEstimateGenerateClicked = () => {
   trackEvent('estimate_generate_clicked');
 };
