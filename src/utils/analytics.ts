@@ -64,3 +64,10 @@ export const trackDesignMySpaceClicked = (data: {
 }) => {
   trackEvent('design_my_space_clicked', data);
 };
+
+export const trackLeadValidationFailed = (data: {
+  field: 'full_name' | 'email';
+  reason: string;
+}) => {
+  trackEvent('lead_validation_failed', data);
+};

@@ -16,8 +16,10 @@ import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { calculateEstimate, formatLakhs, getSizeLabel, type ScopeOfWork, type FinishLevel, type StorageRequirement, type PropertyStatus, type BHKSize } from '@/utils/estimateCalculator';
-import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked } from '@/utils/analytics';
+import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked, trackLeadValidationFailed } from '@/utils/analytics';
 import { validatePhone, normalizePhone, shouldShowValidation } from '@/utils/phoneValidation';
+import { validateFullName } from '@/utils/nameValidation';
+import { validateEmail } from '@/utils/emailValidation';
 
 const Contact = () => {
   const [projectType, setProjectType] = useState('');
@@ -64,6 +66,18 @@ const Contact = () => {
   const [phoneValue, setPhoneValue] = useState('');
   const [phoneError, setPhoneError] = useState<string | undefined>();
   const [phoneTouched, setPhoneTouched] = useState(false);
+  
+  // Name validation state
+  const [nameValue, setNameValue] = useState('');
+  const [nameError, setNameError] = useState<string | undefined>();
+  const [nameWarning, setNameWarning] = useState<string | undefined>();
+  const [nameTouched, setNameTouched] = useState(false);
+  
+  // Email validation state
+  const [emailValue, setEmailValue] = useState('');
+  const [emailError, setEmailError] = useState<string | undefined>();
+  const [emailWarning, setEmailWarning] = useState<{ message: string; suggestedValue?: string } | undefined>();
+  const [emailTouched, setEmailTouched] = useState(false);
   
   // Progress tracking for estimate flow
   const [currentStep, setCurrentStep] = useState(1);
@@ -240,35 +254,112 @@ const Contact = () => {
     }
   }, [propertyLocation, phoneValue, phoneTouched]);
 
+  // Handle name input change
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNameValue(value);
+    
+    // Only validate on change if already touched
+    if (nameTouched && value.trim()) {
+      const result = validateFullName(value);
+      setNameError(result.isValid ? undefined : result.error);
+      setNameWarning(result.isValid ? result.warning : undefined);
+    } else if (!value.trim() && nameTouched) {
+      setNameError('Please enter your full name.');
+      setNameWarning(undefined);
+    }
+  };
+
+  // Handle name blur for validation
+  const handleNameBlur = () => {
+    setNameTouched(true);
+    if (nameValue.trim()) {
+      const result = validateFullName(nameValue);
+      setNameError(result.isValid ? undefined : result.error);
+      setNameWarning(result.isValid ? result.warning : undefined);
+      if (!result.isValid && result.error) {
+        trackLeadValidationFailed({ field: 'full_name', reason: result.error });
+      }
+    } else {
+      setNameError('Please enter your full name.');
+      setNameWarning(undefined);
+    }
+  };
+
+  // Handle email input change
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmailValue(value);
+    
+    // Only validate on change if already touched
+    if (emailTouched && value.trim()) {
+      const result = validateEmail(value);
+      setEmailError(result.isValid ? undefined : result.error);
+      setEmailWarning(result.isValid ? result.warning : undefined);
+    } else if (!value.trim()) {
+      // Email is optional, clear errors when empty
+      setEmailError(undefined);
+      setEmailWarning(undefined);
+    }
+  };
+
+  // Handle email blur for validation
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+    if (emailValue.trim()) {
+      const result = validateEmail(emailValue);
+      setEmailError(result.isValid ? undefined : result.error);
+      setEmailWarning(result.isValid ? result.warning : undefined);
+      if (!result.isValid && result.error) {
+        trackLeadValidationFailed({ field: 'email', reason: result.error });
+      }
+    } else {
+      // Email is optional, clear errors when empty
+      setEmailError(undefined);
+      setEmailWarning(undefined);
+    }
+  };
+
+  // Apply email suggestion when user clicks "Did you mean..."
+  const applyEmailSuggestion = () => {
+    if (emailWarning?.suggestedValue) {
+      setEmailValue(emailWarning.suggestedValue);
+      setEmailWarning(undefined);
+    }
+  };
+
   // Check if contact fields are valid for estimate
-  const areContactFieldsValid = (): { valid: boolean; message?: string } => {
-    const formElement = document.querySelector('form') as HTMLFormElement;
-    if (!formElement) return { valid: false, message: "Form not found" };
-    
-    const formData = new FormData(formElement);
-    const name = (formData.get('name') as string)?.trim();
-    
-    if (!name) {
-      return { valid: false, message: "Please enter your name." };
+  const areContactFieldsValid = (): { valid: boolean; message?: string; field?: string } => {
+    // Validate name using the new validation
+    const nameValidation = validateFullName(nameValue);
+    if (!nameValidation.isValid) {
+      return { valid: false, message: nameValidation.error, field: 'name' };
     }
-    if (name.length < 2) {
-      return { valid: false, message: "Name must be at least 2 characters." };
-    }
+    
+    // Validate phone
     if (!phoneValue.trim()) {
-      return { valid: false, message: "Phone number is required." };
+      return { valid: false, message: "Phone number is required.", field: 'phone' };
     }
     
     // Use city-aware phone validation
     const phoneValidation = validatePhone(phoneValue, propertyLocation);
     if (!phoneValidation.valid) {
-      return { valid: false, message: phoneValidation.error };
+      return { valid: false, message: phoneValidation.error, field: 'phone' };
+    }
+    
+    // Validate email only if provided (it's optional)
+    if (emailValue.trim()) {
+      const emailValidation = validateEmail(emailValue);
+      if (!emailValidation.isValid) {
+        return { valid: false, message: emailValidation.error, field: 'email' };
+      }
     }
     
     if (!propertyLocation) {
-      return { valid: false, message: "Please select a property location." };
+      return { valid: false, message: "Please select a property location.", field: 'location' };
     }
     if (!projectType) {
-      return { valid: false, message: "Please select a project type." };
+      return { valid: false, message: "Please select a project type.", field: 'projectType' };
     }
     
     return { valid: true };
@@ -278,8 +369,23 @@ const Contact = () => {
     trackEstimateGenerateClicked();
     
     // First validate contact fields (mandatory for estimate too)
+    // Set touched state to show errors
+    setNameTouched(true);
+    setPhoneTouched(true);
+    if (emailValue.trim()) setEmailTouched(true);
+    
     const contactValidation = areContactFieldsValid();
     if (!contactValidation.valid) {
+      // Track validation failure
+      if (contactValidation.field === 'name') {
+        trackLeadValidationFailed({ field: 'full_name', reason: contactValidation.message || 'validation_failed' });
+        // Update name error state
+        setNameError(contactValidation.message);
+      } else if (contactValidation.field === 'email') {
+        trackLeadValidationFailed({ field: 'email', reason: contactValidation.message || 'validation_failed' });
+        setEmailError(contactValidation.message);
+      }
+      
       toast({
         title: "Missing Information",
         description: contactValidation.message,
@@ -477,6 +583,16 @@ const Contact = () => {
       setPhoneValue('');
       setPhoneError(undefined);
       setPhoneTouched(false);
+      // Reset name state
+      setNameValue('');
+      setNameError(undefined);
+      setNameWarning(undefined);
+      setNameTouched(false);
+      // Reset email state
+      setEmailValue('');
+      setEmailError(undefined);
+      setEmailWarning(undefined);
+      setEmailTouched(false);
     }
   };
 
@@ -575,10 +691,22 @@ const Contact = () => {
                     id="name"
                     name="name"
                     placeholder="Your full name"
-                    className="bg-background border-border mt-2"
+                    className={cn(
+                      "bg-background border-border mt-2",
+                      nameError && nameTouched && "border-destructive focus-visible:ring-destructive"
+                    )}
+                    value={nameValue}
+                    onChange={handleNameChange}
+                    onBlur={handleNameBlur}
                     required
                     maxLength={100}
                   />
+                  {nameError && nameTouched && (
+                    <p className="text-sm text-destructive mt-1">{nameError}</p>
+                  )}
+                  {nameWarning && !nameError && nameTouched && (
+                    <p className="text-sm text-amber-600 mt-1">{nameWarning}</p>
+                  )}
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
@@ -613,8 +741,26 @@ const Contact = () => {
                       name="email"
                       type="email" 
                       placeholder="your@email.com"
-                      className="bg-background border-border mt-2"
+                      className={cn(
+                        "bg-background border-border mt-2",
+                        emailError && emailTouched && "border-destructive focus-visible:ring-destructive"
+                      )}
+                      value={emailValue}
+                      onChange={handleEmailChange}
+                      onBlur={handleEmailBlur}
                     />
+                    {emailError && emailTouched && (
+                      <p className="text-sm text-destructive mt-1">{emailError}</p>
+                    )}
+                    {emailWarning && !emailError && emailTouched && (
+                      <button
+                        type="button"
+                        onClick={applyEmailSuggestion}
+                        className="text-sm text-amber-600 mt-1 hover:underline cursor-pointer"
+                      >
+                        {emailWarning.message}
+                      </button>
+                    )}
                   </div>
                 </div>
 
