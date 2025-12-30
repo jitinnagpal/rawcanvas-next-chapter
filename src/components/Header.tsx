@@ -80,9 +80,8 @@ const Header = () => {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-3">
             <Button 
-              variant="outline" 
               size="sm" 
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
               onClick={handleEstimateCostClick}
             >
               <Calculator className="w-4 h-4 mr-2" />
@@ -125,9 +124,8 @@ const Header = () => {
               ))}
               <div className="flex flex-col gap-2 mt-4">
                 <Button 
-                  variant="outline" 
                   size="sm" 
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
                   onClick={handleEstimateCostClick}
                 >
                   <Calculator className="w-4 h-4 mr-2" />
