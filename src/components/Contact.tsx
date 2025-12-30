@@ -460,61 +460,7 @@ const Contact = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* Contact Information */}
-          <div>
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-8">
-              Let's Start Your Project
-            </h3>
-            
-            <div className="space-y-6 mb-8">
-              {contactInfo.map((info, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <info.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">{info.title}</h4>
-                    {info.action.startsWith('#') ? (
-                      <p className="text-muted-foreground">{info.details}</p>
-                    ) : (
-                      <a 
-                        href={info.action}
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        {info.details}
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h4 className="font-heading font-semibold text-foreground mb-4">
-                Why Choose Mokha Designs?
-              </h4>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Free consultation and quote</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Turnkey solutions from design to furnishing</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Experienced team of professionals</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Quality materials and timely delivery</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Contact Form */}
+          {/* Contact Form - First column for priority visibility */}
           <div className="elegant-card">
             {/* Intent Selection Toggle */}
             <div className="mb-6">
@@ -1029,6 +975,60 @@ const Contact = () => {
                 </Button>
               )}
             </form>
+          </div>
+
+          {/* Contact Information - Second column */}
+          <div>
+            <h3 className="text-2xl font-heading font-bold text-foreground mb-8">
+              Let's Start Your Project
+            </h3>
+            
+            <div className="space-y-6 mb-8">
+              {contactInfo.map((info, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <info.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground mb-1">{info.title}</h4>
+                    {info.action.startsWith('#') ? (
+                      <p className="text-muted-foreground">{info.details}</p>
+                    ) : (
+                      <a 
+                        href={info.action}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {info.details}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h4 className="font-heading font-semibold text-foreground mb-4">
+                Why Choose Mokha Designs?
+              </h4>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
+                  <span className="text-muted-foreground">Free consultation and quote</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
+                  <span className="text-muted-foreground">Turnkey solutions from design to furnishing</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
+                  <span className="text-muted-foreground">Experienced team of professionals</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
+                  <span className="text-muted-foreground">Quality materials and timely delivery</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
