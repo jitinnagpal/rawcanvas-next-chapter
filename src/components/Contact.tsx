@@ -567,7 +567,7 @@ const Contact = () => {
             {intent === 'estimate' && (
               <div className="mb-6">
                 <div className="text-sm text-muted-foreground mb-2">
-                  <span>Step {currentStep} of {totalSteps} · Takes ~1 minute</span>
+                  <span>Step {currentStep} of {totalSteps}</span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div 
