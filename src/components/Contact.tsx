@@ -333,6 +333,9 @@ const Contact = () => {
       const visitorLocation = await getVisitorLocation();
 
       // Prepare submission data with new fields
+      // Map intent to sheet values: 'estimate' -> 'quick_estimate', 'consultation' -> 'designer_consultation'
+      const intentValue = intent === 'estimate' ? 'quick_estimate' : 'designer_consultation';
+      
       const submissionData = {
         name: name.trim(),
         phone: phone.trim(),
@@ -352,9 +355,7 @@ const Contact = () => {
         finishLevel: finishLevel || '',
         storageRequirement: storageRequirement || '',
         upgrades: upgrades.join(', '),
-        entryMode: entryMode || 'direct',
-        intent, // Added intent field
-        estimateGenerated: fromEstimate,
+        intent: intentValue, // 'quick_estimate' or 'designer_consultation'
         estimateLow: estimateResult?.totalLow || null,
         estimateHigh: estimateResult?.totalHigh || null,
         bhkSize: apartmentSize || '',

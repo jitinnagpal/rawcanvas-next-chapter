@@ -20,7 +20,7 @@ interface FormData {
   visitorLocation: string;
   deviceType: string;
   browser: string;
-  estimateGenerated?: boolean;
+  intent?: string; // 'quick_estimate' | 'designer_consultation'
   scopeOfWork?: string;
   finishLevel?: string;
   storageRequirement?: string;
@@ -29,7 +29,6 @@ interface FormData {
   estimateHigh?: number | null;
   bhkSize?: string;
   sizeMultiplier?: number | null;
-  entryMode?: string;
 }
 
 // Function to create JWT token for Google Sheets API authentication
@@ -223,13 +222,13 @@ serve(async (req) => {
       formData.deviceType,
       formData.browser,
       timestamp,
-      formData.estimateGenerated ? 'Yes' : 'No',
+      formData.intent || 'quick_estimate', // Intent column (was "Estimate Generated")
       formData.scopeOfWork || '',
       formData.finishLevel || '',
       formData.storageRequirement || '',
       formData.upgrades || '',
       formData.bhkSize || '',
-      formData.entryMode || '',
+      '', // Legacy entryMode column - now using intent instead
       formData.estimateLow != null ? String(formData.estimateLow) : '',
       formData.estimateHigh != null ? String(formData.estimateHigh) : '',
       formData.sizeMultiplier != null ? String(formData.sizeMultiplier) : '',
