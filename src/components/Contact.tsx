@@ -649,9 +649,9 @@ const Contact = () => {
                       <RadioGroupItem value="residential" id="residential" />
                       <Label htmlFor="residential">Residential</Label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="commercial" id="commercial" />
-                      <Label htmlFor="commercial">Commercial</Label>
+                    <div className="flex items-center space-x-2 opacity-50">
+                      <RadioGroupItem value="commercial" id="commercial" disabled />
+                      <Label htmlFor="commercial" className="cursor-not-allowed">Commercial <span className="text-xs text-muted-foreground">(Coming Soon)</span></Label>
                     </div>
                   </RadioGroup>
                 </div>
