@@ -972,14 +972,6 @@ const Contact = () => {
                 </div>
               )}
 
-              {/* Privacy Notice */}
-              <div className="pt-2">
-                <p className="text-xs text-muted-foreground text-center">
-                  No spam. No pressure.
-                  <br />
-                  Your details are used only to personalize your quick estimate or consultation.
-                </p>
-              </div>
 
               {/* Submit Button - different based on intent */}
               {intent === 'consultation' && (
