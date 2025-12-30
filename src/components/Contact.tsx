@@ -475,10 +475,7 @@ const Contact = () => {
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <span className="flex items-center gap-2">
-                    <Calculator className="w-4 h-4" />
-                    Get a Quick Estimate
-                  </span>
+                  <span>Get a Quick Estimate</span>
                   <span className={cn(
                     "text-xs",
                     intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
@@ -496,10 +493,7 @@ const Contact = () => {
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <span className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    Talk to a Designer
-                  </span>
+                  <span>Talk to a Designer</span>
                   <span className={cn(
                     "text-xs",
                     intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
