@@ -138,7 +138,7 @@ function getISTTimestamp(): string {
 
 // Function to append row to Google Sheets
 async function appendToSheet(accessToken: string, sheetId: string, values: string[][]): Promise<void> {
-  const range = "Sheet1!A:X"; // Extended to include all estimate fields
+  const range = "A:X"; // Use default first sheet without name dependency
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
   const response = await fetch(url, {
