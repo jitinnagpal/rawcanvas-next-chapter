@@ -439,7 +439,12 @@ const Contact = () => {
     });
 
     // Also submit the lead
-    await submitLead(true);
+    const leadSuccess = await submitLead(true);
+
+    // Fire Meta Pixel Lead event on successful estimate submission
+    if (leadSuccess && typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead', { source: 'estimator' });
+    }
   };
 
   const submitLead = async (fromEstimate: boolean = false) => {
@@ -546,6 +551,11 @@ const Contact = () => {
     const success = await submitLead(false);
     
     if (success) {
+      // Fire Meta Pixel Lead event on successful form submission
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', { source: 'designer_cta' });
+      }
+
       // Show success message
       if (nextStep === 'direct-call') {
         toast({
