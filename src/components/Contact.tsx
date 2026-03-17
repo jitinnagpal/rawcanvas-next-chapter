@@ -551,6 +551,11 @@ const Contact = () => {
     const success = await submitLead(false);
     
     if (success) {
+      // Fire Meta Pixel Lead event on successful form submission
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', { source: 'designer_cta' });
+      }
+
       // Show success message
       if (nextStep === 'direct-call') {
         toast({
