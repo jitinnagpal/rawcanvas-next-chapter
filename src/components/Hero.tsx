@@ -107,9 +107,9 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="text-white font-semibold transition-colors"
-                style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+                style={{ backgroundColor: '#0E6F63', boxShadow: '0 4px 12px rgba(0,0,0,0.18)' }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A544C')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0E6F63')}
                 onClick={handleWhatsApp}
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
