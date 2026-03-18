@@ -9,19 +9,22 @@ const Services = () => {
       icon: Palette,
       title: 'Interior Designing',
       description: 'Complete interior design solutions from concept to completion. We create spaces that reflect your personality and lifestyle.',
-      features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection']
+      features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection'],
+      whatsappMessage: "Hi, I'm interested in interior design services.",
     },
     {
       icon: Hammer,
       title: 'Contracting',
       description: 'Professional contracting services with reliable execution. We handle all construction and renovation needs.',
-      features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors']
+      features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors'],
+      whatsappMessage: "Hi, I need help with contracting for my space.",
     },
     {
       icon: Sofa,
       title: 'Furnishing',
       description: 'Complete furnishing solutions with curated furniture and decor. We source the perfect pieces for your space.',
-      features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service']
+      features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service'],
+      whatsappMessage: "Hi, I'm looking for furnishing solutions.",
     }
   ];
 
