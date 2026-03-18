@@ -79,6 +79,14 @@ const Services = () => {
                 Learn More
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
+
+              <button
+                onClick={() => handleWhatsAppClick(service.whatsappMessage, 'services')}
+                className="w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
+                style={{ color: '#25D366' }}
+              >
+                Ask about this on WhatsApp <ArrowRight className="w-3 h-3" />
+              </button>
             </div>
           ))}
         </div>
