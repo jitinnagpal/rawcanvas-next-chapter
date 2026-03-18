@@ -43,14 +43,11 @@ const Hero = () => {
     }
   };
 
-  const handleConsultationClick = () => {
-    setEntryMode('consult');
-    trackFreeConsultationClicked();
-    
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleWhatsApp = () => {
+    handleWhatsAppClick(
+      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
+      'hero'
+    );
   };
 
   return (
