@@ -22,7 +22,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: kitchenImage,
       description: 'Contemporary kitchen with gold hardware and natural materials',
-      galleryLink: '/gallery/kitchen'
+      galleryLink: '/gallery/kitchen',
+      whatsappMessage: "Hi, I'm interested in kitchen design for my home.",
     },
     {
       id: 2,
@@ -31,7 +32,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: bedroomImage,
       description: 'Elegant bedroom design with warm neutral tones and luxury finishes',
-      galleryLink: '/gallery/bedroom'
+      galleryLink: '/gallery/bedroom',
+      whatsappMessage: "Hi, I'm interested in bedroom design.",
     },
     {
       id: 3,
@@ -40,7 +42,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: livingSpaceImage,
       description: 'Warm and inviting living space with artistic wall features and elegant furnishings',
-      galleryLink: '/gallery/living'
+      galleryLink: '/gallery/living',
+      whatsappMessage: "Hi, I'm interested in living room design.",
     }
   ];
 
