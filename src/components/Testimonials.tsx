@@ -1,4 +1,6 @@
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, MessageCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const Testimonials = () => {
   const testimonials = [
