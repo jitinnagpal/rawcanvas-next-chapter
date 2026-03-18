@@ -24,9 +24,9 @@ const FloatingWhatsApp = () => {
       className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110 ${
         pulse ? 'animate-pulse' : ''
       }`}
-      style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-      onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+      style={{ backgroundColor: '#0E6F63', boxShadow: '0 4px 12px rgba(0,0,0,0.18)' }}
+      onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A544C')}
+      onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0E6F63')}
       aria-label="Chat on WhatsApp"
     >
       <MessageCircle className="w-7 h-7 text-white fill-white" />
