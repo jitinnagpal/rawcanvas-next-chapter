@@ -132,13 +132,13 @@ const Header = () => {
                   Get a Quick Estimate
                 </Button>
                 <Button 
-                  variant="outline" 
                   size="sm" 
-                  className="w-full border-primary/40 text-primary bg-transparent hover:bg-primary/10 hover:text-primary"
-                  onClick={handleFreeConsultationClick}
+                  className="w-full text-white hover:opacity-90 shadow-md"
+                  style={{ backgroundColor: '#25D366' }}
+                  onClick={handleWhatsApp}
                 >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Talk to a Designer
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Chat on WhatsApp
                 </Button>
               </div>
             </div>
