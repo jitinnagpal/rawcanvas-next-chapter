@@ -136,9 +136,9 @@ const Header = () => {
                 <Button 
                   size="sm" 
                   className="w-full text-white transition-colors shadow-md"
-                  style={{ backgroundColor: '#0E6F63', boxShadow: '0 4px 12px rgba(0,0,0,0.18)' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A544C')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0E6F63')}
+                  style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
                   onClick={handleWhatsApp}
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />

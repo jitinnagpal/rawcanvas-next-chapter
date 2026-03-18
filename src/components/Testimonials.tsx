@@ -124,9 +124,9 @@ const Testimonials = () => {
           <Button
             size="lg"
             className="text-white font-semibold transition-colors"
-            style={{ backgroundColor: '#0E6F63', boxShadow: '0 4px 12px rgba(0,0,0,0.18)' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A544C')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0E6F63')}
+            style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
             onClick={() =>
               handleWhatsAppClick(
                 "Hi, I'd like to achieve a similar design outcome for my home.",

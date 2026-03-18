@@ -103,9 +103,9 @@ const Services = () => {
           <Button 
             size="lg" 
             className="text-white transition-colors w-full sm:w-auto"
-            style={{ backgroundColor: '#0E6F63', boxShadow: '0 4px 12px rgba(0,0,0,0.18)' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0A544C')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0E6F63')}
+            style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
             onClick={() => handleWhatsAppClick("Hi, I'm interested in interior design services. Can you help me with an estimate?", 'services')}
           >
             <MessageCircle className="w-5 h-5 mr-2" />
