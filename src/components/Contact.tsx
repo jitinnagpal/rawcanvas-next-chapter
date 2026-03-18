@@ -1172,7 +1172,7 @@ const Contact = () => {
               <button
                 onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
                 className="font-medium underline hover:no-underline"
-                style={{ color: '#25D366' }}
+                style={{ color: '#128C7E' }}
               >
                 Chat on WhatsApp
               </button>

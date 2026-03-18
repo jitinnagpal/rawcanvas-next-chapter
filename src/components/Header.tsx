@@ -89,8 +89,10 @@ const Header = () => {
             </Button>
             <Button 
               size="sm" 
-              className="text-white hover:opacity-90 shadow-md"
-              style={{ backgroundColor: '#25D366' }}
+              className="text-white transition-colors shadow-md"
+              style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
               onClick={handleWhatsApp}
             >
               <MessageCircle className="w-4 h-4 mr-2" />
@@ -133,8 +135,10 @@ const Header = () => {
                 </Button>
                 <Button 
                   size="sm" 
-                  className="w-full text-white hover:opacity-90 shadow-md"
-                  style={{ backgroundColor: '#25D366' }}
+                  className="w-full text-white transition-colors shadow-md"
+                  style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
                   onClick={handleWhatsApp}
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
