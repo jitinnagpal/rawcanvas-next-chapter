@@ -1,6 +1,7 @@
-import { Palette, Hammer, Sofa, ArrowRight, Calculator, Phone } from 'lucide-react';
+import { Palette, Hammer, Sofa, ArrowRight, Calculator, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const Services = () => {
   const services = [
