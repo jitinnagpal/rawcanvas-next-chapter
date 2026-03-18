@@ -1,10 +1,11 @@
-import { ArrowDown, Phone, Calculator } from 'lucide-react';
+import { ArrowDown, MessageCircle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useEffect, useState } from 'react';
 import { useEntryMode } from '@/hooks/useEntryMode';
-import { trackEstimateCostClicked, trackFreeConsultationClicked } from '@/utils/analytics';
+import { trackEstimateCostClicked } from '@/utils/analytics';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const Hero = () => {
   const plugin = useRef(
@@ -42,14 +43,11 @@ const Hero = () => {
     }
   };
 
-  const handleConsultationClick = () => {
-    setEntryMode('consult');
-    trackFreeConsultationClicked();
-    
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleWhatsApp = () => {
+    handleWhatsAppClick(
+      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
+      'hero'
+    );
   };
 
   return (
@@ -105,16 +103,17 @@ const Hero = () => {
                 Get a Quick Estimate
               </Button>
               
-              {/* Secondary CTA - Talk to a Designer */}
+              {/* Secondary CTA - Chat on WhatsApp */}
               <Button 
-                variant="outline" 
                 size="lg" 
-                className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
-                onClick={handleConsultationClick}
+                className="text-white font-semibold hover:opacity-90"
+                style={{ backgroundColor: '#25D366' }}
+                onClick={handleWhatsApp}
               >
-                <Phone className="w-5 h-5 mr-2" />
-                Talk to a Designer
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Chat on WhatsApp
               </Button>
+              <p className="text-white/60 text-xs sm:hidden mt-[-8px]">Get design ideas, budget & timeline in minutes</p>
               
               {/* Tertiary CTA - View Portfolio */}
               <Button 

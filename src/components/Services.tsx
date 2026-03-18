@@ -1,6 +1,7 @@
-import { Palette, Hammer, Sofa, ArrowRight, Calculator, Phone } from 'lucide-react';
+import { Palette, Hammer, Sofa, ArrowRight, Calculator, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const Services = () => {
   const services = [
@@ -8,19 +9,22 @@ const Services = () => {
       icon: Palette,
       title: 'Interior Designing',
       description: 'Complete interior design solutions from concept to completion. We create spaces that reflect your personality and lifestyle.',
-      features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection']
+      features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection'],
+      whatsappMessage: "Hi, I'm interested in interior design services.",
     },
     {
       icon: Hammer,
       title: 'Contracting',
       description: 'Professional contracting services with reliable execution. We handle all construction and renovation needs.',
-      features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors']
+      features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors'],
+      whatsappMessage: "Hi, I need help with contracting for my space.",
     },
     {
       icon: Sofa,
       title: 'Furnishing',
       description: 'Complete furnishing solutions with curated furniture and decor. We source the perfect pieces for your space.',
-      features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service']
+      features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service'],
+      whatsappMessage: "Hi, I'm looking for furnishing solutions.",
     }
   ];
 
@@ -75,6 +79,14 @@ const Services = () => {
                 Learn More
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
+
+              <button
+                onClick={() => handleWhatsAppClick(service.whatsappMessage, 'services')}
+                className="w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
+                style={{ color: '#25D366' }}
+              >
+                Ask about this on WhatsApp <ArrowRight className="w-3 h-3" />
+              </button>
             </div>
           ))}
         </div>
@@ -90,12 +102,12 @@ const Services = () => {
           </Button>
           <Button 
             size="lg" 
-            variant="outline"
-            className="border-primary text-primary hover:bg-primary/10 w-full sm:w-auto"
-            onClick={handleConsultClick}
+            className="text-white hover:opacity-90 w-full sm:w-auto"
+            style={{ backgroundColor: '#25D366' }}
+            onClick={() => handleWhatsAppClick("Hi, I'm interested in interior design services. Can you help me with an estimate?", 'services')}
           >
-            <Phone className="w-5 h-5 mr-2" />
-            Talk to a Designer
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Chat on WhatsApp
           </Button>
         </div>
       </div>

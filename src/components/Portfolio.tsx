@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { downloadBrochure } from '@/utils/downloadBrochure';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
 import bedroomImage from '@/assets/portfolio-bedroom.jpg';
 import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
@@ -21,7 +22,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: kitchenImage,
       description: 'Contemporary kitchen with gold hardware and natural materials',
-      galleryLink: '/gallery/kitchen'
+      galleryLink: '/gallery/kitchen',
+      whatsappMessage: "Hi, I'm interested in kitchen design for my home.",
     },
     {
       id: 2,
@@ -30,7 +32,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: bedroomImage,
       description: 'Elegant bedroom design with warm neutral tones and luxury finishes',
-      galleryLink: '/gallery/bedroom'
+      galleryLink: '/gallery/bedroom',
+      whatsappMessage: "Hi, I'm interested in bedroom design.",
     },
     {
       id: 3,
@@ -39,7 +42,8 @@ const Portfolio = () => {
       type: 'Residential',
       image: livingSpaceImage,
       description: 'Warm and inviting living space with artistic wall features and elegant furnishings',
-      galleryLink: '/gallery/living'
+      galleryLink: '/gallery/living',
+      whatsappMessage: "Hi, I'm interested in living room design.",
     }
   ];
 
@@ -103,6 +107,13 @@ const Portfolio = () => {
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
+                <button
+                  onClick={() => handleWhatsAppClick(project.whatsappMessage, 'portfolio')}
+                  className="text-sm font-medium mt-2 hover:underline flex items-center gap-1"
+                  style={{ color: '#25D366' }}
+                >
+                  Discuss a similar project on WhatsApp <ArrowRight className="w-3 h-3" />
+                </button>
               </div>
             </div>
           ))}

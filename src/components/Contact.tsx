@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon, Calculator, ChevronDown, ChevronUp } from 'lucide-react';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -1166,6 +1167,16 @@ const Contact = () => {
                 </Button>
               )}
             </form>
+            <p className="text-center mt-4 text-sm text-muted-foreground">
+              Prefer a quicker response?{' '}
+              <button
+                onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
+                className="font-medium underline hover:no-underline"
+                style={{ color: '#25D366' }}
+              >
+                Chat on WhatsApp
+              </button>
+            </p>
           </div>
 
           {/* Contact Information - Second column */}

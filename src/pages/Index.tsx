@@ -8,6 +8,7 @@ import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 
 const Index = () => {
@@ -38,6 +39,7 @@ const Index = () => {
         <Contact />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 };

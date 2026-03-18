@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Calculator } from 'lucide-react';
+import { Menu, X, MessageCircle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { trackTopCtaClicked } from '@/utils/analytics';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
@@ -38,14 +39,13 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const handleFreeConsultationClick = (e: React.MouseEvent) => {
+  const handleWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
-    setGlobalEntryMode('consult');
     trackTopCtaClicked('free_consultation');
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    handleWhatsAppClick(
+      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
+      'header'
+    );
     setIsMenuOpen(false);
   };
 
@@ -88,13 +88,13 @@ const Header = () => {
               Get a Quick Estimate
             </Button>
             <Button 
-              variant="outline" 
               size="sm" 
-              className="border-primary/40 text-primary bg-transparent hover:bg-primary/10 hover:text-primary"
-              onClick={handleFreeConsultationClick}
+              className="text-white hover:opacity-90 shadow-md"
+              style={{ backgroundColor: '#25D366' }}
+              onClick={handleWhatsApp}
             >
-              <Phone className="w-4 h-4 mr-2" />
-              Talk to a Designer
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Chat on WhatsApp
             </Button>
           </div>
 
@@ -132,13 +132,13 @@ const Header = () => {
                   Get a Quick Estimate
                 </Button>
                 <Button 
-                  variant="outline" 
                   size="sm" 
-                  className="w-full border-primary/40 text-primary bg-transparent hover:bg-primary/10 hover:text-primary"
-                  onClick={handleFreeConsultationClick}
+                  className="w-full text-white hover:opacity-90 shadow-md"
+                  style={{ backgroundColor: '#25D366' }}
+                  onClick={handleWhatsApp}
                 >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Talk to a Designer
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Chat on WhatsApp
                 </Button>
               </div>
             </div>
