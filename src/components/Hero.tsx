@@ -106,8 +106,10 @@ const Hero = () => {
               {/* Secondary CTA - Chat on WhatsApp */}
               <Button 
                 size="lg" 
-                className="text-white font-semibold hover:opacity-90"
-                style={{ backgroundColor: '#25D366' }}
+                className="text-white font-semibold transition-colors"
+                style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
                 onClick={handleWhatsApp}
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
