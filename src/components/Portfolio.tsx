@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { downloadBrochure } from '@/utils/downloadBrochure';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
 import bedroomImage from '@/assets/portfolio-bedroom.jpg';
 import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
