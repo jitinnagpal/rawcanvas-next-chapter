@@ -116,6 +116,27 @@ const Testimonials = () => {
           ))}
         </div>
 
+        {/* WhatsApp CTA */}
+        <div className="mt-16 text-center">
+          <h3 className="text-2xl md:text-3xl font-heading font-bold text-foreground mb-4">
+            Want results like these?
+          </h3>
+          <Button
+            size="lg"
+            className="text-white font-semibold hover:opacity-90"
+            style={{ backgroundColor: '#25D366' }}
+            onClick={() =>
+              handleWhatsAppClick(
+                "Hi, I'd like to achieve a similar design outcome for my home.",
+                'testimonial'
+              )
+            }
+          >
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Chat on WhatsApp
+          </Button>
+        </div>
+
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
