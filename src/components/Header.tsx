@@ -39,14 +39,13 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const handleFreeConsultationClick = (e: React.MouseEvent) => {
+  const handleWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
-    setGlobalEntryMode('consult');
     trackTopCtaClicked('free_consultation');
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    handleWhatsAppClick(
+      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
+      'header'
+    );
     setIsMenuOpen(false);
   };
 
