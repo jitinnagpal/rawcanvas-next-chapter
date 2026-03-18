@@ -1,10 +1,11 @@
-import { ArrowDown, Phone, Calculator } from 'lucide-react';
+import { ArrowDown, MessageCircle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useEffect, useState } from 'react';
 import { useEntryMode } from '@/hooks/useEntryMode';
-import { trackEstimateCostClicked, trackFreeConsultationClicked } from '@/utils/analytics';
+import { trackEstimateCostClicked } from '@/utils/analytics';
+import { handleWhatsAppClick } from '@/utils/whatsapp';
 
 const Hero = () => {
   const plugin = useRef(
