@@ -1170,10 +1170,7 @@ const Contact = () => {
             <p className="text-center mt-4 text-sm text-muted-foreground">
               Prefer a quicker response?{' '}
               <button
-                onClick={() => {
-                  const { handleWhatsAppClick } = require('@/utils/whatsapp');
-                  handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form');
-                }}
+                onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
                 className="font-medium underline hover:no-underline"
                 style={{ color: '#25D366' }}
               >
