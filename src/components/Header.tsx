@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, Calculator } from 'lucide-react';
+import { Menu, X, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { trackTopCtaClicked } from '@/utils/analytics';
 import { handleWhatsAppClick } from '@/utils/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
@@ -89,13 +90,11 @@ const Header = () => {
             </Button>
             <Button 
               size="sm" 
-              className="text-white transition-colors shadow-md"
-              style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+              variant="outline"
+              className="whatsapp-outline-btn"
               onClick={handleWhatsApp}
             >
-              <MessageCircle className="w-4 h-4 mr-2" />
+              <WhatsAppIcon className="w-4 h-4" />
               Chat on WhatsApp
             </Button>
           </div>
@@ -135,13 +134,11 @@ const Header = () => {
                 </Button>
                 <Button 
                   size="sm" 
-                  className="w-full text-white transition-colors shadow-md"
-                  style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+                  variant="outline"
+                  className="w-full whatsapp-outline-btn"
                   onClick={handleWhatsApp}
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
+                  <WhatsAppIcon className="w-4 h-4" />
                   Chat on WhatsApp
                 </Button>
               </div>
