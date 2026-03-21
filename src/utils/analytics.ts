@@ -44,16 +44,12 @@ export const trackEstimateGenerateClicked = () => {
 
 export const trackEstimateGenerated = (data: {
   scope: string;
-  finish: string;
-  storage: string;
-  upgrades: string[];
   status: string;
   location: string;
-  totalLow: number;
-  totalHigh: number;
+  totalLow: number | null;
+  totalHigh: number | null;
   entryMode: string;
   bhkSize: string;
-  sizeMultiplier: number;
 }) => {
   trackEvent('estimate_generated', data);
 };
