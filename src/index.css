@@ -209,12 +209,18 @@ All colors MUST be HSL.
   }
 
   .cta-secondary-btn {
-    @apply border border-border bg-background/85 text-foreground hover:bg-accent hover:text-accent-foreground backdrop-blur-sm;
+    @apply border backdrop-blur-sm;
+    background-color: hsl(var(--secondary) / 0.22);
+    border-color: hsl(var(--primary) / 0.45);
+    color: hsl(var(--primary));
     box-shadow: 0 4px 12px hsl(0 0% 0% / 0.12);
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
   }
 
   .cta-secondary-btn:hover {
+    background-color: hsl(var(--secondary) / 0.32);
+    border-color: hsl(var(--primary) / 0.72);
+    color: hsl(var(--primary-foreground));
     box-shadow: 0 8px 18px hsl(0 0% 0% / 0.16);
   }
 
