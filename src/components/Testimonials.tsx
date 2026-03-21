@@ -132,7 +132,7 @@ const Testimonials = () => {
               )
             }
           >
-            <WhatsAppIcon className="w-5 h-5" />
+            <WhatsAppIcon className="w-5 h-5" withBubble />
             Chat on WhatsApp
           </Button>
         </div>

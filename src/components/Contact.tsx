@@ -1174,7 +1174,7 @@ const Contact = () => {
                 onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
                 className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
               >
-                <WhatsAppIcon className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" withBubble />
                 Chat on WhatsApp
               </button>
             </p>

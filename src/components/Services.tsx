@@ -97,7 +97,7 @@ const Services = () => {
             className="cta-primary-btn w-full sm:w-auto"
             onClick={() => handleWhatsAppClick("Hi, I'm interested in interior design services. Can you help me with an estimate?", 'services')}
           >
-            <WhatsAppIcon className="w-5 h-5" />
+            <WhatsAppIcon className="w-5 h-5" withBubble />
             Chat on WhatsApp
           </Button>
           <Button 

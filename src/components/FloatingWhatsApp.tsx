@@ -29,7 +29,7 @@ const FloatingWhatsApp = () => {
       onMouseLeave={e => (e.currentTarget.style.borderColor = 'hsl(var(--whatsapp))')}
       aria-label="Chat on WhatsApp"
     >
-      <WhatsAppIcon className="w-7 h-7" />
+      <WhatsAppIcon className="w-5 h-5" withBubble />
     </button>
   );
 };
