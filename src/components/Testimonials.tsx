@@ -1,6 +1,7 @@
-import { Star, Quote, MessageCircle } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleWhatsAppClick } from '@/utils/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Testimonials = () => {
   const testimonials = [
@@ -123,10 +124,8 @@ const Testimonials = () => {
           </h3>
           <Button
             size="lg"
-            className="text-white font-semibold transition-colors"
-            style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+            variant="outline"
+            className="whatsapp-outline-btn font-semibold"
             onClick={() =>
               handleWhatsAppClick(
                 "Hi, I'd like to achieve a similar design outcome for my home.",
@@ -134,7 +133,7 @@ const Testimonials = () => {
               )
             }
           >
-            <MessageCircle className="w-5 h-5 mr-2" />
+            <WhatsAppIcon className="w-5 h-5" />
             Chat on WhatsApp
           </Button>
         </div>

@@ -1,7 +1,8 @@
-import { Palette, Hammer, Sofa, ArrowRight, Calculator, MessageCircle } from 'lucide-react';
+import { Palette, Hammer, Sofa, ArrowRight, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { handleWhatsAppClick } from '@/utils/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Services = () => {
   const services = [
@@ -82,8 +83,7 @@ const Services = () => {
 
               <button
                 onClick={() => handleWhatsAppClick(service.whatsappMessage, 'services')}
-                className="w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
-                style={{ color: '#128C7E' }}
+                className="whatsapp-inline-link w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
               >
                 Ask about this on WhatsApp <ArrowRight className="w-3 h-3" />
               </button>
@@ -102,13 +102,11 @@ const Services = () => {
           </Button>
           <Button 
             size="lg" 
-            className="text-white transition-colors w-full sm:w-auto"
-            style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+            variant="outline"
+            className="whatsapp-outline-btn w-full sm:w-auto"
             onClick={() => handleWhatsAppClick("Hi, I'm interested in interior design services. Can you help me with an estimate?", 'services')}
           >
-            <MessageCircle className="w-5 h-5 mr-2" />
+            <WhatsAppIcon className="w-5 h-5" />
             Chat on WhatsApp
           </Button>
         </div>

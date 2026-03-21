@@ -1,4 +1,4 @@
-import { ArrowDown, MessageCircle, Calculator } from 'lucide-react';
+import { ArrowDown, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -6,6 +6,7 @@ import { useRef, useEffect, useState } from 'react';
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { trackEstimateCostClicked } from '@/utils/analytics';
 import { handleWhatsAppClick } from '@/utils/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Hero = () => {
   const plugin = useRef(
@@ -106,13 +107,11 @@ const Hero = () => {
               {/* Secondary CTA - Chat on WhatsApp */}
               <Button 
                 size="lg" 
-                className="text-white font-semibold transition-colors"
-                style={{ backgroundColor: '#128C7E', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'background-color 200ms ease-in-out' }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#075E54')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#128C7E')}
+                variant="outline"
+                className="whatsapp-outline-btn font-semibold"
                 onClick={handleWhatsApp}
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
+                <WhatsAppIcon className="w-5 h-5" />
                 Chat on WhatsApp
               </Button>
               <p className="text-white/60 text-xs sm:hidden mt-[-8px]">Get design ideas, budget & timeline in minutes</p>
