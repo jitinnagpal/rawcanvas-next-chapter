@@ -34,6 +34,11 @@ All colors MUST be HSL.
     --accent-foreground: 28 25% 15%;
     --accent-dark: 30 8% 75%;
 
+    /* WhatsApp accent */
+    --whatsapp: 142 70% 49%;
+    --whatsapp-foreground: 142 70% 49%;
+    --whatsapp-hover: 142 70% 44%;
+
     /* Muted Tones */
     --muted: 30 8% 92%;
     --muted-foreground: 28 15% 55%;
@@ -98,6 +103,10 @@ All colors MUST be HSL.
     --accent: 30 8% 20%;
     --accent-foreground: 46 12% 95%;
     --accent-dark: 30 8% 15%;
+
+    --whatsapp: 142 70% 49%;
+    --whatsapp-foreground: 142 70% 49%;
+    --whatsapp-hover: 142 70% 44%;
 
     --muted: 30 8% 15%;
     --muted-foreground: 46 8% 65%;
@@ -187,5 +196,27 @@ All colors MUST be HSL.
 
   .animate-pulse-glow {
     animation: pulse-glow 1s ease-in-out infinite;
+  }
+
+  .whatsapp-outline-btn {
+    @apply border bg-transparent text-[hsl(var(--whatsapp-foreground))] hover:bg-transparent;
+    border-color: hsl(var(--whatsapp));
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.15);
+    transition: border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+  }
+
+  .whatsapp-outline-btn:hover {
+    border-color: hsl(var(--whatsapp-hover));
+    color: hsl(var(--whatsapp-hover));
+    box-shadow: 0 6px 16px hsl(0 0% 0% / 0.18);
+  }
+
+  .whatsapp-inline-link {
+    color: hsl(var(--whatsapp));
+    transition: color 200ms ease-in-out;
+  }
+
+  .whatsapp-inline-link:hover {
+    color: hsl(var(--whatsapp-hover));
   }
 }
