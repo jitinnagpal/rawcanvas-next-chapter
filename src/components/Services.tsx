@@ -11,7 +11,7 @@ const Services = () => {
       title: 'Interior Designing',
       description: 'Complete interior design solutions from concept to completion. We create spaces that reflect your personality and lifestyle.',
       features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection'],
-      showWhatsAppLink: true,
+      showWhatsAppLink: false,
     },
     {
       icon: Hammer,
