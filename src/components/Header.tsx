@@ -85,7 +85,7 @@ const Header = () => {
               className="cta-primary-btn"
               onClick={handleWhatsApp}
             >
-              <WhatsAppIcon className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" withBubble />
               Chat on WhatsApp
             </Button>
             <Button 
@@ -129,7 +129,7 @@ const Header = () => {
                   className="w-full cta-primary-btn"
                   onClick={handleWhatsApp}
                 >
-                  <WhatsAppIcon className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4" withBubble />
                   Chat on WhatsApp
                 </Button>
                 <Button 
