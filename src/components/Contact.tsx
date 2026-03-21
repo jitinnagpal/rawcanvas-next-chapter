@@ -1,5 +1,5 @@
 import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon, Calculator, ChevronDown, ChevronUp } from 'lucide-react';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
