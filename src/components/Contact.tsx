@@ -1172,7 +1172,7 @@ const Contact = () => {
               Prefer a quicker response?{' '}
               <button
                 onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'contact_form')}
-                className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
+                className="inline-flex translate-y-px items-center gap-2 align-middle font-semibold text-muted-foreground hover:text-foreground"
               >
                   <WhatsAppIcon className="w-4 h-4" withBubble />
                 Chat on WhatsApp
