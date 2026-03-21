@@ -210,17 +210,17 @@ All colors MUST be HSL.
 
   .cta-secondary-btn {
     @apply border backdrop-blur-sm;
-    background-color: hsl(var(--secondary) / 0.18);
-    border-color: hsl(var(--accent) / 0.45);
-    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--secondary) / 0.24) !important;
+    border-color: hsl(var(--accent) / 0.42) !important;
+    color: hsl(var(--primary-foreground)) !important;
     box-shadow: 0 4px 12px hsl(0 0% 0% / 0.12);
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
   }
 
   .cta-secondary-btn:hover {
-    background-color: hsl(var(--secondary) / 0.28);
-    border-color: hsl(var(--accent) / 0.72);
-    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--secondary) / 0.34) !important;
+    border-color: hsl(var(--accent) / 0.58) !important;
+    color: hsl(var(--primary-foreground)) !important;
     box-shadow: 0 8px 18px hsl(0 0% 0% / 0.16);
   }
 
