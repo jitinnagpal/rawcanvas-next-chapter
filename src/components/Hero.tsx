@@ -108,7 +108,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="whatsapp-outline-btn font-semibold"
+                className="whatsapp-outline-btn !bg-transparent hover:!bg-transparent font-semibold"
                 onClick={handleWhatsApp}
               >
                 <WhatsAppIcon className="w-5 h-5" />

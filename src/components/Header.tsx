@@ -91,7 +91,7 @@ const Header = () => {
             <Button 
               size="sm" 
               variant="outline"
-              className="whatsapp-outline-btn"
+              className="whatsapp-outline-btn !bg-transparent hover:!bg-transparent"
               onClick={handleWhatsApp}
             >
               <WhatsAppIcon className="w-4 h-4" />
@@ -135,7 +135,7 @@ const Header = () => {
                 <Button 
                   size="sm" 
                   variant="outline"
-                  className="w-full whatsapp-outline-btn"
+                  className="w-full whatsapp-outline-btn !bg-transparent hover:!bg-transparent"
                   onClick={handleWhatsApp}
                 >
                   <WhatsAppIcon className="w-4 h-4" />
