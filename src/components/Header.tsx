@@ -85,10 +85,10 @@ const Header = () => {
               <WhatsAppIcon className="w-4 h-4" withBubble />
               Chat on WhatsApp
             </Button>
-            <Button 
+              <Button 
               size="sm" 
               variant="outline"
-              className="cta-secondary-btn"
+                className={isScrolled ? 'cta-secondary-btn' : 'cta-secondary-btn-dark'}
               onClick={handleEstimateCostClick}
             >
               <Calculator className="w-4 h-4 mr-2" />

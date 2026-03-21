@@ -105,7 +105,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="cta-secondary-btn font-semibold"
+                className="cta-secondary-btn-dark font-semibold"
                 onClick={handleEstimateCostClick}
               >
                 <Calculator className="w-5 h-5 mr-2" />
