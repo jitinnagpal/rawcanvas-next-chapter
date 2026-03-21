@@ -4,6 +4,7 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { downloadBrochure } from '@/utils/downloadBrochure';
 import { handleWhatsAppClick } from '@/utils/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 import kitchenImage from '@/assets/portfolio-kitchen.jpg';
 import bedroomImage from '@/assets/portfolio-bedroom.jpg';
 import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
@@ -109,9 +110,9 @@ const Portfolio = () => {
                 </Link>
                 <button
                   onClick={() => handleWhatsAppClick(project.whatsappMessage, 'portfolio')}
-                  className="text-sm font-medium mt-2 hover:underline flex items-center gap-1"
-                  style={{ color: '#128C7E' }}
+                  className="whatsapp-inline-link text-sm font-medium mt-2 hover:underline flex items-center gap-1"
                 >
+                  <WhatsAppIcon className="w-4 h-4" />
                   Discuss a similar project on WhatsApp <ArrowRight className="w-3 h-3" />
                 </button>
               </div>

@@ -21,6 +21,7 @@ import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpac
 import { validatePhone, normalizePhone, shouldShowValidation } from '@/utils/phoneValidation';
 import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Contact = () => {
   const [projectType, setProjectType] = useState('');
@@ -1171,9 +1172,9 @@ const Contact = () => {
               Prefer a quicker response?{' '}
               <button
                 onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
-                className="font-medium underline hover:no-underline"
-                style={{ color: '#128C7E' }}
+                className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
               >
+                <WhatsAppIcon className="w-4 h-4" />
                 Chat on WhatsApp
               </button>
             </p>
