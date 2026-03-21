@@ -198,6 +198,26 @@ All colors MUST be HSL.
     animation: pulse-glow 1s ease-in-out infinite;
   }
 
+  .cta-primary-btn {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    box-shadow: 0 10px 24px hsl(var(--secondary) / 0.18);
+    transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+  }
+
+  .cta-primary-btn:hover {
+    box-shadow: 0 14px 28px hsl(var(--secondary) / 0.22);
+  }
+
+  .cta-secondary-btn {
+    @apply border border-border bg-background/85 text-foreground hover:bg-accent hover:text-accent-foreground backdrop-blur-sm;
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.12);
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+  }
+
+  .cta-secondary-btn:hover {
+    box-shadow: 0 8px 18px hsl(0 0% 0% / 0.16);
+  }
+
   .whatsapp-outline-btn {
     @apply border bg-transparent text-[hsl(var(--whatsapp-foreground))] hover:bg-transparent;
     border-color: hsl(var(--whatsapp));

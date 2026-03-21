@@ -94,25 +94,25 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
-              {/* Primary CTA - Get a Quick Estimate */}
+              {/* Primary CTA - Chat on WhatsApp */}
               <Button 
                 size="lg" 
-                className={`bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 ${showPulse ? 'animate-pulse-glow' : ''}`}
-                onClick={handleEstimateCostClick}
-              >
-                <Calculator className="w-5 h-5 mr-2" />
-                Get a Quick Estimate
-              </Button>
-              
-              {/* Secondary CTA - Chat on WhatsApp */}
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="whatsapp-outline-btn !bg-transparent hover:!bg-transparent font-semibold"
+                className={`cta-primary-btn font-semibold px-6 py-3 ${showPulse ? 'animate-pulse-glow' : ''}`}
                 onClick={handleWhatsApp}
               >
                 <WhatsAppIcon className="w-5 h-5" />
                 Chat on WhatsApp
+              </Button>
+              
+              {/* Secondary CTA - Get a Quick Estimate */}
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="cta-secondary-btn font-semibold"
+                onClick={handleEstimateCostClick}
+              >
+                <Calculator className="w-5 h-5 mr-2" />
+                Get a Quick Estimate
               </Button>
               <p className="text-white/60 text-xs sm:hidden mt-[-8px]">Get design ideas, budget & timeline in minutes</p>
               
