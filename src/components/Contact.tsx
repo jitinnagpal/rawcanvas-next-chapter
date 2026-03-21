@@ -1171,7 +1171,7 @@ const Contact = () => {
             <p className="text-center mt-4 text-sm text-muted-foreground">
               Prefer a quicker response?{' '}
               <button
-                onClick={() => handleWhatsAppClick("Hi, I want a quick estimate for my space.", 'contact_form')}
+                onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'contact_form')}
                 className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
               >
                   <WhatsAppIcon className="w-4 h-4" withBubble />

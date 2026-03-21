@@ -5,7 +5,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useEffect, useState } from 'react';
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { trackEstimateCostClicked } from '@/utils/analytics';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Hero = () => {
@@ -45,10 +45,7 @@ const Hero = () => {
   };
 
   const handleWhatsApp = () => {
-    handleWhatsAppClick(
-      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
-      'hero'
-    );
+    handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'hero');
   };
 
   return (

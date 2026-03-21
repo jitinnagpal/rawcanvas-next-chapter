@@ -1,6 +1,6 @@
 import { Star, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Testimonials = () => {
@@ -125,12 +125,7 @@ const Testimonials = () => {
           <Button
             size="lg"
             className="cta-primary-btn font-semibold"
-            onClick={() =>
-              handleWhatsAppClick(
-                "Hi, I'd like to achieve a similar design outcome for my home.",
-                'testimonial'
-              )
-            }
+            onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'testimonial')}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
             Chat on WhatsApp
