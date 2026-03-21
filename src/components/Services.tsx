@@ -1,7 +1,7 @@
 import { Palette, Hammer, Sofa, ArrowRight, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Services = () => {
@@ -11,21 +11,21 @@ const Services = () => {
       title: 'Interior Designing',
       description: 'Complete interior design solutions from concept to completion. We create spaces that reflect your personality and lifestyle.',
       features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection'],
-      whatsappMessage: "Hi, I'm interested in interior design services.",
+      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
     },
     {
       icon: Hammer,
       title: 'Contracting',
       description: 'Professional contracting services with reliable execution. We handle all construction and renovation needs.',
       features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors'],
-      whatsappMessage: "Hi, I need help with contracting for my space.",
+      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
     },
     {
       icon: Sofa,
       title: 'Furnishing',
       description: 'Complete furnishing solutions with curated furniture and decor. We source the perfect pieces for your space.',
       features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service'],
-      whatsappMessage: "Hi, I'm looking for furnishing solutions.",
+      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
     }
   ];
 
@@ -95,7 +95,7 @@ const Services = () => {
           <Button 
             size="lg" 
             className="cta-primary-btn w-full sm:w-auto"
-            onClick={() => handleWhatsAppClick("Hi, I'm interested in interior design services. Can you help me with an estimate?", 'services')}
+            onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'services')}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
             Chat on WhatsApp

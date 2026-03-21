@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const FloatingWhatsApp = () => {
@@ -16,10 +16,7 @@ const FloatingWhatsApp = () => {
   return (
     <button
       onClick={() =>
-        handleWhatsAppClick(
-          "Hi, I'd like to discuss my home interior project.",
-          'floating'
-        )
+        handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'floating')
       }
       className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center border border-whatsapp bg-transparent transition-all hover:scale-110 ${
         pulse ? 'animate-pulse' : ''

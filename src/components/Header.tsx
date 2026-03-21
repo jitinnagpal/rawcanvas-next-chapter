@@ -3,7 +3,7 @@ import { Menu, X, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { trackTopCtaClicked } from '@/utils/analytics';
-import { handleWhatsAppClick } from '@/utils/whatsapp';
+import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
@@ -43,10 +43,7 @@ const Header = () => {
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
     trackTopCtaClicked('free_consultation');
-    handleWhatsAppClick(
-      "Hi, I'm interested in interior design services. Can you help me with an estimate?",
-      'header'
-    );
+    handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'header');
     setIsMenuOpen(false);
   };
 

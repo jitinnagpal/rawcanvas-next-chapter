@@ -1,6 +1,8 @@
 const WHATSAPP_NUMBER = '919908392200';
 const DEFAULT_WHATSAPP_MESSAGE = 'Hi! I am interested in getting interior design work done.';
 
+export const WHATSAPP_DEFAULT_MESSAGE = DEFAULT_WHATSAPP_MESSAGE;
+
 export const getWhatsAppUrl = (message: string) => {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || DEFAULT_WHATSAPP_MESSAGE)}`;
 };
