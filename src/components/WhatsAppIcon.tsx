@@ -1,4 +1,4 @@
-import whatsappIcon from '@/assets/whatsapp-icon-green.png';
+import whatsappIcon from '@/assets/whatsapp-icon-white.png';
 
 type WhatsAppIconProps = {
   className?: string;
@@ -13,7 +13,7 @@ const WhatsAppIcon = ({
 }: WhatsAppIconProps) => {
   if (withBubble) {
     return (
-      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-sm">
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-whatsapp shadow-sm">
         <img src={whatsappIcon} alt={alt} className={className} />
       </span>
     );
