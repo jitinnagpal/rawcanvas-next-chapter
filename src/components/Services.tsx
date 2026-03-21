@@ -11,21 +11,21 @@ const Services = () => {
       title: 'Interior Designing',
       description: 'Complete interior design solutions from concept to completion. We create spaces that reflect your personality and lifestyle.',
       features: ['Space Planning', 'Color Consultation', '3D Visualization', 'Material Selection'],
-      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
+      showWhatsAppLink: true,
     },
     {
       icon: Hammer,
       title: 'Contracting',
       description: 'Professional contracting services with reliable execution. We handle all construction and renovation needs.',
       features: ['Project Management', 'Quality Control', 'Timely Delivery', 'Licensed Contractors'],
-      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
+      showWhatsAppLink: false,
     },
     {
       icon: Sofa,
       title: 'Furnishing',
       description: 'Complete furnishing solutions with curated furniture and decor. We source the perfect pieces for your space.',
       features: ['Furniture Selection', 'Custom Pieces', 'Decor Styling', 'Installation Service'],
-      whatsappMessage: WHATSAPP_DEFAULT_MESSAGE,
+      showWhatsAppLink: false,
     }
   ];
 
@@ -81,12 +81,14 @@ const Services = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
 
-              <button
-                onClick={() => handleWhatsAppClick(service.whatsappMessage, 'services')}
-                className="whatsapp-inline-link w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
-              >
-                Ask about this on WhatsApp <ArrowRight className="w-3 h-3" />
-              </button>
+              {service.showWhatsAppLink && (
+                <button
+                  onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'services')}
+                  className="whatsapp-inline-link w-full text-left text-sm font-medium mt-2 hover:underline flex items-center gap-1"
+                >
+                  Ask about this on WhatsApp <ArrowRight className="w-3 h-3" />
+                </button>
+              )}
             </div>
           ))}
         </div>
