@@ -82,20 +82,20 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-3">
             <Button 
               size="sm" 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
-              onClick={handleEstimateCostClick}
-            >
-              <Calculator className="w-4 h-4 mr-2" />
-              Get a Quick Estimate
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline"
-              className="whatsapp-outline-btn !bg-transparent hover:!bg-transparent"
+              className="cta-primary-btn"
               onClick={handleWhatsApp}
             >
               <WhatsAppIcon className="w-4 h-4" />
               Chat on WhatsApp
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              className="cta-secondary-btn"
+              onClick={handleEstimateCostClick}
+            >
+              <Calculator className="w-4 h-4 mr-2" />
+              Get a Quick Estimate
             </Button>
           </div>
 
@@ -126,20 +126,20 @@ const Header = () => {
               <div className="flex flex-col gap-2 mt-4">
                 <Button 
                   size="sm" 
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
-                  onClick={handleEstimateCostClick}
-                >
-                  <Calculator className="w-4 h-4 mr-2" />
-                  Get a Quick Estimate
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  className="w-full whatsapp-outline-btn !bg-transparent hover:!bg-transparent"
+                  className="w-full cta-primary-btn"
                   onClick={handleWhatsApp}
                 >
                   <WhatsAppIcon className="w-4 h-4" />
                   Chat on WhatsApp
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  className="w-full cta-secondary-btn"
+                  onClick={handleEstimateCostClick}
+                >
+                  <Calculator className="w-4 h-4 mr-2" />
+                  Get a Quick Estimate
                 </Button>
               </div>
             </div>

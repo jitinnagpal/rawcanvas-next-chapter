@@ -124,8 +124,7 @@ const Testimonials = () => {
           </h3>
           <Button
             size="lg"
-            variant="outline"
-            className="whatsapp-outline-btn font-semibold"
+            className="cta-primary-btn font-semibold"
             onClick={() =>
               handleWhatsAppClick(
                 "Hi, I'd like to achieve a similar design outcome for my home.",
