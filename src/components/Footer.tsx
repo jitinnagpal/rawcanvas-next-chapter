@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react';
+import { Link } from 'react-router-dom';
 const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
 
 const Footer = () => {
