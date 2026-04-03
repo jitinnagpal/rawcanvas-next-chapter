@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
-import { trackTopCtaClicked } from '@/utils/analytics';
+import { trackEstimateCostClicked } from '@/utils/analytics';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
