@@ -486,6 +486,13 @@ const Contact = () => {
         (window as any).fbq('track', 'Lead', { source: 'designer_cta' });
       }
 
+      // Fire Google Ads conversion on successful form submission
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', {
+          'send_to': 'AW-18053594263/oTWbCKH165QcEJf5z6BD'
+        });
+      }
+
       // Show success message
       if (nextStep === 'direct-call') {
         toast({
