@@ -24,6 +24,11 @@ export const trackWhatsAppClick = (location: string) => {
       cta: 'chat_whatsapp',
       location,
     });
+
+    // Google Ads conversion for WhatsApp clicks
+    (window as any).gtag('event', 'conversion', {
+      'send_to': 'AW-18053594263/ZVdUCKfp6ZQcEJf5z6BD',
+    });
   }
 
   // Fire Meta Pixel Lead event
