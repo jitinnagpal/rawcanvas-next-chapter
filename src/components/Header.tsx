@@ -32,7 +32,7 @@ const Header = () => {
   const handleEstimateCostClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setGlobalEntryMode('estimate');
-    trackTopCtaClicked('estimate_cost');
+    trackEstimateCostClicked();
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
