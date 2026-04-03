@@ -42,7 +42,6 @@ const Header = () => {
 
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
-    trackTopCtaClicked('free_consultation');
     handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'header');
     setIsMenuOpen(false);
   };

@@ -11,9 +11,20 @@ export const openWhatsApp = (message: string) => {
   window.open(getWhatsAppUrl(message), '_blank', 'noopener,noreferrer');
 };
 
-// Track WhatsApp click with Meta Pixel
+// Track WhatsApp click — single unified event
 export const trackWhatsAppClick = (location: string) => {
-  console.log('[Analytics] WhatsApp CTA clicked', { location });
+  console.log('[Analytics] WhatsApp clicked', { location });
+
+  // Fire Google Ads whatsapp_click event (NOT a conversion)
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'whatsapp_click', {
+      'event_category': 'engagement',
+      'event_label': 'whatsapp_chat',
+      source: 'whatsapp_cta',
+      cta: 'chat_whatsapp',
+      location,
+    });
+  }
 
   // Fire Meta Pixel Lead event
   if (typeof window !== 'undefined' && (window as any).fbq) {
@@ -26,17 +37,10 @@ export const trackWhatsAppClick = (location: string) => {
   // Push to dataLayer for GTM
   if (typeof window !== 'undefined' && (window as any).dataLayer) {
     (window as any).dataLayer.push({
-      event: 'whatsapp_cta_clicked',
+      event: 'whatsapp_click',
       source: 'whatsapp_cta',
+      cta: 'chat_whatsapp',
       location,
-    });
-  }
-
-  // Fire Google Ads WhatsApp click event
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'whatsapp_click', {
-      'event_category': 'engagement',
-      'event_label': 'whatsapp_chat'
     });
   }
 };
