@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
-import { trackTopCtaClicked } from '@/utils/analytics';
+import { trackEstimateCostClicked } from '@/utils/analytics';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
@@ -32,7 +32,7 @@ const Header = () => {
   const handleEstimateCostClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setGlobalEntryMode('estimate');
-    trackTopCtaClicked('estimate_cost');
+    trackEstimateCostClicked();
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -42,7 +42,6 @@ const Header = () => {
 
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
-    trackTopCtaClicked('free_consultation');
     handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'header');
     setIsMenuOpen(false);
   };

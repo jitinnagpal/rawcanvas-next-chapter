@@ -21,21 +21,16 @@ export const trackEvent = (eventName: string, properties?: Record<string, unknow
       ...properties,
     });
   }
-  
-  // Can be extended to send to other analytics services
+
+  // Fire gtag event if available
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', eventName, properties);
+  }
 };
 
 // Specific event trackers
-export const trackTopCtaClicked = (cta: 'estimate_cost' | 'free_consultation') => {
-  trackEvent('top_cta_clicked', { cta });
-};
-
 export const trackEstimateCostClicked = () => {
   trackEvent('estimate_cost_clicked', { source: 'hero' });
-};
-
-export const trackFreeConsultationClicked = () => {
-  trackEvent('free_consultation_clicked', { source: 'hero' });
 };
 
 export const trackEstimateGenerateClicked = () => {
@@ -58,7 +53,11 @@ export const trackDesignMySpaceClicked = (data: {
   entryMode: string;
   estimateWasGenerated: boolean;
 }) => {
-  trackEvent('design_my_space_clicked', data);
+  trackEvent('design_my_space_clicked', {
+    ...data,
+    source: 'quote_cta',
+    cta: 'request_detailed_quote',
+  });
 };
 
 export const trackLeadValidationFailed = (data: {
