@@ -11,15 +11,15 @@ export const openWhatsApp = (message: string) => {
   window.open(getWhatsAppUrl(message), '_blank', 'noopener,noreferrer');
 };
 
-// Track WhatsApp click — single unified event
+// Track WhatsApp click — single unified event via gtag only
 export const trackWhatsAppClick = (location: string) => {
   console.log('[Analytics] WhatsApp clicked', { location });
 
-  // Fire Google Ads whatsapp_click event (NOT a conversion)
+  // Fire ONLY via gtag (NOT dataLayer.push) to avoid duplicate/stale events
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', 'whatsapp_click', {
-      'event_category': 'engagement',
-      'event_label': 'whatsapp_chat',
+      event_category: 'engagement',
+      event_label: 'whatsapp_chat',
       source: 'whatsapp_cta',
       cta: 'chat_whatsapp',
       location,
@@ -30,16 +30,6 @@ export const trackWhatsAppClick = (location: string) => {
   if (typeof window !== 'undefined' && (window as any).fbq) {
     (window as any).fbq('track', 'Lead', {
       source: 'whatsapp_cta',
-      location,
-    });
-  }
-
-  // Push to dataLayer for GTM
-  if (typeof window !== 'undefined' && (window as any).dataLayer) {
-    (window as any).dataLayer.push({
-      event: 'whatsapp_click',
-      source: 'whatsapp_cta',
-      cta: 'chat_whatsapp',
       location,
     });
   }

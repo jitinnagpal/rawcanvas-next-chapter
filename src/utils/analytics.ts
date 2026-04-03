@@ -6,23 +6,10 @@ type AnalyticsEvent = {
 };
 
 export const trackEvent = (eventName: string, properties?: Record<string, unknown>) => {
-  const event: AnalyticsEvent = {
-    event: eventName,
-    properties,
-  };
-  
   // Log to console for debugging
   console.log('[Analytics]', eventName, properties);
-  
-  // Push to dataLayer for GTM if available
-  if (typeof window !== 'undefined' && (window as any).dataLayer) {
-    (window as any).dataLayer.push({
-      event: eventName,
-      ...properties,
-    });
-  }
 
-  // Fire gtag event if available
+  // Fire ONLY via gtag to avoid duplicate events and dataLayer state leakage
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', eventName, properties);
   }
