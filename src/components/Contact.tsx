@@ -26,6 +26,7 @@ const Contact = () => {
   const [projectType, setProjectType] = useState('');
   const [apartmentSize, setApartmentSize] = useState('');
   const [propertyStatus, setPropertyStatus] = useState('');
+  const [interiorsBudget, setInteriorsBudget] = useState('');
   const [nextStep, setNextStep] = useState('');
   const [consultationDate, setConsultationDate] = useState<Date>();
   const [propertyLocation, setPropertyLocation] = useState('hyderabad');
@@ -772,6 +773,33 @@ const Contact = () => {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="3-6-months" id="3-6-months" />
                         <Label htmlFor="3-6-months">3–6 Months</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                )}
+
+                {/* Interiors Budget */}
+                {projectType && (
+                  <div className="rounded-lg p-2 -m-2">
+                    <Label className="text-sm font-medium text-foreground mb-3 block">
+                      Interiors Budget *
+                    </Label>
+                    <RadioGroup value={interiorsBudget} onValueChange={setInteriorsBudget} className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="15-20-lakhs" id="15-20-lakhs" />
+                        <Label htmlFor="15-20-lakhs">15 – 20 Lakhs</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="20-25-lakhs" id="20-25-lakhs" />
+                        <Label htmlFor="20-25-lakhs">20 – 25 Lakhs</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="25-30-lakhs" id="25-30-lakhs" />
+                        <Label htmlFor="25-30-lakhs">25 – 30 Lakhs</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="40-lakhs-plus" id="40-lakhs-plus" />
+                        <Label htmlFor="40-lakhs-plus">40 Lakhs+</Label>
                       </div>
                     </RadioGroup>
                   </div>
