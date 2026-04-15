@@ -19,7 +19,7 @@ import { calculateEstimate, type EstimateResult, type ScopeOfWork, type Property
 import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked, trackLeadValidationFailed } from '@/utils/analytics';
 import { validatePhone, normalizePhone, shouldShowValidation } from '@/utils/phoneValidation';
 import { validateFullName } from '@/utils/nameValidation';
-import { validateEmail } from '@/utils/emailValidation';
+import { validateEmail as _validateEmail } from '@/utils/emailValidation';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 const Contact = () => {
