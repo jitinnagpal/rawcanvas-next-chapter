@@ -93,16 +93,22 @@ const Hero = () => {
       </div>
 
       {/* Content — Centered */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-8 md:pt-0">
-        <p className="text-sm md:text-base font-heading uppercase tracking-[0.25em] text-primary/90 mb-3">
-          Defining Hyderabad's Modern Opulence
-        </p>
-        <h1 className="text-3xl md:text-5xl font-heading font-bold tracking-tight mb-6 leading-tight text-foreground">
-          Luxury Interiors—Designed Right,
-          <span className="block">Executed Seamlessly</span>
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-8 md:pt-0">
+        {/* Decorative line + tagline */}
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <span className="block w-10 h-px bg-primary/50"></span>
+          <p className="text-xs md:text-sm font-body uppercase tracking-[0.35em] text-primary/80">
+            Defining Hyderabad's Modern Opulence
+          </p>
+          <span className="block w-10 h-px bg-primary/50"></span>
+        </div>
+
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
+          Luxury Interiors — Designed Right,
+          <span className="block italic text-primary">Executed Seamlessly</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-foreground/85 max-w-3xl mx-auto mb-10 leading-relaxed font-body">
+        <p className="text-base md:text-lg text-foreground/60 max-w-2xl mx-auto mb-10 leading-relaxed font-body tracking-wide">
           End-to-end interior design for homes that demand both beauty and precision.
         </p>
 
