@@ -104,7 +104,8 @@ const Hero = () => {
         </div>
 
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
-          Luxury Interiors — Designed Right,
+          <span className="inline">Luxury Interiors —</span>{' '}
+          <span className="inline">Designed Right,</span>
           <span className="block italic text-primary">Executed Seamlessly</span>
         </h1>
         
