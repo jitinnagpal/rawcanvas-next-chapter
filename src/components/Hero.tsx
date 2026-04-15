@@ -80,7 +80,7 @@ const Hero = () => {
       <div className="relative z-10 container-max px-6">
         <div className="max-w-4xl">
           <div className="glass-card p-8 md:p-12">
-            <h1 className="text-5xl md:text-7xl font-heading font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-7xl font-heading font-bold text-white mb-6">
               Transform Your Space
               <span className="block">with <span className="text-gradient">Mokha Designs</span></span>
             </h1>
