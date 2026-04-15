@@ -758,20 +758,20 @@ const Contact = () => {
                 {projectType && (
                   <div ref={statusRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyStatus))}>
                     <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Status of Property *
+                      Property Status *
                     </Label>
                     <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="under-construction" id="under-construction" />
-                        <Label htmlFor="under-construction">Under construction</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="handed-over" id="handed-over" />
-                        <Label htmlFor="handed-over">Handed over (new)</Label>
+                        <Label htmlFor="handed-over">Handed Over</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="renovation" id="renovation" />
-                        <Label htmlFor="renovation">Renovation required</Label>
+                        <RadioGroupItem value="1-3-months" id="1-3-months" />
+                        <Label htmlFor="1-3-months">1–3 Months</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="3-6-months" id="3-6-months" />
+                        <Label htmlFor="3-6-months">3–6 Months</Label>
                       </div>
                     </RadioGroup>
                   </div>
