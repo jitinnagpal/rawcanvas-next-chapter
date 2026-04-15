@@ -136,14 +136,19 @@ const Hero = () => {
 
 
         {/* Trust indicators */}
-        <div className="flex items-center justify-center gap-0 text-foreground/90 text-sm font-heading tracking-[0.25em] uppercase whitespace-nowrap">
-          <span className="block w-8 h-px bg-primary/60"></span>
-          <span className="px-4">Designing</span>
-          <span className="block w-8 h-px bg-primary/60"></span>
-          <span className="px-4">Contracting</span>
-          <span className="block w-8 h-px bg-primary/60"></span>
-          <span className="px-4">Furnishing</span>
-          <span className="block w-8 h-px bg-primary/60"></span>
+        <div className="flex flex-wrap justify-center gap-8 text-foreground/70 text-sm font-heading tracking-wide uppercase">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+            <span>Designing</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+            <span>Contracting</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+            <span>Furnishing</span>
+          </div>
         </div>
       </div>
     </section>
