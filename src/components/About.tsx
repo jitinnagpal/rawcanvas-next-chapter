@@ -9,7 +9,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="section-padding bg-muted/30">
+    <section id="about" className="px-6 pt-6 pb-16 lg:px-12 lg:pt-8 lg:pb-24 bg-muted/30">
       <div className="container-max">
         {/* Stats bar — above heading */}
         <div className="grid grid-cols-3 gap-4 mb-14">
