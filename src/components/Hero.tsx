@@ -134,21 +134,6 @@ const Hero = () => {
           </Button>
         </div>
 
-        {/* Carousel Dots */}
-        <div className="flex justify-center gap-2.5 mb-8">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => api?.scrollTo(index)}
-              className={`rounded-full transition-all duration-500 ${
-                currentSlide === index 
-                  ? 'w-8 h-2 bg-primary' 
-                  : 'w-2 h-2 bg-foreground/30 hover:bg-foreground/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
 
         {/* Trust indicators */}
         <div className="flex flex-wrap justify-center gap-8 text-foreground/70 text-sm font-heading tracking-wide uppercase">
