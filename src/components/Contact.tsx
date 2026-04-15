@@ -28,7 +28,7 @@ const Contact = () => {
   const [propertyStatus, setPropertyStatus] = useState('');
   const [nextStep, setNextStep] = useState('');
   const [consultationDate, setConsultationDate] = useState<Date>();
-  const [propertyLocation, setPropertyLocation] = useState('');
+  const [propertyLocation, setPropertyLocation] = useState('hyderabad');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Intent selection - cost estimate vs consultation
