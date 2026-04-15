@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,8 @@ import diningImage from '@/assets/portfolio-dining.jpg';
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-
-  const categories = ['All', 'Residential', 'Commercial', 'Kitchen', 'Bedroom'];
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const projects = [
     {
@@ -49,6 +49,32 @@ const Portfolio = () => {
         project.category === activeCategory || project.type === activeCategory
       );
 
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollLeft = el.scrollLeft;
+    const cardWidth = el.scrollWidth / filteredProjects.length;
+    setActiveIndex(Math.round(scrollLeft / cardWidth));
+  }, [filteredProjects.length]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [activeCategory]);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.scrollWidth / filteredProjects.length;
+    el.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+  };
+
   return (
     <section id="portfolio" className="section-padding bg-muted/30">
       <div className="container-max">
@@ -60,11 +86,13 @@ const Portfolio = () => {
             Explore our collection of beautifully designed spaces that showcase 
             our expertise in creating functional and aesthetically pleasing interiors.
           </p>
-
         </div>
 
         {/* Project Grid */}
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
+        <div
+          ref={scrollRef}
+          className="flex md:grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide"
+        >
           {filteredProjects.map((project) => (
             <div key={project.id} className="elegant-card group p-0 overflow-hidden min-w-[85vw] md:min-w-0 snap-center">
               <div className="relative overflow-hidden">
@@ -108,6 +136,22 @@ const Portfolio = () => {
           ))}
         </div>
 
+        {/* Carousel dots - mobile only */}
+        <div className="flex justify-center gap-2.5 mt-6 md:hidden">
+          {filteredProjects.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={`rounded-full transition-all duration-500 ${
+                activeIndex === index
+                  ? 'w-8 h-2 bg-primary'
+                  : 'w-2 h-2 bg-foreground/30 hover:bg-foreground/50'
+              }`}
+              aria-label={`Go to project ${index + 1}`}
+            />
+          ))}
+        </div>
+
         {/* Download Brochure Button */}
         <div className="text-center mt-12">
           <Button 
@@ -118,7 +162,6 @@ const Portfolio = () => {
             Download Brochure
           </Button>
         </div>
-
       </div>
     </section>
   );

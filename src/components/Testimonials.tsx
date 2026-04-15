@@ -2,8 +2,12 @@ import { Star, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 const Testimonials = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const testimonials = [
     {
       id: 1,
@@ -61,6 +65,28 @@ const Testimonials = () => {
     }
   ];
 
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollLeft = el.scrollLeft;
+    const cardWidth = el.scrollWidth / testimonials.length;
+    setActiveIndex(Math.round(scrollLeft / cardWidth));
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.scrollWidth / testimonials.length;
+    el.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+  };
+
   const renderStars = (rating: number) => {
     return [...Array(5)].map((_, index) => (
       <Star
@@ -85,7 +111,10 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
+        <div
+          ref={scrollRef}
+          className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide"
+        >
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="elegant-card min-w-[85vw] md:min-w-0 snap-center">
               <div className="mb-6">
@@ -114,6 +143,22 @@ const Testimonials = () => {
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Carousel dots - mobile only */}
+        <div className="flex justify-center gap-2.5 mt-6 md:hidden">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={`rounded-full transition-all duration-500 ${
+                activeIndex === index
+                  ? 'w-8 h-2 bg-primary'
+                  : 'w-2 h-2 bg-foreground/30 hover:bg-foreground/50'
+              }`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
           ))}
         </div>
 
