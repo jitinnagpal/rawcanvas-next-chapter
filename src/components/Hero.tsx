@@ -94,9 +94,12 @@ const Hero = () => {
 
       {/* Content — Centered */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-8 md:pt-0">
-        <h1 className="text-5xl md:text-7xl font-heading font-bold tracking-tight mb-6 leading-tight">
-          <span className="text-primary">Defining Hyderabad's</span>
-          <span className="block text-foreground">Modern Opulence</span>
+        <p className="text-sm md:text-base font-heading uppercase tracking-[0.25em] text-primary/90 mb-3">
+          Defining Hyderabad's Modern Opulence
+        </p>
+        <h1 className="text-3xl md:text-5xl font-heading font-bold tracking-tight mb-6 leading-tight text-foreground">
+          Luxury Interiors—Designed Right,
+          <span className="block">Executed Seamlessly</span>
         </h1>
         
         <p className="text-lg md:text-xl text-foreground/85 max-w-3xl mx-auto mb-10 leading-relaxed font-body">
