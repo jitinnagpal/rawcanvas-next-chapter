@@ -95,7 +95,7 @@ const Hero = () => {
       {/* Content — Centered */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-8 md:pt-0">
         {/* Decorative line + tagline */}
-        <div className="flex items-center justify-center gap-4 mb-8 md:mb-10">
+        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
           <span className="block w-12 h-px bg-primary/60"></span>
           <p className="text-[11px] md:text-sm font-heading tracking-[0.3em] text-foreground/90 uppercase">
             Defining Hyderabad's Modern Opulence
