@@ -261,3 +261,13 @@ All colors MUST be HSL.
     color: hsl(var(--whatsapp-hover));
   }
 }
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

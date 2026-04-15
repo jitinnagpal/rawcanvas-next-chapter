@@ -85,9 +85,9 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
           {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="elegant-card">
+            <div key={testimonial.id} className="elegant-card min-w-[85vw] md:min-w-0 snap-center">
               <div className="mb-6">
                 <Quote className="w-8 h-8 text-primary/30 mb-4" />
                 <p className="text-muted-foreground leading-relaxed mb-6">
