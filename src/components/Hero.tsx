@@ -114,7 +114,7 @@ const Hero = () => {
           <Button 
             size="lg" 
             variant="outline"
-            className="cta-secondary-btn-dark px-8 py-4 text-[13px] rounded-lg font-heading font-medium uppercase tracking-[0.15em]"
+            className="cta-secondary-btn-dark px-8 py-4 text-[15px] rounded-lg font-body font-semibold tracking-wide"
             onClick={handleEstimateCostClick}
           >
             Book a Design Consultation
@@ -122,7 +122,7 @@ const Hero = () => {
 
           <Button 
             size="lg" 
-            className={`cta-primary-btn px-8 py-4 text-[13px] rounded-lg font-heading font-medium uppercase tracking-[0.15em] ${showPulse ? 'animate-pulse-glow' : ''}`}
+            className={`cta-primary-btn px-8 py-4 text-[15px] rounded-lg font-body font-semibold tracking-wide ${showPulse ? 'animate-pulse-glow' : ''}`}
             onClick={handleWhatsApp}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
