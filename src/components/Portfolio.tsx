@@ -64,9 +64,9 @@ const Portfolio = () => {
         </div>
 
         {/* Project Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
           {filteredProjects.map((project) => (
-            <div key={project.id} className="elegant-card group p-0 overflow-hidden">
+            <div key={project.id} className="elegant-card group p-0 overflow-hidden min-w-[85vw] md:min-w-0 snap-center">
               <div className="relative overflow-hidden">
                 <img
                   src={project.image}

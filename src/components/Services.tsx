@@ -52,9 +52,9 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
           {services.map((service, index) => (
-            <div key={index} className="elegant-card group">
+            <div key={index} className="elegant-card group min-w-[85vw] md:min-w-0 snap-center">
               <div className="mb-6">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-xl mb-4 group-hover:bg-primary/20 transition-colors">
                   <service.icon className="w-8 h-8 text-primary" />
