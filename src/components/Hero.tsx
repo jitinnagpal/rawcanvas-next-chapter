@@ -77,7 +77,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-max px-6">
+      <div className="relative z-10 container-max px-6 pt-6 md:pt-0">
         <div className="max-w-4xl">
           <div className="glass-card p-8 md:p-12">
             <h1 className="text-4xl md:text-7xl font-heading font-bold text-white mb-6">
