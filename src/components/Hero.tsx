@@ -79,7 +79,7 @@ const Hero = () => {
                     alt={`Interior design showcase ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-[8000ms] ease-out"
                     style={{ 
-                      filter: 'brightness(0.5) contrast(1.15)',
+                      filter: 'brightness(0.35) contrast(1.1)',
                       transform: currentSlide === index ? 'scale(1.08)' : 'scale(1)',
                     }}
                   />
@@ -88,34 +88,32 @@ const Hero = () => {
             ))}
           </CarouselContent>
         </Carousel>
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50"></div>
+        {/* Gradient overlays for readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/60"></div>
       </div>
 
-      {/* Content — Centered */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-8 md:pt-0">
-        {/* Decorative line + tagline */}
-        <div className="flex items-center justify-center gap-4 mb-10 md:mb-14">
-          <span className="block w-12 h-px bg-primary/60"></span>
-          <p className="text-[11px] md:text-sm font-heading tracking-[0.3em] text-foreground/90 uppercase">
-            Defining Hyderabad's Modern Opulence
-          </p>
-          <span className="block w-12 h-px bg-primary/60"></span>
-        </div>
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-xl mx-auto">
+        {/* Tagline */}
+        <p className="text-[10px] md:text-xs tracking-[0.35em] text-foreground/70 uppercase font-heading mb-12 md:mb-16">
+          Defining Hyderabad's Modern Opulence
+        </p>
 
-        <h1 className="text-[1.55rem] md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
-          <span className="whitespace-nowrap">Luxury Interiors — Designed Right,</span>
-          <span className="block italic text-primary">Executed Seamlessly</span>
+        {/* Headline */}
+        <h1 className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-body font-medium tracking-tight leading-[1.2] mb-5 text-foreground">
+          Luxury Interiors — Designed Right, Executed Seamlessly
         </h1>
         
-        <p className="text-base md:text-lg text-foreground/60 max-w-2xl mx-auto mb-10 leading-relaxed font-body tracking-wide">
+        {/* Subtext */}
+        <p className="text-sm md:text-lg text-foreground/60 max-w-md mx-auto mb-10 leading-relaxed font-body">
           End-to-end interior design for homes that demand both beauty and precision.
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+        {/* CTAs */}
+        <div className="flex flex-col gap-3 max-w-xs mx-auto mb-12">
           <Button 
             size="lg" 
-            className={`cta-primary-btn px-10 py-4 text-base rounded-full ${showPulse ? 'animate-pulse-glow' : ''}`}
+            className={`cta-primary-btn px-8 py-4 text-sm rounded-lg ${showPulse ? 'animate-pulse-glow' : ''}`}
             onClick={handleWhatsApp}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
@@ -125,7 +123,7 @@ const Hero = () => {
           <Button 
             size="lg" 
             variant="outline"
-            className="cta-secondary-btn-dark px-10 py-4 text-base rounded-full"
+            className="cta-secondary-btn-dark px-8 py-4 text-sm rounded-lg"
             onClick={handleEstimateCostClick}
           >
             <Calculator className="w-5 h-5 mr-2" />
@@ -133,20 +131,19 @@ const Hero = () => {
           </Button>
         </div>
 
-
         {/* Trust indicators */}
-        <div className="flex flex-wrap justify-center gap-8 text-foreground/70 text-sm font-heading tracking-wide uppercase">
+        <div className="flex justify-center items-center gap-6 pt-8 border-t border-foreground/10">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span>Designing</span>
+            <span className="text-xs text-foreground/50 font-heading tracking-wide">Designing</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span>Contracting</span>
+            <span className="text-xs text-foreground/50 font-heading tracking-wide">Contracting</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span>Furnishing</span>
+            <span className="text-xs text-foreground/50 font-heading tracking-wide">Furnishing</span>
           </div>
         </div>
       </div>
