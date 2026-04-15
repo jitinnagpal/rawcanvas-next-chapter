@@ -562,7 +562,7 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Form - First column for priority visibility */}
-          <div className="elegant-card">
+          <div className="elegant-card font-sans">
             {/* Intent Selection Toggle */}
             <div className="mb-6">
               <div className="flex rounded-lg bg-muted p-1 gap-1">
