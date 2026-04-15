@@ -1,4 +1,4 @@
-import { Award, Users, Home, Briefcase } from 'lucide-react';
+import { Award, Users, Home } from 'lucide-react';
 import prernaProfile from '@/assets/prerna-profile.jpg';
 
 const About = () => {
@@ -6,7 +6,6 @@ const About = () => {
     { icon: Home, number: '200+', label: 'Projects Completed' },
     { icon: Users, number: '150+', label: 'Happy Clients' },
     { icon: Award, number: '20+', label: 'Years Experience' },
-    { icon: Briefcase, number: '3', label: 'Services Offered' }
   ];
 
   return (
@@ -35,7 +34,7 @@ const About = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-3 gap-4">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-3">
