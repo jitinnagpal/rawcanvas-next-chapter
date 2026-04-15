@@ -165,7 +165,8 @@ const Contact = () => {
 
   // Handle phone input change with inline validation
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    // Allow only numeric characters, max 10 digits
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
     setPhoneValue(value);
     
     // Show validation after 4+ digits or if already touched
@@ -656,20 +657,23 @@ const Contact = () => {
                   <Label htmlFor="phone" className="text-sm font-medium text-foreground">
                     Phone Number *
                   </Label>
-                  <Input 
-                    id="phone"
-                    name="phone"
-                    type="tel" 
-                    placeholder={propertyLocation === 'dubai' ? 'Your phone number' : '+91 Your phone number'}
-                    className={cn(
-                      "bg-background border-border mt-2",
-                      phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
-                    )}
-                    value={phoneValue}
-                    onChange={handlePhoneChange}
-                    onBlur={handlePhoneBlur}
-                    required
-                  />
+                    <Input 
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={10}
+                      placeholder="10-digit mobile number"
+                      className={cn(
+                        "bg-background border-border mt-2",
+                        phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
+                      )}
+                      value={phoneValue}
+                      onChange={handlePhoneChange}
+                      onBlur={handlePhoneBlur}
+                      required
+                    />
                   {phoneError && phoneTouched && (
                     <p className="text-sm text-destructive mt-1">{phoneError}</p>
                   )}
