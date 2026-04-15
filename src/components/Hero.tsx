@@ -103,9 +103,8 @@ const Hero = () => {
           <span className="block w-12 h-px bg-primary/60"></span>
         </div>
 
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
-          <span className="inline">Luxury Interiors —</span>{' '}
-          <span className="inline">Designed Right,</span>
+        <h1 className="text-[1.55rem] md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
+          <span className="whitespace-nowrap">Luxury Interiors — Designed Right,</span>
           <span className="block italic text-primary">Executed Seamlessly</span>
         </h1>
         
