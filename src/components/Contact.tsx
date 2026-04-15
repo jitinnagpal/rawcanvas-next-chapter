@@ -652,59 +652,27 @@ const Contact = () => {
                   )}
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-                      Phone Number *
-                    </Label>
-                    <Input 
-                      id="phone"
-                      name="phone"
-                      type="tel" 
-                      placeholder={propertyLocation === 'dubai' ? 'Your phone number' : '+91 Your phone number'}
-                      className={cn(
-                        "bg-background border-border mt-2",
-                        phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
-                      )}
-                      value={phoneValue}
-                      onChange={handlePhoneChange}
-                      onBlur={handlePhoneBlur}
-                      required
-                    />
-                    {phoneError && phoneTouched && (
-                      <p className="text-sm text-destructive mt-1">{phoneError}</p>
+                <div>
+                  <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+                    Phone Number *
+                  </Label>
+                  <Input 
+                    id="phone"
+                    name="phone"
+                    type="tel" 
+                    placeholder={propertyLocation === 'dubai' ? 'Your phone number' : '+91 Your phone number'}
+                    className={cn(
+                      "bg-background border-border mt-2",
+                      phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
                     )}
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-sm font-medium text-foreground">
-                      Email Address
-                    </Label>
-                    <Input 
-                      id="email"
-                      name="email"
-                      type="email" 
-                      placeholder="your@email.com"
-                      className={cn(
-                        "bg-background border-border mt-2",
-                        emailError && emailTouched && "border-destructive focus-visible:ring-destructive"
-                      )}
-                      value={emailValue}
-                      onChange={handleEmailChange}
-                      onBlur={handleEmailBlur}
-                    />
-                    {emailError && emailTouched && (
-                      <p className="text-sm text-destructive mt-1">{emailError}</p>
-                    )}
-                    {emailWarning && !emailError && emailTouched && (
-                      <button
-                        type="button"
-                        onClick={applyEmailSuggestion}
-                        className="text-sm text-amber-600 mt-1 hover:underline cursor-pointer"
-                      >
-                        {emailWarning.message}
-                      </button>
-                    )}
-                  </div>
+                    value={phoneValue}
+                    onChange={handlePhoneChange}
+                    onBlur={handlePhoneBlur}
+                    required
+                  />
+                  {phoneError && phoneTouched && (
+                    <p className="text-sm text-destructive mt-1">{phoneError}</p>
+                  )}
                 </div>
 
                 <div ref={locationRef} className={cn("rounded-lg", getMissingFieldClass(propertyLocation))}>
@@ -737,10 +705,6 @@ const Contact = () => {
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="residential" id="residential" />
                       <Label htmlFor="residential">Residential</Label>
-                    </div>
-                    <div className="flex items-center space-x-2 opacity-50">
-                      <RadioGroupItem value="commercial" id="commercial" disabled />
-                      <Label htmlFor="commercial" className="cursor-not-allowed">Commercial <span className="text-xs text-muted-foreground">(Coming Soon)</span></Label>
                     </div>
                   </RadioGroup>
                 </div>
