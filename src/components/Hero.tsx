@@ -113,7 +113,7 @@ const Hero = () => {
         <div className="flex flex-col gap-3 max-w-xs mx-auto mb-12">
           <Button 
             size="lg" 
-            className={`cta-primary-btn px-8 py-4 text-sm rounded-lg ${showPulse ? 'animate-pulse-glow' : ''}`}
+            className={`cta-primary-btn px-8 py-4 text-[15px] rounded-lg font-body font-semibold tracking-wide ${showPulse ? 'animate-pulse-glow' : ''}`}
             onClick={handleWhatsApp}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
@@ -123,7 +123,7 @@ const Hero = () => {
           <Button 
             size="lg" 
             variant="outline"
-            className="cta-secondary-btn-dark px-8 py-4 text-sm rounded-lg"
+            className="cta-secondary-btn-dark px-8 py-4 text-[15px] rounded-lg font-body font-semibold tracking-wide"
             onClick={handleEstimateCostClick}
           >
             Book a Design Consultation
