@@ -96,11 +96,11 @@ const Hero = () => {
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-8 md:pt-0">
         {/* Decorative line + tagline */}
         <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="block w-10 h-px bg-primary/50"></span>
-          <p className="text-xs md:text-sm font-body uppercase tracking-[0.35em] text-primary/80">
+          <span className="block w-12 h-px bg-primary/60"></span>
+          <p className="text-[11px] md:text-sm font-heading tracking-[0.3em] text-foreground/90 uppercase">
             Defining Hyderabad's Modern Opulence
           </p>
-          <span className="block w-10 h-px bg-primary/50"></span>
+          <span className="block w-12 h-px bg-primary/60"></span>
         </div>
 
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-normal tracking-tight mb-5 leading-[1.15] text-foreground">
