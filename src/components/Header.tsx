@@ -67,7 +67,7 @@ const Header = () => {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-heading text-sm uppercase tracking-widest"
               >
                 {item.label}
               </a>
@@ -78,26 +78,26 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-3">
             <Button 
               size="sm" 
-              className="cta-primary-btn"
+              className="cta-primary-btn rounded-full"
               onClick={handleWhatsApp}
             >
               <WhatsAppIcon className="w-4 h-4" withBubble />
-              Chat on WhatsApp
+              WhatsApp Us
             </Button>
-              <Button 
+            <Button 
               size="sm" 
               variant="outline"
-                className={isScrolled ? 'cta-secondary-btn' : 'cta-secondary-btn-dark'}
+              className="cta-secondary-btn rounded-full"
               onClick={handleEstimateCostClick}
             >
               <Calculator className="w-4 h-4 mr-2" />
-              Get a Quick Estimate
+              Get Estimate
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -113,7 +113,7 @@ const Header = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="block text-foreground hover:text-primary transition-colors font-medium"
+                  className="block text-foreground/80 hover:text-primary transition-colors font-heading text-sm uppercase tracking-widest"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -122,20 +122,20 @@ const Header = () => {
               <div className="flex flex-col gap-2 mt-4">
                 <Button 
                   size="sm" 
-                  className="w-full cta-primary-btn"
+                  className="w-full cta-primary-btn rounded-full"
                   onClick={handleWhatsApp}
                 >
                   <WhatsAppIcon className="w-4 h-4" withBubble />
-                  Chat on WhatsApp
+                  WhatsApp Us
                 </Button>
                 <Button 
                   size="sm" 
                   variant="outline"
-                  className="w-full cta-secondary-btn"
+                  className="w-full cta-secondary-btn rounded-full"
                   onClick={handleEstimateCostClick}
                 >
                   <Calculator className="w-4 h-4 mr-2" />
-                  Get a Quick Estimate
+                  Get Estimate
                 </Button>
               </div>
             </div>

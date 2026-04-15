@@ -18,7 +18,7 @@ const FloatingWhatsApp = () => {
       onClick={() =>
         handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'floating')
       }
-      className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center border border-whatsapp bg-transparent transition-all hover:scale-110 ${
+      className={`fixed bottom-20 md:bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center border border-whatsapp bg-transparent transition-all hover:scale-110 ${
         pulse ? 'animate-pulse' : ''
       }`}
       style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'border-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out' }}

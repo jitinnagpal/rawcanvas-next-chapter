@@ -2,37 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Mokha Designs Design System
-Sophisticated interior design aesthetic with warm earth tones and gold accents
-All colors MUST be HSL.
+/* Mokha Designs Design System — Gallery Opulence
+   Dark, dramatic luxury aesthetic with warm gold accents.
+   All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    /* Core Brand Colors */
-    --background: 46 12% 97%;
-    --foreground: 28 25% 15%;
+    /* Core — Dark luxurious background */
+    --background: 0 0% 10%;
+    --foreground: 40 20% 95%;
 
-    --card: 46 12% 97%;
-    --card-foreground: 28 25% 15%;
+    --card: 28 25% 12%;
+    --card-foreground: 40 20% 95%;
 
-    --popover: 46 8% 95%;
-    --popover-foreground: 28 25% 15%;
+    --popover: 28 25% 14%;
+    --popover-foreground: 40 20% 95%;
 
-    /* Primary - Warm Gold */
-    --primary: 42 88% 55%;
-    --primary-foreground: 46 12% 97%;
-    --primary-muted: 42 45% 85%;
+    /* Primary — Warm Gold */
+    --primary: 42 68% 55%;
+    --primary-foreground: 28 25% 10%;
+    --primary-muted: 42 30% 25%;
 
-    /* Secondary - Rich Brown */
-    --secondary: 28 25% 25%;
-    --secondary-foreground: 46 12% 97%;
-    --secondary-light: 28 15% 45%;
+    /* Secondary — Rich Brown */
+    --secondary: 28 25% 22%;
+    --secondary-foreground: 40 20% 95%;
+    --secondary-light: 28 15% 40%;
 
-    /* Accent - Warm Gray */
-    --accent: 30 8% 88%;
-    --accent-foreground: 28 25% 15%;
-    --accent-dark: 30 8% 75%;
+    /* Accent — Translucent warm */
+    --accent: 28 20% 18%;
+    --accent-foreground: 40 20% 95%;
+    --accent-dark: 28 20% 14%;
 
     /* WhatsApp accent */
     --whatsapp: 142 70% 49%;
@@ -40,96 +40,45 @@ All colors MUST be HSL.
     --whatsapp-hover: 142 70% 44%;
 
     /* Muted Tones */
-    --muted: 30 8% 92%;
-    --muted-foreground: 28 15% 55%;
+    --muted: 28 10% 16%;
+    --muted-foreground: 40 10% 65%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 46 12% 97%;
+    --destructive-foreground: 40 20% 95%;
 
-    --border: 30 8% 85%;
-    --input: 30 8% 92%;
-    --ring: 42 88% 55%;
+    --border: 28 15% 22%;
+    --input: 28 15% 18%;
+    --ring: 42 68% 55%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-muted)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--secondary) / 0.9), hsl(var(--primary) / 0.8));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(42 50% 70%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 0% / 0.5), hsl(0 0% 0% / 0.7));
     --gradient-section: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
 
     /* Shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--secondary) / 0.2);
-    --shadow-card: 0 4px 20px -4px hsl(var(--secondary) / 0.1);
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.2);
 
     /* Typography */
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Josefin Sans', sans-serif;
+    --font-body: 'Playfair Display', serif;
 
     /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    /* Sidebar (keeping existing) */
-    --sidebar-background: 46 8% 95%;
-    --sidebar-foreground: 28 25% 15%;
-    --sidebar-primary: 28 25% 25%;
-    --sidebar-primary-foreground: 46 12% 97%;
-    --sidebar-accent: 30 8% 88%;
-    --sidebar-accent-foreground: 28 25% 15%;
-    --sidebar-border: 30 8% 85%;
-    --sidebar-ring: 42 88% 55%;
-  }
-
-  .dark {
-    /* Dark mode with sophisticated interior design feel */
-    --background: 28 25% 8%;
-    --foreground: 46 12% 95%;
-
-    --card: 28 25% 10%;
-    --card-foreground: 46 12% 95%;
-
-    --popover: 28 25% 12%;
-    --popover-foreground: 46 12% 95%;
-
-    --primary: 42 88% 65%;
-    --primary-foreground: 28 25% 8%;
-    --primary-muted: 42 45% 25%;
-
-    --secondary: 46 12% 85%;
-    --secondary-foreground: 28 25% 8%;
-    --secondary-light: 46 8% 65%;
-
-    --accent: 30 8% 20%;
-    --accent-foreground: 46 12% 95%;
-    --accent-dark: 30 8% 15%;
-
-    --whatsapp: 142 70% 49%;
-    --whatsapp-foreground: 142 70% 49%;
-    --whatsapp-hover: 142 70% 44%;
-
-    --muted: 30 8% 15%;
-    --muted-foreground: 46 8% 65%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 46 12% 95%;
-
-    --border: 30 8% 20%;
-    --input: 30 8% 15%;
-    --ring: 42 88% 65%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background) / 0.9), hsl(var(--primary) / 0.2));
-    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
-
+    /* Sidebar */
     --sidebar-background: 28 25% 10%;
-    --sidebar-foreground: 46 12% 95%;
-    --sidebar-primary: 42 88% 65%;
-    --sidebar-primary-foreground: 28 25% 8%;
-    --sidebar-accent: 30 8% 20%;
-    --sidebar-accent-foreground: 46 12% 95%;
-    --sidebar-border: 30 8% 20%;
-    --sidebar-ring: 42 88% 65%;
+    --sidebar-foreground: 40 20% 95%;
+    --sidebar-primary: 42 68% 55%;
+    --sidebar-primary-foreground: 28 25% 10%;
+    --sidebar-accent: 28 20% 18%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 28 15% 22%;
+    --sidebar-ring: 42 68% 55%;
   }
 }
 
@@ -150,7 +99,6 @@ All colors MUST be HSL.
 @layer components {
   .hero-section {
     @apply relative min-h-screen flex items-center justify-center overflow-hidden;
-    background: var(--gradient-hero);
   }
 
   .section-padding {
@@ -169,19 +117,24 @@ All colors MUST be HSL.
   }
 
   .glass-card {
-    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-xl;
+    @apply backdrop-blur-md rounded-2xl;
+    background: hsl(28 25% 15% / 0.3);
+    border: 1px solid hsl(var(--primary) / 0.4);
     box-shadow: var(--shadow-card);
   }
 
   .elegant-card {
-    @apply bg-card border border-border rounded-xl p-8;
-    box-shadow: var(--shadow-elegant);
+    @apply rounded-2xl p-8;
+    background: hsl(28 25% 15% / 0.3);
+    border: 1px solid hsl(var(--primary) / 0.25);
+    backdrop-filter: blur(10px);
     transition: var(--transition-smooth);
   }
 
   .elegant-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 20px 40px hsl(0 0% 0% / 0.4);
+    border-color: hsl(var(--primary) / 0.5);
   }
 
   /* Pulse glow animation for primary CTA */
@@ -199,44 +152,45 @@ All colors MUST be HSL.
   }
 
   .cta-primary-btn {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90;
-    box-shadow: 0 10px 24px hsl(var(--secondary) / 0.18);
-    transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 font-heading font-semibold;
+    box-shadow: 0 10px 24px hsl(var(--primary) / 0.3);
+    transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 300ms ease;
   }
 
   .cta-primary-btn:hover {
-    box-shadow: 0 14px 28px hsl(var(--secondary) / 0.22);
+    box-shadow: 0 14px 28px hsl(var(--primary) / 0.4);
+    transform: translateY(-2px);
   }
 
   .cta-secondary-btn {
-    @apply border bg-background/90 backdrop-blur-sm;
-    border-color: hsl(var(--primary) / 0.42) !important;
+    @apply border backdrop-blur-sm font-heading font-semibold;
+    border-color: hsl(var(--primary) / 0.5) !important;
     color: hsl(var(--primary)) !important;
-    box-shadow: 0 4px 14px hsl(var(--primary) / 0.08);
-    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+    background: transparent !important;
+    box-shadow: 0 4px 14px hsl(0 0% 0% / 0.2);
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 300ms ease;
   }
 
   .cta-secondary-btn:hover {
-    background-color: hsl(var(--primary) / 0.08) !important;
-    border-color: hsl(var(--primary) / 0.62) !important;
+    background-color: hsl(var(--primary) / 0.1) !important;
+    border-color: hsl(var(--primary) / 0.7) !important;
     color: hsl(var(--primary)) !important;
-    box-shadow: 0 8px 20px hsl(var(--primary) / 0.14);
+    box-shadow: 0 8px 20px hsl(var(--primary) / 0.2);
+    transform: translateY(-2px);
   }
 
   .cta-secondary-btn-dark {
-    @apply border backdrop-blur-sm;
-    background-color: hsl(var(--secondary) / 0.28) !important;
-    border-color: hsl(var(--accent) / 0.35) !important;
-    color: hsl(var(--primary-foreground)) !important;
-    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.12);
-    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+    @apply border backdrop-blur-sm font-heading font-semibold;
+    border-color: hsl(var(--primary) / 0.5) !important;
+    color: hsl(var(--foreground)) !important;
+    background: transparent !important;
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 300ms ease;
   }
 
   .cta-secondary-btn-dark:hover {
-    background-color: hsl(var(--secondary) / 0.36) !important;
-    border-color: hsl(var(--accent) / 0.5) !important;
-    color: hsl(var(--primary-foreground)) !important;
-    box-shadow: 0 8px 18px hsl(0 0% 0% / 0.16);
+    background-color: hsl(var(--primary) / 0.1) !important;
+    border-color: hsl(var(--primary) / 0.7) !important;
+    color: hsl(var(--foreground)) !important;
   }
 
   .whatsapp-outline-btn {
@@ -259,6 +213,11 @@ All colors MUST be HSL.
 
   .whatsapp-inline-link:hover {
     color: hsl(var(--whatsapp-hover));
+  }
+
+  /* Sticky mobile CTA bar */
+  .sticky-cta-bar {
+    background: linear-gradient(90deg, hsl(var(--secondary)), hsl(var(--primary)));
   }
 }
 

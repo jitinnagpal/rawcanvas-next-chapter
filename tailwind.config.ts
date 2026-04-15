@@ -18,9 +18,9 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				heading: ['Playfair Display', 'serif'],
-				body: ['Inter', 'sans-serif'],
+		fontFamily: {
+				heading: ['Josefin Sans', 'sans-serif'],
+				body: ['Playfair Display', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
