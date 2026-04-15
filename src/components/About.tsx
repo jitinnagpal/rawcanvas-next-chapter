@@ -11,6 +11,22 @@ const About = () => {
   return (
     <section id="about" className="section-padding bg-muted/30">
       <div className="container-max">
+        {/* Stats bar — above heading */}
+        <div className="grid grid-cols-3 gap-4 mb-14">
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center py-6 px-2 rounded-2xl bg-secondary/60 border border-border/60"
+            >
+              <div className="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-3">
+                <stat.icon className="w-6 h-6 text-primary" />
+              </div>
+              <div className="text-2xl md:text-3xl font-heading font-bold text-foreground tracking-tight">{stat.number}</div>
+              <div className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div>
@@ -25,25 +41,12 @@ const About = () => {
               design and execution.
             </p>
 
-            <div className="bg-card rounded-xl p-6 mb-8 border border-border">
+            <div className="bg-card rounded-xl p-6 border border-border">
               <h3 className="text-xl font-heading font-semibold text-foreground mb-4">Our Mission</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Our focus is to create aesthetic design solutions that complement the 
                 space usability, thereby enhancing its functionality with attractive layouts.
               </p>
-            </div>
-
-            {/* Stats — below Our Mission */}
-            <div className="grid grid-cols-3 gap-4">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-3">
-                    <stat.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div className="text-2xl font-heading font-bold text-foreground">{stat.number}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
-              ))}
             </div>
           </div>
 
