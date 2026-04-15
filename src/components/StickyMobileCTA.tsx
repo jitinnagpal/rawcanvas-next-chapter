@@ -30,7 +30,7 @@ const StickyMobileCTA = () => {
           className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background font-heading font-semibold py-3 px-4 rounded-full text-sm"
         >
           <Calculator className="w-4 h-4" />
-          Get Estimate
+          Book a Design Call
         </button>
       </div>
     </div>
