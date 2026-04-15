@@ -140,7 +140,7 @@ const Services = () => {
             onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'services')}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
-            Chat on WhatsApp
+            Let's Talk
           </Button>
           <Button 
             size="lg" 
