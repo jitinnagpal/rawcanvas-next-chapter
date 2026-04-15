@@ -33,7 +33,7 @@ const About = () => {
               </p>
             </div>
 
-            {/* Stats */}
+            {/* Stats — below Our Mission */}
             <div className="grid grid-cols-3 gap-4">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
