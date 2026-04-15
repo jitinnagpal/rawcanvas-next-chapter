@@ -23,7 +23,7 @@ const StickyMobileCTA = () => {
           className="flex-1 flex items-center justify-center gap-2 bg-background/90 text-foreground font-heading font-semibold py-3 px-4 rounded-full text-sm"
         >
           <WhatsAppIcon className="w-4 h-4" />
-          WhatsApp
+          Let's Talk
         </button>
         <button
           onClick={handleEstimate}

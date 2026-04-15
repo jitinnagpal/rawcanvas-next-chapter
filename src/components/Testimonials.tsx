@@ -173,7 +173,7 @@ const Testimonials = () => {
             onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'testimonial')}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
-            Chat on WhatsApp
+            Let's Talk
           </Button>
         </div>
 

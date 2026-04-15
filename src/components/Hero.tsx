@@ -126,7 +126,7 @@ const Hero = () => {
             onClick={handleWhatsApp}
           >
             <WhatsAppIcon className="w-5 h-5" withBubble />
-            WhatsApp Us
+            Let's Talk
           </Button>
         </div>
 

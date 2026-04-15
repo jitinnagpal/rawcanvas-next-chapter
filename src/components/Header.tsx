@@ -82,7 +82,7 @@ const Header = () => {
               onClick={handleWhatsApp}
             >
               <WhatsAppIcon className="w-4 h-4" withBubble />
-              WhatsApp Us
+              Let's Talk
             </Button>
             <Button 
               size="sm" 
@@ -126,7 +126,7 @@ const Header = () => {
                   onClick={handleWhatsApp}
                 >
                   <WhatsAppIcon className="w-4 h-4" withBubble />
-                  WhatsApp Us
+                  Let's Talk
                 </Button>
                 <Button 
                   size="sm" 
