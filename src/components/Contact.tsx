@@ -165,7 +165,8 @@ const Contact = () => {
 
   // Handle phone input change with inline validation
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    // Allow only numeric characters, max 10 digits
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
     setPhoneValue(value);
     
     // Show validation after 4+ digits or if already touched
