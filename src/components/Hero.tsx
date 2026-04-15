@@ -135,15 +135,15 @@ const Hero = () => {
         <div className="flex justify-center items-center gap-6 pt-8 border-t border-foreground/10">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span className="text-xs text-foreground/50 font-heading tracking-wide">Designing</span>
+            <span className="text-sm text-foreground/50 font-heading tracking-wide">Designing</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span className="text-xs text-foreground/50 font-heading tracking-wide">Contracting</span>
+            <span className="text-sm text-foreground/50 font-heading tracking-wide">Contracting</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-            <span className="text-xs text-foreground/50 font-heading tracking-wide">Furnishing</span>
+            <span className="text-sm text-foreground/50 font-heading tracking-wide">Furnishing</span>
           </div>
         </div>
       </div>
