@@ -1,8 +1,8 @@
 import { Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { trackEstimateCostClicked } from '@/utils/analytics';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
@@ -14,6 +14,8 @@ const Hero = () => {
   );
   const { setEntryMode } = useEntryMode();
   const [showPulse, setShowPulse] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
 
   const images = [
     '/images/hero-new-1.jpg',
@@ -27,6 +29,18 @@ const Hero = () => {
     const timer = setTimeout(() => setShowPulse(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  const onSelect = useCallback(() => {
+    if (!api) return;
+    setCurrentSlide(api.selectedScrollSnap());
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+    onSelect();
+    api.on('select', onSelect);
+    return () => { api.off('select', onSelect); };
+  }, [api, onSelect]);
 
   const handleEstimateCostClick = () => {
     setEntryMode('estimate');
@@ -54,16 +68,20 @@ const Hero = () => {
           className="w-full h-full" 
           opts={{ loop: true }}
           plugins={[plugin.current]}
+          setApi={setApi}
         >
           <CarouselContent>
             {images.map((image, index) => (
               <CarouselItem key={index} className="h-full">
-                <div className="w-full h-full">
+                <div className="w-full h-full overflow-hidden">
                   <img
                     src={image}
                     alt={`Interior design showcase ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    style={{ filter: 'brightness(0.55) contrast(1.15)' }}
+                    className="w-full h-full object-cover transition-transform duration-[8000ms] ease-out"
+                    style={{ 
+                      filter: 'brightness(0.5) contrast(1.15)',
+                      transform: currentSlide === index ? 'scale(1.08)' : 'scale(1)',
+                    }}
                   />
                 </div>
               </CarouselItem>
@@ -87,7 +105,6 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
-          {/* Primary CTA - WhatsApp */}
           <Button 
             size="lg" 
             className={`cta-primary-btn px-10 py-4 text-base rounded-full ${showPulse ? 'animate-pulse-glow' : ''}`}
@@ -97,7 +114,6 @@ const Hero = () => {
             WhatsApp Us
           </Button>
           
-          {/* Secondary CTA - Estimate */}
           <Button 
             size="lg" 
             variant="outline"
@@ -107,6 +123,22 @@ const Hero = () => {
             <Calculator className="w-5 h-5 mr-2" />
             Get an Estimate
           </Button>
+        </div>
+
+        {/* Carousel Dots */}
+        <div className="flex justify-center gap-2.5 mb-8">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`rounded-full transition-all duration-500 ${
+                currentSlide === index 
+                  ? 'w-8 h-2 bg-primary' 
+                  : 'w-2 h-2 bg-foreground/30 hover:bg-foreground/50'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
 
         {/* Trust indicators */}
