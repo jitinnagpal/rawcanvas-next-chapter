@@ -1,4 +1,4 @@
-import { Calculator, PenTool, Hammer, Sofa } from 'lucide-react';
+import { Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -151,19 +151,17 @@ const Hero = () => {
         </div>
 
         {/* Trust indicators */}
-        <div className="flex justify-center items-center gap-6 md:gap-10 text-foreground/70 text-xs md:text-sm font-heading tracking-wider uppercase whitespace-nowrap">
-          <div className="flex items-center gap-1.5">
-            <PenTool className="w-3.5 h-3.5 text-primary" />
+        <div className="flex flex-wrap justify-center gap-8 text-foreground/70 text-sm font-heading tracking-wide uppercase">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
             <span>Designing</span>
           </div>
-          <span className="text-primary/40">|</span>
-          <div className="flex items-center gap-1.5">
-            <Hammer className="w-3.5 h-3.5 text-primary" />
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
             <span>Contracting</span>
           </div>
-          <span className="text-primary/40">|</span>
-          <div className="flex items-center gap-1.5">
-            <Sofa className="w-3.5 h-3.5 text-primary" />
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
             <span>Furnishing</span>
           </div>
         </div>
