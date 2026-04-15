@@ -103,8 +103,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-lg md:text-xl text-foreground/85 max-w-3xl mx-auto mb-10 leading-relaxed font-body">
-          Mokha Designs crafts breathtaking spaces where luxury meets legacy.
-          Turnkey interior design with stunning aesthetics and practical flow.
+          End-to-end interior design for homes that demand both beauty and precision.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
