@@ -19,7 +19,7 @@ export default {
 		},
 		extend: {
 		fontFamily: {
-				heading: ['Josefin Sans', 'sans-serif'],
+				heading: ['Cormorant Garamond', 'serif'],
 				body: ['Playfair Display', 'serif'],
 			},
 			colors: {
