@@ -22,7 +22,11 @@ import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-const Contact = () => {
+interface ContactProps {
+  embedded?: boolean;
+}
+
+const Contact = ({ embedded = false }: ContactProps) => {
   const [projectType, setProjectType] = useState('');
   const [apartmentSize, setApartmentSize] = useState('');
   const [propertyStatus, setPropertyStatus] = useState('');
@@ -547,6 +551,427 @@ const Contact = () => {
     return isEmpty ? 'ring-2 ring-destructive/50 ring-offset-2' : '';
   };
 
+  const intentToggle = (
+    <div className="mb-6">
+      <div className="flex rounded-lg bg-muted p-1 gap-1">
+        <button
+          type="button"
+          onClick={() => setIntent('estimate')}
+          className={cn(
+            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+            intent === 'estimate' 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <span>Get a Quick Estimate</span>
+          <span className={cn(
+            "text-xs",
+            intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+          )}>
+            ~1 minute · No commitment
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setIntent('consultation')}
+          className={cn(
+            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+            intent === 'consultation' 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <span>Talk to a Designer</span>
+          <span className={cn(
+            "text-xs",
+            intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+          )}>
+            Discuss ideas, budget & feasibility
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+
+  const progressIndicator = intent === 'estimate' ? (
+    <div className="mb-6">
+      <div className="text-sm text-muted-foreground mb-2">
+        <span>Step {currentStep} of {totalSteps}</span>
+      </div>
+      <div className="h-2 bg-muted rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-primary transition-all duration-300 rounded-full"
+          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+        />
+      </div>
+    </div>
+  ) : null;
+
+  const formHeading = (
+    <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
+      {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
+    </h3>
+  );
+
+  const formContent = (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Basic Information */}
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="name" className="text-sm font-medium text-foreground">
+            Full Name *
+          </Label>
+          <Input 
+            id="name"
+            name="name"
+            placeholder="Your full name"
+            className={cn(
+              "bg-background border-border mt-2",
+              nameError && nameTouched && "border-destructive focus-visible:ring-destructive"
+            )}
+            value={nameValue}
+            onChange={handleNameChange}
+            onBlur={handleNameBlur}
+            required
+            maxLength={100}
+          />
+          {nameError && nameTouched && (
+            <p className="text-sm text-destructive mt-1">{nameError}</p>
+          )}
+          {nameWarning && !nameError && nameTouched && (
+            <p className="text-sm text-amber-600 mt-1">{nameWarning}</p>
+          )}
+        </div>
+
+        <div>
+          <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+            Phone Number *
+          </Label>
+            <Input 
+              id="phone"
+              name="phone"
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={10}
+              placeholder="10-digit mobile number"
+              className={cn(
+                "bg-background border-border mt-2",
+                phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
+              )}
+              value={phoneValue}
+              onChange={handlePhoneChange}
+              onBlur={handlePhoneBlur}
+              required
+            />
+          {phoneError && phoneTouched && (
+            <p className="text-sm text-destructive mt-1">{phoneError}</p>
+          )}
+        </div>
+
+        <div ref={locationRef} className={cn("rounded-lg", getMissingFieldClass(propertyLocation))}>
+          <Label htmlFor="location" className="text-sm font-medium text-foreground">
+            Property Location *
+          </Label>
+          <Select value={propertyLocation} onValueChange={setPropertyLocation} required>
+            <SelectTrigger className="bg-background border-border mt-2">
+              <SelectValue placeholder="Select your city" />
+            </SelectTrigger>
+            <SelectContent className="bg-background border-border">
+              <SelectItem value="hyderabad">Hyderabad</SelectItem>
+              <SelectItem value="delhi">Delhi</SelectItem>
+              <SelectItem value="mumbai">Mumbai</SelectItem>
+              <SelectItem value="bengaluru">Bengaluru</SelectItem>
+              <SelectItem value="goa">Goa</SelectItem>
+              <SelectItem value="dubai">Dubai</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Project Details */}
+      <div className="space-y-4 pt-4 border-t border-border">
+        <div>
+          <Label className="text-sm font-medium text-foreground mb-3 block">
+            Type of Project *
+          </Label>
+          <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6" required>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="residential" id="residential" />
+              <Label htmlFor="residential">Residential</Label>
+            </div>
+          </RadioGroup>
+        </div>
+
+        {/* Conditional: Residential Property Size */}
+        {projectType === 'residential' && (
+          <div ref={sizeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(apartmentSize))}>
+            <Label className="text-sm font-medium text-foreground mb-3 block">
+              Residential Property Size{scopeOfWork === 'design-execution' ? ' *' : ''}
+            </Label>
+            <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="3bhk" id="3bhk" />
+                <Label htmlFor="3bhk">3BHK</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="4bhk" id="4bhk" />
+                <Label htmlFor="4bhk">4BHK</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="5bhk" id="5bhk" />
+                <Label htmlFor="5bhk">5BHK+</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        )}
+
+        {/* Conditional: Commercial Property Size */}
+        {projectType === 'commercial' && (
+          <div>
+            <Label htmlFor="commercial-size" className="text-sm font-medium text-foreground">
+              Commercial Property Size (sqft) *
+            </Label>
+            <Input 
+              id="commercial-size"
+              name="commercial-size"
+              type="number" 
+              placeholder="Enter size in square feet"
+              className="bg-background border-border mt-2"
+              min="1"
+              required
+            />
+          </div>
+        )}
+
+        {/* Property Status */}
+        {projectType && (
+          <div ref={statusRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyStatus))}>
+            <Label className="text-sm font-medium text-foreground mb-3 block">
+              Property Status *
+            </Label>
+            <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="handed-over" id="handed-over" />
+                <Label htmlFor="handed-over">Handed Over</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="1-3-months" id="1-3-months" />
+                <Label htmlFor="1-3-months">1–3 Months</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="3-6-months" id="3-6-months" />
+                <Label htmlFor="3-6-months">3–6 Months</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        )}
+
+        {/* Interiors Budget */}
+        {projectType && (
+          <div className="rounded-lg p-2 -m-2">
+            <Label className="text-sm font-medium text-foreground mb-3 block">
+              Interiors Budget *
+            </Label>
+            <RadioGroup value={interiorsBudget} onValueChange={setInteriorsBudget} className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="15-20-lakhs" id="15-20-lakhs" />
+                <Label htmlFor="15-20-lakhs">15 – 20 Lakhs</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="20-25-lakhs" id="20-25-lakhs" />
+                <Label htmlFor="20-25-lakhs">20 – 25 Lakhs</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="25-30-lakhs" id="25-30-lakhs" />
+                <Label htmlFor="25-30-lakhs">25 – 30 Lakhs</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="40-lakhs-plus" id="40-lakhs-plus" />
+                <Label htmlFor="40-lakhs-plus">40 Lakhs+</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        )}
+      </div>
+
+      {/* Estimate Fields - Only for Residential and estimate intent */}
+      {projectType === 'residential' && intent === 'estimate' && (
+        <div className="space-y-4 pt-4 border-t border-border">
+          <div className="flex items-center gap-2 mb-2">
+            <Calculator className="w-5 h-5 text-primary" />
+            <span className="text-sm font-semibold text-primary">Cost Estimate Details</span>
+          </div>
+
+          {/* Scope of Work */}
+          <div ref={scopeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(scopeOfWork))}>
+            <Label className="text-sm font-medium text-foreground mb-3 block">
+              Scope of Work *
+            </Label>
+            <RadioGroup value={scopeOfWork} onValueChange={(v) => setScopeOfWork(v as ScopeOfWork)} className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="design-only" id="design-only" />
+                <Label htmlFor="design-only">Design Only</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="design-execution" id="design-execution" />
+                <Label htmlFor="design-execution">Design &amp; Execution</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {/* Generate Estimate Button */}
+          <Button 
+            type="button"
+            size="lg"
+            className="w-full bg-primary hover:bg-primary/90"
+            onClick={handleGenerateEstimate}
+            disabled={isSubmitting}
+          >
+            <Calculator className="w-5 h-5 mr-2" />
+            Generate Estimate
+          </Button>
+          <p className="text-xs text-center text-muted-foreground">
+            You'll also receive a detailed consultation if needed.
+          </p>
+
+          {/* Estimate Result */}
+          {estimateResult && (
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground mb-2">Estimated cost</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary">
+                  {estimateResult.displayText}
+                </p>
+              </div>
+              
+              <p className="text-xs text-muted-foreground text-center">
+                This is an estimate. Final cost depends on site measurements, detailed scope, and material selections. Talk to us to get a detailed quote.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Next Step Preference - for consultation intent or after estimate */}
+      {projectType && (intent === 'consultation' || estimateWasGenerated) && (
+        <div className="space-y-4 pt-4 border-t border-border">
+          <div>
+            <Label className="text-sm font-medium text-foreground mb-3 block">
+              {intent === 'consultation' ? 'How would you like to proceed?' : 'Next Step Preference'}
+            </Label>
+            <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="consultation" id="consultation" />
+                <Label htmlFor="consultation">Schedule a free consultation</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="direct-call" id="direct-call" />
+                <Label htmlFor="direct-call">I'll call you directly</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {/* Conditional: Calendar Picker */}
+          {nextStep === 'consultation' && (
+            <div>
+              <Label className="text-sm font-medium text-foreground mb-3 block">
+                Preferred Consultation Date
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal bg-background border-border",
+                      !consultationDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {consultationDate ? format(consultationDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 bg-background border-border" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={consultationDate}
+                    onSelect={setConsultationDate}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Submit Button - different based on intent */}
+      {intent === 'consultation' && (
+        <Button 
+          type="submit" 
+          size="lg" 
+          className="w-full bg-primary hover:bg-primary/90"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>Processing...</>
+          ) : (
+            <>
+              <Phone className="w-5 h-5 mr-2" />
+              Request Consultation
+            </>
+          )}
+        </Button>
+      )}
+      
+      {intent === 'estimate' && estimateWasGenerated && (
+        <Button 
+          type="submit" 
+          size="lg" 
+          className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>Processing...</>
+          ) : (
+            <>
+              <Send className="w-5 h-5 mr-2" />
+              Request Detailed Quote
+            </>
+          )}
+        </Button>
+      )}
+    </form>
+  );
+
+  const whatsappFooter = (
+    <p className="text-center mt-4 text-sm text-muted-foreground">
+      Prefer a quicker response?{' '}
+      <button
+        onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'contact_form')}
+        className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
+      >
+        <WhatsAppIcon className="w-4 h-4" withBubble />
+        Chat on WhatsApp
+      </button>
+    </p>
+  );
+
+  if (embedded) {
+    return (
+      <div className="font-sans p-2">
+        {intentToggle}
+        {progressIndicator}
+        {formHeading}
+        {formContent}
+        {whatsappFooter}
+      </div>
+    );
+  }
+
   return (
     <section id="contact" className="section-padding bg-muted/30">
       <div className="container-max">
@@ -564,408 +989,11 @@ const Contact = () => {
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Form - First column for priority visibility */}
           <div className="elegant-card font-sans">
-            {/* Intent Selection Toggle */}
-            <div className="mb-6">
-              <div className="flex rounded-lg bg-muted p-1 gap-1">
-              <button
-                  type="button"
-                  onClick={() => setIntent('estimate')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-                    intent === 'estimate' 
-                      ? "bg-primary text-primary-foreground shadow-sm" 
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <span>Get a Quick Estimate</span>
-                  <span className={cn(
-                    "text-xs",
-                    intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-                  )}>
-                    ~1 minute · No commitment
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIntent('consultation')}
-                  className={cn(
-                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-                    intent === 'consultation' 
-                      ? "bg-primary text-primary-foreground shadow-sm" 
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <span>Talk to a Designer</span>
-                  <span className={cn(
-                    "text-xs",
-                    intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-                  )}>
-                    Discuss ideas, budget & feasibility
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Progress Indicator for Estimate Flow */}
-            {intent === 'estimate' && (
-              <div className="mb-6">
-                <div className="text-sm text-muted-foreground mb-2">
-                  <span>Step {currentStep} of {totalSteps}</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary transition-all duration-300 rounded-full"
-                    style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-                  />
-                </div>
-              </div>
-            )}
-
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-              {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
-            </h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Basic Information */}
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name" className="text-sm font-medium text-foreground">
-                    Full Name *
-                  </Label>
-                  <Input 
-                    id="name"
-                    name="name"
-                    placeholder="Your full name"
-                    className={cn(
-                      "bg-background border-border mt-2",
-                      nameError && nameTouched && "border-destructive focus-visible:ring-destructive"
-                    )}
-                    value={nameValue}
-                    onChange={handleNameChange}
-                    onBlur={handleNameBlur}
-                    required
-                    maxLength={100}
-                  />
-                  {nameError && nameTouched && (
-                    <p className="text-sm text-destructive mt-1">{nameError}</p>
-                  )}
-                  {nameWarning && !nameError && nameTouched && (
-                    <p className="text-sm text-amber-600 mt-1">{nameWarning}</p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-                    Phone Number *
-                  </Label>
-                    <Input 
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      maxLength={10}
-                      placeholder="10-digit mobile number"
-                      className={cn(
-                        "bg-background border-border mt-2",
-                        phoneError && phoneTouched && "border-destructive focus-visible:ring-destructive"
-                      )}
-                      value={phoneValue}
-                      onChange={handlePhoneChange}
-                      onBlur={handlePhoneBlur}
-                      required
-                    />
-                  {phoneError && phoneTouched && (
-                    <p className="text-sm text-destructive mt-1">{phoneError}</p>
-                  )}
-                </div>
-
-                <div ref={locationRef} className={cn("rounded-lg", getMissingFieldClass(propertyLocation))}>
-                  <Label htmlFor="location" className="text-sm font-medium text-foreground">
-                    Property Location *
-                  </Label>
-                  <Select value={propertyLocation} onValueChange={setPropertyLocation} required>
-                    <SelectTrigger className="bg-background border-border mt-2">
-                      <SelectValue placeholder="Select your city" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background border-border">
-                      <SelectItem value="hyderabad">Hyderabad</SelectItem>
-                      <SelectItem value="delhi">Delhi</SelectItem>
-                      <SelectItem value="mumbai">Mumbai</SelectItem>
-                      <SelectItem value="bengaluru">Bengaluru</SelectItem>
-                      <SelectItem value="goa">Goa</SelectItem>
-                      <SelectItem value="dubai">Dubai</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Project Details */}
-              <div className="space-y-4 pt-4 border-t border-border">
-                <div>
-                  <Label className="text-sm font-medium text-foreground mb-3 block">
-                    Type of Project *
-                  </Label>
-                  <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6" required>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="residential" id="residential" />
-                      <Label htmlFor="residential">Residential</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-
-                {/* Conditional: Residential Property Size */}
-                {projectType === 'residential' && (
-                  <div ref={sizeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(apartmentSize))}>
-                    <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Residential Property Size{scopeOfWork === 'design-execution' ? ' *' : ''}
-                    </Label>
-                    <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="3bhk" id="3bhk" />
-                        <Label htmlFor="3bhk">3BHK</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="4bhk" id="4bhk" />
-                        <Label htmlFor="4bhk">4BHK</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="5bhk" id="5bhk" />
-                        <Label htmlFor="5bhk">5BHK+</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                )}
-
-                {/* Conditional: Commercial Property Size */}
-                {projectType === 'commercial' && (
-                  <div>
-                    <Label htmlFor="commercial-size" className="text-sm font-medium text-foreground">
-                      Commercial Property Size (sqft) *
-                    </Label>
-                    <Input 
-                      id="commercial-size"
-                      name="commercial-size"
-                      type="number" 
-                      placeholder="Enter size in square feet"
-                      className="bg-background border-border mt-2"
-                      min="1"
-                      required
-                    />
-                  </div>
-                )}
-
-                {/* Property Status */}
-                {projectType && (
-                  <div ref={statusRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyStatus))}>
-                    <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Property Status *
-                    </Label>
-                    <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="handed-over" id="handed-over" />
-                        <Label htmlFor="handed-over">Handed Over</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="1-3-months" id="1-3-months" />
-                        <Label htmlFor="1-3-months">1–3 Months</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="3-6-months" id="3-6-months" />
-                        <Label htmlFor="3-6-months">3–6 Months</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                )}
-
-                {/* Interiors Budget */}
-                {projectType && (
-                  <div className="rounded-lg p-2 -m-2">
-                    <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Interiors Budget *
-                    </Label>
-                    <RadioGroup value={interiorsBudget} onValueChange={setInteriorsBudget} className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="15-20-lakhs" id="15-20-lakhs" />
-                        <Label htmlFor="15-20-lakhs">15 – 20 Lakhs</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="20-25-lakhs" id="20-25-lakhs" />
-                        <Label htmlFor="20-25-lakhs">20 – 25 Lakhs</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="25-30-lakhs" id="25-30-lakhs" />
-                        <Label htmlFor="25-30-lakhs">25 – 30 Lakhs</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="40-lakhs-plus" id="40-lakhs-plus" />
-                        <Label htmlFor="40-lakhs-plus">40 Lakhs+</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                )}
-              </div>
-
-              {/* Estimate Fields - Only for Residential and estimate intent */}
-              {projectType === 'residential' && intent === 'estimate' && (
-                <div className="space-y-4 pt-4 border-t border-border">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calculator className="w-5 h-5 text-primary" />
-                    <span className="text-sm font-semibold text-primary">Cost Estimate Details</span>
-                  </div>
-
-                  {/* Scope of Work */}
-                  <div ref={scopeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(scopeOfWork))}>
-                    <Label className="text-sm font-medium text-foreground mb-3 block">
-                      Scope of Work *
-                    </Label>
-                    <RadioGroup value={scopeOfWork} onValueChange={(v) => setScopeOfWork(v as ScopeOfWork)} className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="design-only" id="design-only" />
-                        <Label htmlFor="design-only">Design Only</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="design-execution" id="design-execution" />
-                        <Label htmlFor="design-execution">Design &amp; Execution</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  {/* Generate Estimate Button */}
-                  <Button 
-                    type="button"
-                    size="lg"
-                    className="w-full bg-primary hover:bg-primary/90"
-                    onClick={handleGenerateEstimate}
-                    disabled={isSubmitting}
-                  >
-                    <Calculator className="w-5 h-5 mr-2" />
-                    Generate Estimate
-                  </Button>
-                  <p className="text-xs text-center text-muted-foreground">
-                    You'll also receive a detailed consultation if needed.
-                  </p>
-
-                  {/* Estimate Result */}
-                  {estimateResult && (
-                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
-                      <div className="text-center">
-                        <p className="text-sm text-muted-foreground mb-2">Estimated cost</p>
-                        <p className="text-2xl md:text-3xl font-bold text-primary">
-                          {estimateResult.displayText}
-                        </p>
-                      </div>
-                      
-                      <p className="text-xs text-muted-foreground text-center">
-                        This is an estimate. Final cost depends on site measurements, detailed scope, and material selections. Talk to us to get a detailed quote.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Next Step Preference - for consultation intent or after estimate */}
-              {projectType && (intent === 'consultation' || estimateWasGenerated) && (
-                <div className="space-y-4 pt-4 border-t border-border">
-                  <div>
-                    <Label className="text-sm font-medium text-foreground mb-3 block">
-                      {intent === 'consultation' ? 'How would you like to proceed?' : 'Next Step Preference'}
-                    </Label>
-                    <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="consultation" id="consultation" />
-                        <Label htmlFor="consultation">Schedule a free consultation</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="direct-call" id="direct-call" />
-                        <Label htmlFor="direct-call">I'll call you directly</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  {/* Conditional: Calendar Picker */}
-                  {nextStep === 'consultation' && (
-                    <div>
-                      <Label className="text-sm font-medium text-foreground mb-3 block">
-                        Preferred Consultation Date
-                      </Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className={cn(
-                              "w-full justify-start text-left font-normal bg-background border-border",
-                              !consultationDate && "text-muted-foreground"
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {consultationDate ? format(consultationDate, "PPP") : <span>Pick a date</span>}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-border" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={consultationDate}
-                            onSelect={setConsultationDate}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                            className={cn("p-3 pointer-events-auto")}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  )}
-                </div>
-              )}
-
-
-              {/* Submit Button - different based on intent */}
-              {intent === 'consultation' && (
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full bg-primary hover:bg-primary/90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>Processing...</>
-                  ) : (
-                    <>
-                      <Phone className="w-5 h-5 mr-2" />
-                      Request Consultation
-                    </>
-                  )}
-                </Button>
-              )}
-              
-              {intent === 'estimate' && estimateWasGenerated && (
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>Processing...</>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Request Detailed Quote
-                    </>
-                  )}
-                </Button>
-              )}
-            </form>
-            <p className="text-center mt-4 text-sm text-muted-foreground">
-              Prefer a quicker response?{' '}
-              <button
-                onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'contact_form')}
-                className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
-              >
-                  <WhatsAppIcon className="w-4 h-4" withBubble />
-                Chat on WhatsApp
-              </button>
-            </p>
+            {intentToggle}
+            {progressIndicator}
+            {formHeading}
+            {formContent}
+            {whatsappFooter}
           </div>
 
           {/* Contact Information - Second column */}
@@ -974,51 +1002,52 @@ const Contact = () => {
               Let's Start Your Project
             </h3>
             
-            <div className="space-y-6 mb-8">
+            <div className="space-y-6 mb-12">
               {contactInfo.map((info, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <info.icon className="w-6 h-6 text-primary" />
+                <a
+                  key={index}
+                  href={info.action}
+                  className="flex items-center gap-4 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <info.icon className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-1">{info.title}</h4>
-                    {info.action.startsWith('#') ? (
-                      <p className="text-muted-foreground">{info.details}</p>
-                    ) : (
-                      <a 
-                        href={info.action}
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        {info.details}
-                      </a>
-                    )}
+                    <p className="text-sm text-muted-foreground">{info.title}</p>
+                    <p className="text-foreground font-medium">{info.details}</p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
 
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h4 className="font-heading font-semibold text-foreground mb-4">
-                Why Choose Mokha Designs?
-              </h4>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Free consultation and quote</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Turnkey solutions from design to furnishing</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Experienced team of professionals</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-muted-foreground">Quality materials and timely delivery</span>
-                </li>
-              </ul>
+            <div className="space-y-6">
+              <div className="elegant-card">
+                <h4 className="text-xl font-heading font-bold text-foreground mb-4">
+                  Why Choose Mokha Designs?
+                </h4>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="text-muted-foreground">20+ years of design experience</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="text-muted-foreground">200+ projects completed successfully</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="text-muted-foreground">Turnkey solutions from design to furnishing</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="text-muted-foreground">Experienced team of professionals</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="text-muted-foreground">Quality materials and timely delivery</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
