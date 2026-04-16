@@ -83,8 +83,7 @@ const Portfolio = () => {
             Our Portfolio
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Explore our collection of beautifully designed spaces that showcase 
-            our expertise in creating functional and aesthetically pleasing interiors.
+            Explore our collection of past projects — spaces created with functional and aesthetic interiors.
           </p>
         </div>
 
