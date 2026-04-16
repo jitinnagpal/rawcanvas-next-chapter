@@ -82,7 +82,7 @@ const Portfolio = () => {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Our Portfolio
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <p className="text-base md:text-lg text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
             Explore our collection of past projects — spaces created with functional and aesthetic interiors.
           </p>
         </div>
