@@ -67,9 +67,10 @@ const Services = () => {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Turnkey Solutions
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From initial design concepts to final furnishing, we provide comprehensive 
-            interior design services that transform your vision into reality.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            From initial design concepts to final furnishing —
+            <br className="hidden sm:block" />
+            a comprehensive interior design service that turns your vision into reality.
           </p>
         </div>
 
