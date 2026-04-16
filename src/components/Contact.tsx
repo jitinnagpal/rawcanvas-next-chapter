@@ -22,7 +22,11 @@ import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-const Contact = () => {
+interface ContactProps {
+  embedded?: boolean;
+}
+
+const Contact = ({ embedded = false }: ContactProps) => {
   const [projectType, setProjectType] = useState('');
   const [apartmentSize, setApartmentSize] = useState('');
   const [propertyStatus, setPropertyStatus] = useState('');
