@@ -95,7 +95,7 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-xl mx-auto">
         {/* Tagline */}
-        <p className="text-[10px] md:text-xs tracking-[0.35em] text-foreground/70 uppercase font-heading mb-12 md:mb-16">
+        <p className="text-[10px] md:text-xs tracking-[0.35em] text-foreground/70 uppercase font-sans font-medium mb-12 md:mb-16">
           Defining Hyderabad's Modern Opulence
         </p>
 
