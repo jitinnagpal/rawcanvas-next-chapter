@@ -118,11 +118,11 @@ const Testimonials = () => {
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="elegant-card min-w-[85vw] md:min-w-0 snap-center !py-4 !px-5">
               <div className="mb-4">
-                <Quote className="w-8 h-8 text-primary/30 mb-4" />
-                <p className="text-muted-foreground leading-relaxed mb-6">
+                <Quote className="w-7 h-7 text-primary/30 mb-3" />
+                <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
                   "{testimonial.text}"
                 </p>
-                <div className="flex items-center gap-1 mb-4">
+                <div className="flex items-center gap-1 mb-3">
                   {renderStars(testimonial.rating)}
                 </div>
               </div>
