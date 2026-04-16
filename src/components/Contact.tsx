@@ -553,92 +553,68 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
   if (embedded) {
     return (
-      <div className="p-6 font-sans">
-        {/* Intent Selection Toggle */}
-        <div className="mb-6">
-          <div className="flex rounded-lg bg-muted p-1 gap-1">
-            <button
-              type="button"
-              onClick={() => setIntent('estimate')}
-              className={cn(
-                "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-                intent === 'estimate' 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <span>Get a Quick Estimate</span>
-              <span className={cn(
-                "text-xs",
-                intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-              )}>
-                ~1 minute · No commitment
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setIntent('consultation')}
-              className={cn(
-                "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-                intent === 'consultation' 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <span>Talk to a Designer</span>
-              <span className={cn(
-                "text-xs",
-                intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-              )}>
-                Discuss ideas, budget & feasibility
-              </span>
-            </button>
-          </div>
-        </div>
-
-        {/* Progress Indicator for Estimate Flow */}
-        {intent === 'estimate' && (
-          <div className="mb-6">
-            <div className="text-sm text-muted-foreground mb-2">
-              <span>Step {currentStep} of {totalSteps}</span>
+      <div className="font-sans">
+        <div className="elegant-card border-0 shadow-none">
+            {/* Intent Selection Toggle */}
+            <div className="mb-6">
+              <div className="flex rounded-lg bg-muted p-1 gap-1">
+              <button
+                  type="button"
+                  onClick={() => setIntent('estimate')}
+                  className={cn(
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+                    intent === 'estimate' 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <span>Get a Quick Estimate</span>
+                  <span className={cn(
+                    "text-xs",
+                    intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+                  )}>
+                    ~1 minute · No commitment
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIntent('consultation')}
+                  className={cn(
+                    "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+                    intent === 'consultation' 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <span>Talk to a Designer</span>
+                  <span className={cn(
+                    "text-xs",
+                    intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+                  )}>
+                    Discuss ideas, budget & feasibility
+                  </span>
+                </button>
+              </div>
             </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all duration-300 rounded-full"
-                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-              />
-            </div>
-          </div>
-        )}
 
-        <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-          {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
-        </h3>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {renderFormFields()}
-        </form>
-      </div>
-    );
-  }
+            {/* Progress Indicator for Estimate Flow */}
+            {intent === 'estimate' && (
+              <div className="mb-6">
+                <div className="text-sm text-muted-foreground mb-2">
+                  <span>Step {currentStep} of {totalSteps}</span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary transition-all duration-300 rounded-full"
+                    style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
 
-  return (
-    <section id="contact" className="section-padding bg-muted/30">
-      <div className="container-max">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Get a Quick Estimate for Your Space
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Answer a few quick questions to see an approximate estimate range.
-            <br className="hidden sm:block" />
-            Or speak with a designer if you'd like guidance before deciding.
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Contact Form - First column for priority visibility */}
-          <div className="elegant-card font-sans">
+            <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
+              {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
+            </h3>
             {/* Intent Selection Toggle */}
             <div className="mb-6">
               <div className="flex rounded-lg bg-muted p-1 gap-1">
