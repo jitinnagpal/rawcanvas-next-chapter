@@ -102,7 +102,7 @@ const Hero = () => {
 
         {/* Headline */}
         <h1 className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-body font-medium tracking-tight leading-[1.2] mb-5 text-foreground">
-          Luxury Interiors — Designed Right, Executed Seamlessly
+          Luxury Interiors — Designed Right, <span className="text-yellow-500 italic">Executed Seamlessly</span>
         </h1>
         
         {/* Subtext */}
