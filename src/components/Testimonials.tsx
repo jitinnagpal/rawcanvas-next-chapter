@@ -105,7 +105,7 @@ const Testimonials = () => {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Client Testimonials
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed">
             Don't just take our word for it. Here's what our satisfied clients 
             have to say about their experience with Mokha Designs.
           </p>
