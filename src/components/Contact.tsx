@@ -551,6 +551,77 @@ const Contact = ({ embedded = false }: ContactProps) => {
     return isEmpty ? 'ring-2 ring-destructive/50 ring-offset-2' : '';
   };
 
+  if (embedded) {
+    return (
+      <div className="p-6 font-sans">
+        {/* Intent Selection Toggle */}
+        <div className="mb-6">
+          <div className="flex rounded-lg bg-muted p-1 gap-1">
+            <button
+              type="button"
+              onClick={() => setIntent('estimate')}
+              className={cn(
+                "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+                intent === 'estimate' 
+                  ? "bg-primary text-primary-foreground shadow-sm" 
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <span>Get a Quick Estimate</span>
+              <span className={cn(
+                "text-xs",
+                intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+              )}>
+                ~1 minute · No commitment
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIntent('consultation')}
+              className={cn(
+                "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+                intent === 'consultation' 
+                  ? "bg-primary text-primary-foreground shadow-sm" 
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <span>Talk to a Designer</span>
+              <span className={cn(
+                "text-xs",
+                intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+              )}>
+                Discuss ideas, budget & feasibility
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Progress Indicator for Estimate Flow */}
+        {intent === 'estimate' && (
+          <div className="mb-6">
+            <div className="text-sm text-muted-foreground mb-2">
+              <span>Step {currentStep} of {totalSteps}</span>
+            </div>
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-300 rounded-full"
+                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
+          {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
+        </h3>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {renderFormFields()}
+        </form>
+      </div>
+    );
+  }
+
   return (
     <section id="contact" className="section-padding bg-muted/30">
       <div className="container-max">
