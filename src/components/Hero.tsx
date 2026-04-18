@@ -115,7 +115,7 @@ const Hero = () => {
               className="cta-secondary-btn-dark px-8 py-4 text-[15px] rounded-lg font-sans font-semibold tracking-wide"
               onClick={handleEstimateCostClick}
             >
-              Book a Design Consultation
+              Book A Design Call
             </Button>
 
             <Button 
