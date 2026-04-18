@@ -610,7 +610,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
   const formHeading = (
     <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-      {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Consultation'}
+      {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Design Call'}
     </h3>
   );
 
