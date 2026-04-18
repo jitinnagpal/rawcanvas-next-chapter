@@ -76,7 +76,7 @@ const Hero = () => {
                       alt={`Interior design showcase ${index + 1}`}
                       className="w-full h-full object-cover transition-transform duration-[8000ms] ease-out"
                       style={{ 
-                        filter: 'brightness(0.35) contrast(1.1)',
+                        filter: 'brightness(0.55) contrast(1.05)',
                         transform: currentSlide === index ? 'scale(1.08)' : 'scale(1)',
                       }}
                     />
@@ -86,7 +86,7 @@ const Hero = () => {
             </CarouselContent>
           </Carousel>
           {/* Gradient overlays for readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/45"></div>
         </div>
 
         {/* Content */}
