@@ -979,7 +979,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Get a Quick Estimate for Your Space
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
             Answer a few quick questions to see an approximate estimate range.
             <br className="hidden sm:block" />
             Or speak with a designer if you'd like guidance before deciding.
