@@ -27,9 +27,9 @@ const StickyMobileCTA = () => {
         </button>
         <button
           onClick={handleEstimate}
-          className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background font-sans font-semibold tracking-wide py-3 px-4 rounded-full text-sm"
+          className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background font-sans font-semibold tracking-wide py-3 px-3 rounded-full text-sm whitespace-nowrap"
         >
-          <Calculator className="w-4 h-4" />
+          <Calculator className="w-4 h-4 shrink-0" />
           Book a Design Call
         </button>
       </div>
