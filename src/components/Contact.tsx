@@ -556,6 +556,24 @@ const Contact = ({ embedded = false }: ContactProps) => {
       <div className="flex rounded-lg bg-muted p-1 gap-1">
         <button
           type="button"
+          onClick={() => setIntent('consultation')}
+          className={cn(
+            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
+            intent === 'consultation' 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <span>Book a Design Call</span>
+          <span className={cn(
+            "text-xs",
+            intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
+          )}>
+            Discuss ideas, budget & feasibility
+          </span>
+        </button>
+        <button
+          type="button"
           onClick={() => setIntent('estimate')}
           className={cn(
             "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
@@ -570,24 +588,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
             intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
           )}>
             ~1 minute · No commitment
-          </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setIntent('consultation')}
-          className={cn(
-            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-            intent === 'consultation' 
-              ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          <span>Talk to a Designer</span>
-          <span className={cn(
-            "text-xs",
-            intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-          )}>
-            Discuss ideas, budget & feasibility
           </span>
         </button>
       </div>

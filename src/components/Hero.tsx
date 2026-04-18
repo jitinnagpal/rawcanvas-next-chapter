@@ -47,7 +47,7 @@ const Hero = () => {
   }, [api, onSelect]);
 
   const handleEstimateCostClick = () => {
-    setEntryMode('estimate');
+    setEntryMode('consult');
     trackEstimateCostClicked();
     setShowFormDialog(true);
   };
