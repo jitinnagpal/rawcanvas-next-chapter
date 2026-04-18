@@ -37,7 +37,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Intent selection - cost estimate vs consultation
-  const [intent, setIntent] = useState<'estimate' | 'consultation'>('estimate');
+  const [intent, setIntent] = useState<'estimate' | 'consultation'>('consultation');
   
   // New estimate fields
   const [scopeOfWork, setScopeOfWork] = useState<ScopeOfWork | ''>('');
