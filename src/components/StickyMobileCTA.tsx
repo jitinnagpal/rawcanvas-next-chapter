@@ -20,7 +20,7 @@ const StickyMobileCTA = () => {
       <div className="flex items-center justify-between gap-3">
         <button
           onClick={handleWhatsApp}
-          className="flex-1 flex items-center justify-center gap-2 bg-background/90 text-foreground font-sans font-semibold tracking-wide py-3 px-4 rounded-full text-sm"
+          className="flex-1 flex items-center justify-center gap-2 bg-background/90 text-foreground font-sans font-semibold tracking-wide py-3 px-3 rounded-full text-sm whitespace-nowrap"
         >
           <WhatsAppIcon className="w-4 h-4" />
           Let's Talk
