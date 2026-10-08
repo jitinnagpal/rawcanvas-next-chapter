@@ -1,169 +1,89 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { downloadBrochure } from '@/utils/downloadBrochure';
-import kitchenImage from '@/assets/portfolio-kitchen.jpg';
-import bedroomImage from '@/assets/portfolio-bedroom.jpg';
-import livingSpaceImage from '@/assets/portfolio-living-space.jpg';
-import diningImage from '@/assets/portfolio-dining.jpg';
 
-const Portfolio = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+type Item = { src: string; alt: string; title: string; note: string; wide?: boolean; tall?: boolean };
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Modern Kitchens',
-      category: 'Kitchen',
-      type: 'Residential',
-      image: kitchenImage,
-      description: 'Contemporary kitchen with gold hardware and natural materials',
-      galleryLink: '/gallery/kitchen',
-    },
-    {
-      id: 2,
-      title: 'Luxury Bedrooms',
-      category: 'Bedroom',
-      type: 'Residential',
-      image: bedroomImage,
-      description: 'Elegant bedroom design with warm neutral tones and luxury finishes',
-      galleryLink: '/gallery/bedroom',
-    },
-    {
-      id: 3,
-      title: 'Vibrant Living Spaces',
-      category: 'Living',
-      type: 'Residential',
-      image: livingSpaceImage,
-      description: 'Warm and inviting living space with artistic wall features and elegant furnishings',
-      galleryLink: '/gallery/living',
-    }
-  ];
+const items: Item[] = [
+  {
+    src: '/images/site/study-bar.jpg',
+    alt: 'Study with a bar counter, teal stools and a balcony door',
+    title: 'Study and bar, apartment, Hyderabad.',
+    note: 'A balcony door kept clear so the room works on daylight till evening.',
+    wide: true,
+  },
+  {
+    src: '/images/site/reading-nook.jpg',
+    alt: 'Reading corner with solid wood shelving and a hand-painted wall',
+    title: 'Reading corner.',
+    note: 'Hand-painted wall, solid wood shelving.',
+  },
+  {
+    src: '/images/site/kitchen-white.jpg',
+    alt: 'White modular kitchen with marble-look backsplash and deep drawers',
+    title: 'Kitchen.',
+    note: 'Deep drawers over doors, marble-look backsplash.',
+  },
+  {
+    src: '/images/site/bedroom-grey.jpg',
+    alt: 'Guest bedroom in grey with a block-print throw',
+    title: 'Guest bedroom.',
+    note: 'Quiet greys, block-print throw.',
+  },
+  {
+    src: '/images/site/corridor.jpg',
+    alt: 'Entrance corridor with carved panel, console and runner rug',
+    title: 'Entrance.',
+    note: 'A long corridor turned into a gallery.',
+  },
+];
 
-  const filteredProjects = activeCategory === 'All' 
-    ? projects 
-    : projects.filter(project => 
-        project.category === activeCategory || project.type === activeCategory
-      );
+const rooms = [
+  { to: '/gallery/living', label: 'Living spaces' },
+  { to: '/gallery/kitchen', label: 'Kitchens' },
+  { to: '/gallery/bedroom', label: 'Bedrooms' },
+];
 
-  const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const scrollLeft = el.scrollLeft;
-    const cardWidth = el.scrollWidth / filteredProjects.length;
-    setActiveIndex(Math.round(scrollLeft / cardWidth));
-  }, [filteredProjects.length]);
+const Portfolio = () => (
+  <section id="work" className="container-max px-5 md:px-10 pt-20 md:pt-24 pb-10">
+    <div className="flex flex-wrap items-end justify-between gap-5 mb-10">
+      <h2 className="section-title">Recent homes</h2>
+      <p className="text-[17px] text-foreground/75 max-w-[460px]">
+        Photographed as lived in, not staged. Every room below is a finished Mokha Designs project.
+      </p>
+    </div>
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((it) => (
+        <figure key={it.src} className={`flex flex-col gap-3 ${it.wide ? 'sm:col-span-2' : ''}`}>
+          <img
+            src={it.src}
+            alt={it.alt}
+            loading="lazy"
+            className={`w-full object-cover ${it.wide ? 'h-[320px] sm:h-[460px] lg:h-[520px]' : 'h-[320px] sm:h-[400px] lg:h-[440px]'}`}
+          />
+          <figcaption className="text-[15px] text-foreground/75">
+            <span className="font-medium text-foreground">{it.title}</span> {it.note}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [activeCategory]);
-
-  const scrollToIndex = (index: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cardWidth = el.scrollWidth / filteredProjects.length;
-    el.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
-  };
-
-  return (
-    <section id="portfolio" className="section-padding bg-muted/30">
-      <div className="container-max">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Our Portfolio
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
-            Explore our collection of past projects — spaces created with functional and aesthetic interiors.
-          </p>
-        </div>
-
-        {/* Project Grid */}
-        <div
-          ref={scrollRef}
-          className="flex md:grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide"
-        >
-          {filteredProjects.map((project) => (
-            <div key={project.id} className="elegant-card group p-0 overflow-hidden min-w-[85vw] md:min-w-0 snap-center">
-              <div className="relative overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Link to={project.galleryLink}>
-                      <Button variant="secondary" size="sm" className="w-full">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        View Projects
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
-                    {project.type}
-                  </span>
-                </div>
-                <h3 className="text-xl font-heading font-bold text-foreground mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  {project.description}
-                </p>
-                <Link to={project.galleryLink}>
-                  <Button variant="ghost" className="group/btn p-0 h-auto font-semibold text-primary">
-                    View Projects
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Carousel dots - mobile only */}
-        <div className="flex justify-center gap-2.5 mt-6 md:hidden">
-          {filteredProjects.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToIndex(index)}
-              className={`rounded-full transition-all duration-500 ${
-                activeIndex === index
-                  ? 'w-8 h-2 bg-primary'
-                  : 'w-2 h-2 bg-foreground/30 hover:bg-foreground/50'
-              }`}
-              aria-label={`Go to project ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Download Brochure Button */}
-        <div className="text-center mt-12">
-          <Button 
-            size="lg" 
-            className="bg-primary hover:bg-primary/90"
-            onClick={downloadBrochure}
-          >
-            Download Brochure
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-};
+    <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 text-[16px]">
+      <span className="text-muted-foreground">Browse by room:</span>
+      {rooms.map((r) => (
+        <Link key={r.to} to={r.to} className="underline underline-offset-4 decoration-border hover:decoration-foreground">
+          {r.label}
+        </Link>
+      ))}
+      <a
+        href="/brochures/mokha-designs-portfolio.pdf"
+        target="_blank"
+        rel="noopener"
+        className="underline underline-offset-4 decoration-border hover:decoration-foreground"
+      >
+        Portfolio PDF
+      </a>
+    </div>
+  </section>
+);
 
 export default Portfolio;

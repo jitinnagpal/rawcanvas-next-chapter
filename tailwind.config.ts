@@ -19,9 +19,10 @@ export default {
 		},
 		extend: {
 		fontFamily: {
-				heading: ['Cormorant Garamond', 'serif'],
-				body: ['Playfair Display', 'serif'],
-				sans: ['DM Sans', 'system-ui', 'sans-serif'],
+				heading: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+				body: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+				sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+				serif: ['Newsreader', 'Georgia', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

@@ -1,4 +1,5 @@
 import whatsappIcon from '@/assets/whatsapp-icon-white.png';
+import whatsappIconGreen from '@/assets/whatsapp-icon-green.png';
 
 type WhatsAppIconProps = {
   className?: string;
@@ -19,7 +20,7 @@ const WhatsAppIcon = ({
     );
   }
 
-  return <img src={whatsappIcon} alt={alt} className={className} />;
+  return <img src={whatsappIconGreen} alt={alt} className={className} />;
 };
 
 export default WhatsAppIcon;

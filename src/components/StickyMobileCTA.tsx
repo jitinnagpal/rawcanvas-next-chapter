@@ -1,36 +1,32 @@
-import { Calculator } from 'lucide-react';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { trackEstimateCostClicked } from '@/utils/analytics';
 
 const StickyMobileCTA = () => {
-  const handleWhatsApp = () => {
-    handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'sticky-bar');
-  };
+  const handleWhatsApp = () => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'sticky-bar');
 
-  const handleEstimate = () => {
-    setGlobalEntryMode('estimate');
+  const handleBook = () => {
+    setGlobalEntryMode('consult');
     trackEstimateCostClicked();
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden sticky-cta-bar py-3 px-4">
-      <div className="flex items-center justify-between gap-3">
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur border-t border-border px-4 py-3">
+      <div className="flex items-center gap-3">
         <button
           onClick={handleWhatsApp}
-          className="flex-1 flex items-center justify-center gap-2 bg-background/90 text-foreground font-sans font-semibold tracking-wide py-3 px-3 rounded-full text-sm whitespace-nowrap"
+          className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-foreground text-foreground py-3 text-[15px] font-medium min-h-[48px]"
         >
           <WhatsAppIcon className="w-4 h-4" />
-          Let's Talk
+          WhatsApp
         </button>
         <button
-          onClick={handleEstimate}
-          className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background font-sans font-semibold tracking-wide py-3 px-3 rounded-full text-sm whitespace-nowrap"
+          onClick={handleBook}
+          className="flex-1 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground py-3 text-[15px] font-medium min-h-[48px]"
         >
-          <Calculator className="w-4 h-4 shrink-0" />
-          Book a Design Call
+          Book a design call
         </button>
       </div>
     </div>

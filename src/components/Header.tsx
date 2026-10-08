@@ -1,147 +1,90 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Calculator } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 import { setGlobalEntryMode } from '@/hooks/useEntryMode';
 import { trackEstimateCostClicked } from '@/utils/analytics';
-import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
-import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-const logoImage = '/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png';
+const navItems = [
+  { href: '/#work', label: 'Work' },
+  { href: '/#approach', label: 'Approach' },
+  { href: '/#studio', label: 'Studio' },
+  { href: '/#contact', label: 'Contact' },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 24);
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#services', label: 'Services' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#testimonials', label: 'Testimonials' },
-    { href: '#contact', label: 'Contact' }
-  ];
-
-  const handleEstimateCostClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setGlobalEntryMode('estimate');
+  const goToContact = (e: React.MouseEvent) => {
+    setGlobalEntryMode('consult');
     trackEstimateCostClicked();
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+    if (location.pathname === '/') {
+      e.preventDefault();
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMenuOpen(false);
-  };
-
-  const handleWhatsApp = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'header');
-    setIsMenuOpen(false);
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-background/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
-    }`}>
-      <nav className="container-max">
-        <div className="flex items-center justify-between h-20 px-6">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <img 
-              src={logoImage} 
-              alt="Mokha Designs Logo" 
-              className="h-16 w-auto"
-            />
-          </div>
+    <header
+      className={`sticky top-0 z-50 transition-colors duration-300 ${
+        isScrolled ? 'bg-background/95 backdrop-blur border-b border-border' : 'bg-background'
+      }`}
+    >
+      <nav className="container-max flex items-center justify-between gap-6 px-5 md:px-10 h-[76px]">
+        <Link to="/" className="flex items-baseline gap-2.5" onClick={() => setIsMenuOpen(false)}>
+          <span className="text-[21px] font-semibold tracking-[0.02em] text-foreground">Mokha Designs</span>
+          <span className="hidden sm:inline text-[13px] text-muted-foreground">Hyderabad</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center gap-8 text-[15px]">
+          {navItems.slice(0, 3).map((item) => (
+            <a key={item.href} href={item.href} className="text-foreground hover:text-muted-foreground transition-colors">
+              {item.label}
+            </a>
+          ))}
+          <a href="/#contact" onClick={goToContact} className="btn-ink !py-2.5 !min-h-0 !text-[15px]">
+            Book a design call
+          </a>
+        </div>
+
+        <button
+          className="md:hidden p-2 -mr-2 text-foreground"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMenuOpen}
+        >
+          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </nav>
+
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-border bg-background">
+          <div className="px-5 py-6 flex flex-col gap-5 text-[18px]">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="text-foreground/80 hover:text-primary transition-colors font-heading text-sm uppercase tracking-widest"
+                className="text-foreground"
+                onClick={item.href === '/#contact' ? goToContact : () => setIsMenuOpen(false)}
               >
                 {item.label}
               </a>
             ))}
+            <a href="/#contact" onClick={goToContact} className="btn-ink mt-2">
+              Book a design call
+            </a>
           </div>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            <Button 
-              size="sm" 
-              className="cta-primary-btn rounded-full"
-              onClick={handleWhatsApp}
-            >
-              <WhatsAppIcon className="w-4 h-4" withBubble />
-              Let's Talk
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline"
-              className="cta-secondary-btn rounded-full"
-              onClick={handleEstimateCostClick}
-            >
-              <Calculator className="w-4 h-4 mr-2" />
-              Book a Design Call
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border">
-            <div className="px-6 py-4 space-y-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block text-foreground/80 hover:text-primary transition-colors font-heading text-sm uppercase tracking-widest"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-              <div className="flex flex-col gap-2 mt-4">
-                <Button 
-                  size="sm" 
-                  className="w-full cta-primary-btn rounded-full"
-                  onClick={handleWhatsApp}
-                >
-                  <WhatsAppIcon className="w-4 h-4" withBubble />
-                  Let's Talk
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  className="w-full cta-secondary-btn rounded-full"
-                  onClick={handleEstimateCostClick}
-                >
-                  <Calculator className="w-4 h-4 mr-2" />
-                  Book a Design Call
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      )}
     </header>
   );
 };

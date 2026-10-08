@@ -29,13 +29,14 @@ const Index = () => {
   }, [searchParams]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         <Hero />
-        <About />
-        <Services />
+        <StatsBar />
         <Portfolio />
+        <Services />
+        <About />
         <Testimonials />
         <Contact />
       </main>

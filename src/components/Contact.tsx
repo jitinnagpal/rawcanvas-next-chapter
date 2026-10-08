@@ -973,82 +973,35 @@ const Contact = ({ embedded = false }: ContactProps) => {
   }
 
   return (
-    <section id="contact" className="section-padding bg-muted/30">
-      <div className="container-max">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Get a Quick Estimate for Your Space
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-            Answer a few quick questions to see an approximate estimate range.
-            <br className="hidden sm:block" />
-            Or speak with a designer if you'd like guidance before deciding.
-          </p>
-        </div>
+    <section id="contact" className="bg-secondary">
+      <div className="container-max px-5 md:px-10 py-20 md:py-24">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-start">
+          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
+            <p className="eyebrow">Start a project</p>
+            <h2 className="section-title">Planning a home in Hyderabad?</h2>
+            <p className="text-[17px] leading-relaxed text-foreground/75 max-w-[520px]">
+              Tell us about the space and your timeline. A call with Prerna is the best first step, or get a quick
+              estimate range in about a minute.
+            </p>
+            <img
+              src="/images/site/balcony.jpg"
+              alt="Balcony garden with red cushions overlooking green lawns"
+              loading="lazy"
+              className="w-full h-[260px] md:h-[340px] object-cover"
+            />
+            <div className="flex flex-col gap-1 text-[16px]">
+              <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
+              <a href="mailto:mokhadesigns@outlook.com" className="text-foreground hover:text-muted-foreground">mokhadesigns@outlook.com</a>
+              <span className="text-muted-foreground">Manikonda, Hyderabad · Mon to Fri, 9 am to 6 pm</span>
+            </div>
+          </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Contact Form - First column for priority visibility */}
           <div className="elegant-card font-sans">
             {intentToggle}
             {progressIndicator}
             {formHeading}
             {formContent}
             {whatsappFooter}
-          </div>
-
-          {/* Contact Information - Second column */}
-          <div>
-            <h3 className="text-2xl font-heading font-bold text-foreground mb-8">
-              Let's Start Your Project
-            </h3>
-            
-            <div className="space-y-6 mb-12">
-              {contactInfo.map((info, index) => (
-                <a
-                  key={index}
-                  href={info.action}
-                  className="flex items-center gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <info.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">{info.title}</p>
-                    <p className="text-foreground font-medium">{info.details}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-
-            <div className="space-y-6">
-              <div className="elegant-card">
-                <h4 className="text-xl font-heading font-bold text-foreground mb-4">
-                  Why Choose Mokha Designs?
-                </h4>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-muted-foreground">20+ years of design experience</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-muted-foreground">200+ projects completed successfully</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-muted-foreground">Turnkey solutions from design to furnishing</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-muted-foreground">Experienced team of professionals</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary"></div>
-                    <span className="text-muted-foreground">Quality materials and timely delivery</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       </div>
