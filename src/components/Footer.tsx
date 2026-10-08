@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="border-t border-border pb-24 md:pb-0">
       <div className="container-max px-5 md:px-10 py-10 grid gap-8 md:grid-cols-3 text-[15px]">
         <div className="flex flex-col gap-2">
-          <img src="/brand/md-mark-rule.png" alt="Mokha Designs logo" width="72" height="40" className="h-10 w-auto self-start mb-2" loading="lazy" />
+          <img src="/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png" alt="Mokha Designs logo" width="56" height="56" className="h-14 w-14 self-start mb-2" loading="lazy" />
           <span className="text-[18px] font-semibold text-foreground">Mokha Designs</span>
           <span className="text-muted-foreground">Interior design and turnkey homes, Manikonda, Hyderabad.</span>
         </div>
