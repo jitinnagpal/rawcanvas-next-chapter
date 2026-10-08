@@ -41,7 +41,7 @@ const Header = () => {
     >
       <nav className="container-max flex items-center justify-between gap-6 px-5 md:px-10 h-[76px]">
         <Link to="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)} aria-label="Mokha Designs home">
-          <img src="/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png" alt="Mokha Designs logo" width="44" height="44" className="h-10 w-10 sm:h-11 sm:w-11" />
+          <img src="/brand/md-logo-black-on-yellow.png" alt="Mokha Designs logo" width="44" height="44" className="h-10 w-10 sm:h-11 sm:w-11" />
           <span className="flex items-baseline gap-2.5">
             <span className="text-[19px] sm:text-[21px] font-semibold tracking-[0.02em] text-foreground">Mokha Designs</span>
             <span className="hidden sm:inline text-[13px] text-muted-foreground">Hyderabad</span>
