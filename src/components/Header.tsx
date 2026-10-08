@@ -40,9 +40,12 @@ const Header = () => {
       }`}
     >
       <nav className="container-max flex items-center justify-between gap-6 px-5 md:px-10 h-[76px]">
-        <Link to="/" className="flex items-baseline gap-2.5" onClick={() => setIsMenuOpen(false)}>
-          <span className="text-[21px] font-semibold tracking-[0.02em] text-foreground">Mokha Designs</span>
-          <span className="hidden sm:inline text-[13px] text-muted-foreground">Hyderabad</span>
+        <Link to="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)} aria-label="Mokha Designs home">
+          <img src="/brand/md-mark.png" alt="" width="71" height="34" className="h-[30px] sm:h-[34px] w-auto" />
+          <span className="flex items-baseline gap-2.5">
+            <span className="text-[19px] sm:text-[21px] font-semibold tracking-[0.02em] text-foreground">Mokha Designs</span>
+            <span className="hidden sm:inline text-[13px] text-muted-foreground">Hyderabad</span>
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-[15px]">
