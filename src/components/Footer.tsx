@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col gap-2">
           <img src="/lovable-uploads/999fcb58-9950-43a9-8aaa-df494205944f.png" alt="Mokha Designs logo" width="56" height="56" className="h-14 w-14 self-start mb-2" loading="lazy" />
           <span className="text-[18px] font-semibold text-foreground">Mokha Designs</span>
-          <span className="text-muted-foreground">Interior design and turnkey homes, Manikonda, Hyderabad.</span>
+          <span className="text-muted-foreground">Interior design and turnkey homes in Hyderabad.</span>
         </div>
         <div className="flex flex-col gap-2">
           <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>

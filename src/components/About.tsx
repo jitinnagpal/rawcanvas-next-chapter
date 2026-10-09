@@ -10,9 +10,8 @@ const About = () => (
       <p className="eyebrow">The studio</p>
       <h2 className="section-title">Prerna Mokha</h2>
       <p className="text-[18px] leading-[1.7] text-foreground/75">
-        Prerna spent over fifteen years delivering large-scale turnkey interiors in the UAE before bringing the
-        practice home to Hyderabad. More than 200 projects later, she takes on a few homes at a time and stays on each
-        one from brief to handover.
+        Prerna has led more than 200 interiors projects. She takes on two or three homes at a time and works on each
+        one herself, from the first brief to the day you move in, so the design you sign off is the home you get.
       </p>
     </div>
   </section>

@@ -1,8 +1,8 @@
 const facts = [
   { value: '200+', label: 'projects completed' },
-  { value: '15+ years', label: 'of large-scale turnkey work in the UAE' },
-  { value: 'One team', label: 'design, civil work, carpentry, furnishing' },
-  { value: 'West Hyderabad', label: 'Lanco Hills, Manikonda, Gachibowli and beyond' },
+  { value: '2-3 homes', label: 'at a time, each led by Prerna herself' },
+  { value: 'One team', label: 'design, civil work, carpentry and furnishing' },
+  { value: 'Brief to handover', label: 'one point of accountability, no hand-offs' },
 ];
 
 const StatsBar = () => (
