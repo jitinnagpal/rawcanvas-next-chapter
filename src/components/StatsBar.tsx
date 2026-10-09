@@ -1,6 +1,6 @@
 const facts = [
   { value: '200+', label: 'projects completed' },
-  { value: '2-3 homes', label: 'at a time, each led by Prerna herself' },
+  { value: 'Prerna-led', label: 'design direction on every home' },
   { value: 'One team', label: 'design, civil work, carpentry and furnishing' },
   { value: 'Brief to handover', label: 'one point of accountability, no hand-offs' },
 ];

@@ -10,8 +10,8 @@ const About = () => (
       <p className="eyebrow">The studio</p>
       <h2 className="section-title">Prerna Mokha</h2>
       <p className="text-[18px] leading-[1.7] text-foreground/75">
-        Prerna has led more than 200 interiors projects. She takes on two or three homes at a time and works on each
-        one herself, from the first brief to the day you move in, so the design you sign off is the home you get.
+        Prerna has led more than 200 interiors projects. Every Mokha home is designed under her direction and delivered
+        by one team, from the first brief to the day you move in, so the design you sign off is the home you get.
       </p>
     </div>
   </section>
