@@ -29,6 +29,7 @@ interface FormData {
   estimateHigh?: number | null;
   bhkSize?: string;
   sizeMultiplier?: number | null;
+  interiorsBudget?: string;
 }
 
 // Function to create JWT token for Google Sheets API authentication
@@ -138,7 +139,7 @@ function getISTTimestamp(): string {
 
 // Function to append row to Google Sheets
 async function appendToSheet(accessToken: string, sheetId: string, values: string[][]): Promise<void> {
-  const range = "A:X"; // Use default first sheet without name dependency
+  const range = "A:Y"; // Use default first sheet without name dependency
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
   const response = await fetch(url, {
@@ -232,6 +233,7 @@ serve(async (req) => {
       formData.estimateLow != null ? String(formData.estimateLow) : '',
       formData.estimateHigh != null ? String(formData.estimateHigh) : '',
       formData.sizeMultiplier != null ? String(formData.sizeMultiplier) : '',
+      formData.interiorsBudget || '', // Column Y: Interiors Budget
     ];
 
     console.log("Appending row to sheet...");

@@ -22,6 +22,15 @@ import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
+const BUDGET_OPTIONS = [
+  { value: 'up-to-30-lakhs', label: 'Up to 30 Lakhs' },
+  { value: '30-50-lakhs', label: '30 - 50 Lakhs' },
+  { value: '50-lakhs-1-crore', label: '50 Lakhs - 1 Crore' },
+  { value: '1-crore-plus', label: '1 Crore+' },
+];
+
+const budgetLabel = (value: string) => BUDGET_OPTIONS.find((b) => b.value === value)?.label ?? '';
+
 interface ContactProps {
   embedded?: boolean;
 }
@@ -342,6 +351,15 @@ const Contact = ({ embedded = false }: ContactProps) => {
       return;
     }
     
+    if (!interiorsBudget) {
+      toast({
+        title: "Missing Information",
+        description: "Please choose an interiors budget range.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Then validate estimate-specific fields
     if (!isEstimateReady()) {
       setHighlightMissingFields(true);
@@ -444,6 +462,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
         estimateHigh: estimateResult?.totalHigh ?? null,
         bhkSize: apartmentSize || '',
         sizeMultiplier: null,
+        interiorsBudget: budgetLabel(interiorsBudget),
       };
 
       console.log('Submitting form data:', submissionData);
@@ -478,6 +497,15 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (projectType && !interiorsBudget) {
+      toast({
+        title: "Missing Information",
+        description: "Please choose an interiors budget range.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     trackDesignMySpaceClicked({
       entryMode: entryMode || 'direct',
@@ -520,6 +548,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
       setProjectType('');
       setApartmentSize('');
       setPropertyStatus('');
+      setInteriorsBudget('');
       setNextStep('');
       setConsultationDate(undefined);
       setPropertyLocation('');
@@ -775,22 +804,12 @@ const Contact = ({ embedded = false }: ContactProps) => {
               Interiors Budget *
             </Label>
             <RadioGroup value={interiorsBudget} onValueChange={setInteriorsBudget} className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="15-20-lakhs" id="15-20-lakhs" />
-                <Label htmlFor="15-20-lakhs">15 – 20 Lakhs</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="20-25-lakhs" id="20-25-lakhs" />
-                <Label htmlFor="20-25-lakhs">20 – 25 Lakhs</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="25-30-lakhs" id="25-30-lakhs" />
-                <Label htmlFor="25-30-lakhs">25 – 30 Lakhs</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="40-lakhs-plus" id="40-lakhs-plus" />
-                <Label htmlFor="40-lakhs-plus">40 Lakhs+</Label>
-              </div>
+              {BUDGET_OPTIONS.map((b) => (
+                <div key={b.value} className="flex items-center space-x-2">
+                  <RadioGroupItem value={b.value} id={`budget-${b.value}`} />
+                  <Label htmlFor={`budget-${b.value}`}>{b.label}</Label>
+                </div>
+              ))}
             </RadioGroup>
           </div>
         )}
