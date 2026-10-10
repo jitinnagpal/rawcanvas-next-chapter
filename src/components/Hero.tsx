@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { useEntryMode } from '@/hooks/useEntryMode';
@@ -6,9 +6,42 @@ import { trackEstimateCostClicked } from '@/utils/analytics';
 
 const Contact = lazy(() => import('@/components/Contact'));
 
+// Three homes, three palettes. Crossfades every 6s; stays on the first image
+// for visitors who ask their device to reduce motion.
+const HERO_IMAGES = [
+  {
+    src: '/images/site/living-mauve.jpg',
+    alt: 'Living room in mauve velvet under a large abstract canvas, lit by daylight through sheer curtains, designed by Mokha Designs',
+    pos: '85% 50%',
+  },
+  {
+    src: '/images/site/hero-lounge-orange.jpg',
+    alt: 'Lounge with a burnt-orange leaf-textured wall, slatted wood ceiling and brass-framed screens, designed by Mokha Designs',
+    pos: '40% 50%',
+  },
+  {
+    src: '/images/site/hero-kitchen-sage.jpg',
+    alt: 'Sage green kitchen with a grey island set for two, designed by Mokha Designs',
+    pos: '60% 50%',
+  },
+];
+const HERO_INTERVAL_MS = 6000;
+
 const Hero = () => {
   const { setEntryMode } = useEntryMode();
   const [showFormDialog, setShowFormDialog] = useState(false);
+  const [slide, setSlide] = useState(0);
+  const [restLoaded, setRestLoaded] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    // Load the other images only after the page has settled, then start rotating.
+    const start = window.setTimeout(() => setRestLoaded(true), 2500);
+    const tick = window.setInterval(() => {
+      if (!document.hidden) setSlide((i) => (i + 1) % HERO_IMAGES.length);
+    }, HERO_INTERVAL_MS);
+    return () => { window.clearTimeout(start); window.clearInterval(tick); };
+  }, []);
 
   const openForm = () => {
     setEntryMode('consult');
@@ -41,13 +74,22 @@ const Hero = () => {
               </a>
             </div>
           </div>
-          <img
-            src="/images/site/living-mauve.jpg"
-            alt="Living room in mauve velvet under a large abstract canvas, lit by daylight through sheer curtains, designed by Mokha Designs"
-            className="order-1 lg:order-2 -mx-5 w-[calc(100%+2.5rem)] max-w-none sm:mx-0 sm:w-full h-[44vh] min-h-[300px] max-h-[420px] sm:max-h-none sm:h-[480px] lg:h-[620px] object-cover sm:rounded-[4px]"
-            style={{ objectPosition: "85% 50%" }}
-            fetchPriority="high"
-          />
+          <div className="order-1 lg:order-2 relative overflow-hidden -mx-5 w-[calc(100%+2.5rem)] max-w-none sm:mx-0 sm:w-full h-[44vh] min-h-[300px] max-h-[420px] sm:max-h-none sm:h-[480px] lg:h-[620px] sm:rounded-[4px] bg-muted">
+            {HERO_IMAGES.map((img, i) =>
+              i === 0 || restLoaded ? (
+                <img
+                  key={img.src}
+                  src={img.src}
+                  alt={i === slide ? img.alt : ''}
+                  aria-hidden={i !== slide}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1400ms] ease-in-out ${i === (restLoaded ? slide : 0) ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ objectPosition: img.pos }}
+                  fetchPriority={i === 0 ? 'high' : 'low'}
+                  decoding="async"
+                />
+              ) : null
+            )}
+          </div>
         </div>
       </section>
 
