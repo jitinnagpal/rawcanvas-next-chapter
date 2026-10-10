@@ -37,55 +37,56 @@ import living9 from '@/assets/gallery/living-9.jpg';
 import living10 from '@/assets/gallery/living-10.jpg';
 import living11 from '@/assets/gallery/living-11.jpg';
 
-const galleryData = {
+type GalleryImage = { src: string; alt: string; type?: 'video'; poster?: string };
+type GalleryCategory = { title: string; description: string; images: GalleryImage[] };
+
+const galleryData: Record<string, GalleryCategory> = {
   kitchen: {
-    title: 'Modern Kitchens',
-    description: 'Explore our collection of contemporary kitchen designs featuring gold hardware, natural materials, and sophisticated finishes.',
+    title: 'Kitchens',
+    description:
+      'Planned around how your household cooks: deep drawers over doors, counters kept clear, and appliances placed where the work happens.',
     images: [
-      { src: kitchen1, alt: 'Modern kitchen with blue and white cabinets' },
-      { src: kitchen2, alt: 'Contemporary kitchen with marble backsplash' },
-      { src: kitchen3, alt: 'Industrial kitchen with wood and concrete elements' },
-      { src: kitchen4, alt: 'Modern kitchen showroom display' },
-      { src: kitchen5, alt: 'Kitchen with sage green island and dining setup' },
-      { src: kitchen6, alt: 'Minimalist kitchen with marble island' },
-      { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video', poster: kitchen7 },
-      { src: kitchen8, alt: 'Modern kitchen island with decorative styling and wood accents' },
-      { src: kitchen9, alt: 'Contemporary kitchen with concrete walls and artistic tile display' },
+      { src: kitchen1, alt: 'Blue and white kitchen with two people at the counter' },
+      { src: kitchen2, alt: 'White kitchen with deep drawers and a marble-look backsplash' },
+      { src: kitchen3, alt: 'Kitchen in navy lacquer and light oak with tall built-in ovens' },
+      { src: kitchen4, alt: 'Grey kitchen with an island and open display shelving' },
+      { src: kitchen5, alt: 'Sage green kitchen with a grey island set for two' },
+      { src: kitchen6, alt: 'Grey kitchen with an island hob and a steel chimney' },
+      { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video' as const, poster: kitchen7 },
+      { src: kitchen8, alt: 'End of a kitchen island with open shelving' },
+      { src: kitchen9, alt: 'Frosted-glass crockery unit beside a tile mosaic wall' },
     ]
   },
   bedroom: {
-    title: 'Luxury Bedrooms',
-    description: 'Discover our elegant bedroom designs with warm neutral tones and luxury finishes.',
+    title: 'Bedrooms',
+    description:
+      'Kept calm: one considered wall behind the bed, layered light in place of a single ceiling fixture, and wardrobes built into the plan rather than added at the end.',
     images: [
-      { src: bedroom1, alt: 'Modern bedroom with gold sunburst mirror and textured wall' },
-      { src: bedroom2, alt: 'Contemporary bedroom with ambient lighting and mirrored wardrobe' },
-      { src: bedroom3, alt: 'Elegant bedroom with palm leaf wallpaper and purple accents' },
-      { src: bedroom4, alt: 'Serene bedroom with textured wallpaper and breakfast tray' },
-      { src: bedroom5, alt: 'Cozy bedroom with textured walls and garden view' },
+      { src: bedroom1, alt: 'Bedroom with a grasscloth headboard wall and sunburst mirror' },
+      { src: bedroom2, alt: 'White bedroom with a slatted wood ceiling feature and mirrored wardrobe' },
+      { src: bedroom3, alt: 'Bedroom with feather-print wallpaper and a marble-look wardrobe' },
+      { src: bedroom4, alt: 'Grey guest bedroom with a block-print throw' },
+      { src: bedroom5, alt: 'Bedroom corner with a window seat and roman blind' },
     ]
   },
   living: {
-    title: 'Living Spaces',
-    description: 'Browse our warm and inviting living space designs with artistic wall features and elegant furnishings.',
+    title: 'Living spaces',
+    description:
+      'Living rooms, bars, studies, entrances and balconies. Each is planned for daily use first, then finished with the materials and pieces that make it yours.',
     images: [
-      { src: living1, alt: 'Modern living room with gold coffee tables and blue accents' },
-      { src: living2, alt: 'Contemporary living space with modern entertainment center' },
-      { src: living3, alt: 'Elegant living room with crystal chandeliers and tufted sofas' },
-      { src: living4, alt: 'Cozy living space with textured ceiling and warm orange tones' },
-      { src: living5, alt: 'Stylish bar area with metallic accents and blue seating' },
-      { src: living6, alt: 'Hallway with decorative accents and traditional furnishings' },
-      { src: living7, alt: 'Study area with display cabinet and telescope' },
-      { src: living8, alt: 'Reading nook with wooden bookshelf and modern wall art' },
-      { src: living9, alt: 'Corner seating with warm tones and artistic wallpaper' },
-      { src: living10, alt: 'Balcony garden with red cushions and plants' },
-      { src: living11, alt: 'Elegant entryway with wood paneling and decorative wall accents' },
+      { src: living1, alt: 'Living room in grey and blue with brass coffee tables' },
+      { src: living2, alt: 'Living room with a TV wall and glass coffee tables' },
+      { src: living3, alt: 'Long living room with tufted sofas and crystal pendant lights' },
+      { src: living4, alt: 'Lounge with a burnt-orange textured wall and slatted ceiling' },
+      { src: living5, alt: 'Home bar with teal stools and a slatted ceiling' },
+      { src: living6, alt: 'Entrance corridor with a carved panel and runner rug' },
+      { src: living7, alt: 'Study corner with a grey bar cabinet and a telescope' },
+      { src: living8, alt: 'Reading corner with solid wood shelving and a hand-painted wall' },
+      { src: living9, alt: 'Armchair corner against a hand-painted wall' },
+      { src: living10, alt: 'Balcony with a turf floor, red cushions and hanging planters' },
+      { src: living11, alt: 'Entrance foyer with a wood-panelled door wall and a white shoe cabinet' },
     ]
   },
-  dining: {
-    title: 'Transformations',
-    description: 'View our sophisticated dining area designs with contemporary lighting and luxury finishes.',
-    images: []
-  }
 };
 
 const Gallery = () => {
@@ -98,12 +99,12 @@ const Gallery = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [category]);
   
-  const gallery = category ? galleryData[category as keyof typeof galleryData] : null;
+  const gallery = category ? galleryData[category] : null;
   
   const handleBackToPortfolio = () => {
     navigate('/');
     setTimeout(() => {
-      const portfolioSection = document.getElementById('portfolio');
+      const portfolioSection = document.getElementById('work');
       if (portfolioSection) {
         portfolioSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -115,7 +116,7 @@ const Gallery = () => {
       <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-heading font-bold mb-4">Gallery not found</h1>
-            <Button onClick={handleBackToPortfolio}>Back to Portfolio</Button>
+            <Button onClick={handleBackToPortfolio}>Back to recent homes</Button>
           </div>
       </div>
     );
@@ -130,7 +131,7 @@ const Gallery = () => {
           <div className="mb-8 md:mb-12">
             <Button variant="ghost" className="mb-4 md:mb-6 -ml-4" onClick={handleBackToPortfolio}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Portfolio
+              Back to recent homes
             </Button>
             <h1 className="text-[32px] md:text-5xl font-heading font-medium tracking-tight text-foreground mb-3 md:mb-4">
               {gallery.title}
@@ -152,7 +153,7 @@ const Gallery = () => {
                   {image.type === 'video' ? (
                     <video
                       src={image.src}
-                      poster={(image as any).poster}
+                      poster={image.poster}
                       className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                       muted
                       playsInline
