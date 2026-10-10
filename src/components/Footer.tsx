@@ -12,7 +12,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col gap-2">
           <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
-          <a href="mailto:mokhadesigns@gmail.com" className="text-foreground hover:text-muted-foreground">mokhadesigns@gmail.com</a>
+          <a href="mailto:mokha.designs@gmail.com" className="text-foreground hover:text-muted-foreground">mokha.designs@gmail.com</a>
         </div>
         <div className="flex flex-col gap-2">
           <a href="https://www.instagram.com/mokhadesigns/" target="_blank" rel="noopener" className="text-foreground hover:text-muted-foreground">Instagram</a>

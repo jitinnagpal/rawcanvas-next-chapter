@@ -82,8 +82,8 @@ const Contact = ({ embedded = false }: ContactProps) => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'mokhadesigns@gmail.com',
-      action: 'mailto:mokhadesigns@gmail.com'
+      details: 'mokha.designs@gmail.com',
+      action: 'mailto:mokha.designs@gmail.com'
     },
     {
       icon: MapPin,
@@ -655,7 +655,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
             />
             <div className="flex flex-col gap-1 text-[16px]">
               <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
-              <a href="mailto:mokhadesigns@gmail.com" className="text-foreground hover:text-muted-foreground">mokhadesigns@gmail.com</a>
+              <a href="mailto:mokha.designs@gmail.com" className="text-foreground hover:text-muted-foreground">mokha.designs@gmail.com</a>
               <span className="text-muted-foreground">Manikonda, Hyderabad · Mon to Fri, 9 am to 6 pm</span>
             </div>
           </div>
