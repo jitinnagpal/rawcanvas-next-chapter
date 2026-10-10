@@ -37,7 +37,7 @@ import living9 from '@/assets/gallery/living-9.jpg';
 import living10 from '@/assets/gallery/living-10.jpg';
 import living11 from '@/assets/gallery/living-11.jpg';
 
-type GalleryImage = { src: string; alt: string; type?: 'video'; poster?: string };
+type GalleryImage = { src: string; alt: string; type?: 'video'; poster?: string; caption?: string };
 type GalleryCategory = { title: string; description: string; images: GalleryImage[] };
 
 const galleryData: Record<string, GalleryCategory> = {
@@ -46,7 +46,12 @@ const galleryData: Record<string, GalleryCategory> = {
     description:
       'Planned around how your household cooks: deep drawers over doors, counters kept clear, and appliances placed where the work happens.',
     images: [
-      { src: kitchen1, alt: 'Blue and white kitchen with two people at the counter' },
+      {
+        src: kitchen1,
+        alt: 'Kitchen with sea-blue base units under white upper cabinets',
+        caption:
+          'For a family that loves the ocean and surfing: sea-blue base units under white uppers, with the theme carried through the home by a sand-textured abstract waves wallpaper.',
+      },
       { src: kitchen2, alt: 'White kitchen with deep drawers and a marble-look backsplash' },
       { src: kitchen3, alt: 'Kitchen in navy lacquer and light oak with tall built-in ovens' },
       { src: kitchen4, alt: 'Grey kitchen with an island and open display shelving' },
@@ -165,6 +170,11 @@ const Gallery = () => {
                       alt={image.alt}
                       className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                  )}
+                  {image.caption && (
+                    <p className="px-4 py-3 text-[14px] md:text-[15px] leading-snug text-foreground/75 border-t border-border">
+                      {image.caption}
+                    </p>
                   )}
                 </div>
               ))}
