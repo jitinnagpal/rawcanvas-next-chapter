@@ -11,17 +11,17 @@ const items: Item[] = [
     wide: true,
   },
   {
-    src: '/images/site/lounge-screens.jpg',
-    alt: 'Lounge behind brass-framed fluted-glass screens under a slatted wood ceiling',
-    title: 'Lounge.',
-    note: 'Brass-framed glass screens divide it from the entrance without closing it off.',
-  },
-  {
     src: '/images/site/kitchen-ocean.jpg',
     alt: 'Kitchen with sea-blue base units under white upper cabinets',
     title: 'Kitchen.',
     note: 'Sea-blue base units for a family that loves the ocean.',
     pos: '18% 50%',
+  },
+  {
+    src: '/images/site/lounge-screens.jpg',
+    alt: 'Lounge behind brass-framed fluted-glass screens under a slatted wood ceiling',
+    title: 'Lounge.',
+    note: 'Brass-framed glass screens divide it from the entrance without closing it off.',
   },
   {
     src: '/images/site/reading-nook.jpg',
