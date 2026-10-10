@@ -11,32 +11,21 @@ export const openWhatsApp = (message: string) => {
   window.open(getWhatsAppUrl(message), '_blank', 'noopener,noreferrer');
 };
 
-// Track WhatsApp click — single unified event via gtag only
+// WhatsApp clicks are intent, not a lead: nobody has given their details yet.
+// Meta gets the standard "Contact" event (form submissions remain "Lead").
+// Google Ads gets its own WhatsApp conversion action, set to Secondary in the Ads
+// account so it is reported but does not drive bidding the way form leads do.
 export const trackWhatsAppClick = (location: string) => {
-  console.log('[Analytics] WhatsApp clicked', { location });
+  const w = typeof window !== 'undefined' ? (window as any) : null;
+  if (!w) return;
 
-  // Fire ONLY via gtag (NOT dataLayer.push) to avoid duplicate/stale events
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'whatsapp_click', {
-      event_category: 'engagement',
-      event_label: 'whatsapp_chat',
-      source: 'whatsapp_cta',
-      cta: 'chat_whatsapp',
-      location,
-    });
-
-    // Google Ads conversion for WhatsApp clicks
-    (window as any).gtag('event', 'conversion', {
-      'send_to': 'AW-18053594263/ZVdUCKfp6ZQcEJf5z6BD',
-    });
+  if (w.gtag) {
+    w.gtag('event', 'whatsapp_click', { event_category: 'engagement', location });
+    w.gtag('event', 'conversion', { send_to: 'AW-18053594263/ZVdUCKfp6ZQcEJf5z6BD' });
   }
 
-  // Fire Meta Pixel Lead event
-  if (typeof window !== 'undefined' && (window as any).fbq) {
-    (window as any).fbq('track', 'Lead', {
-      source: 'whatsapp_cta',
-      location,
-    });
+  if (w.fbq) {
+    w.fbq('track', 'Contact', { content_name: 'whatsapp', location });
   }
 };
 

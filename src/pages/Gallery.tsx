@@ -104,7 +104,9 @@ const Gallery = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [category]);
   
-  const gallery = category ? galleryData[category] : null;
+  // /gallery/dining existed on the old site; send old links to Living spaces.
+  const key = category === 'dining' ? 'living' : category;
+  const gallery = key ? galleryData[key] : null;
   
   const handleBackToPortfolio = () => {
     navigate('/');
