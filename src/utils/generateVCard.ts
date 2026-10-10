@@ -7,7 +7,7 @@ VERSION:3.0
 FN:Mokha Designs
 ORG:Mokha Designs
 TEL;TYPE=WORK,VOICE:+919908392200
-EMAIL:mokhadesigns@outlook.com
+EMAIL:mokhadesigns@gmail.com
 URL:https://www.mokhadesigns.com/
 END:VCARD`;
 

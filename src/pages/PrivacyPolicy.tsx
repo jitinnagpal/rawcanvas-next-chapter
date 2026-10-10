@@ -97,7 +97,7 @@ const PrivacyPolicy = () => {
             </ul>
             <p className="mt-4">
               To exercise any of these rights, you may contact us at{' '}
-              <a href="mailto:mokhadesigns@outlook.com" className="text-primary hover:underline">mokhadesigns@outlook.com</a>.
+              <a href="mailto:mokhadesigns@gmail.com" className="text-primary hover:underline">mokhadesigns@gmail.com</a>.
             </p>
             <p>We will respond to such requests within a reasonable timeframe.</p>
           </section>
@@ -116,7 +116,7 @@ const PrivacyPolicy = () => {
             <h3 className="font-heading text-2xl font-semibold mb-4">11. Contact Us</h3>
             <p><strong>Mokha Designs (Raw Canvas)</strong><br />
             Hyderabad, India<br />
-            Email: <a href="mailto:mokhadesigns@outlook.com" className="text-primary hover:underline">mokhadesigns@outlook.com</a><br />
+            Email: <a href="mailto:mokhadesigns@gmail.com" className="text-primary hover:underline">mokhadesigns@gmail.com</a><br />
             Phone: <a href="tel:+919908392200" className="text-primary hover:underline">+91 99083 92200</a></p>
           </section>
 

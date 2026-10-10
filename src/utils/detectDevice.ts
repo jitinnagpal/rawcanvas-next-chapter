@@ -45,7 +45,8 @@ export const detectBrowser = (): string => {
  */
 export const getVisitorLocation = async (): Promise<string> => {
   try {
-    const response = await fetch('https://ipapi.co/json/');
+    // Never let this third-party lookup delay a lead: give up after 2 seconds.
+    const response = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(2000) });
     
     if (!response.ok) {
       console.warn('Failed to fetch location data');
@@ -63,7 +64,7 @@ export const getVisitorLocation = async (): Promise<string> => {
     
     return 'Unknown';
   } catch (error) {
-    console.error('Error fetching visitor location:', error);
+    console.warn('Visitor location unavailable:', error);
     return 'Unknown';
   }
 };

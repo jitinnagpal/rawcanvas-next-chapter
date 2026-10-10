@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils';
 import { useState, useEffect, useRef } from 'react';
 import { submitLeadToSheet } from '@/utils/leads';
 import { useToast } from '@/hooks/use-toast';
-import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 import { useEntryMode } from '@/hooks/useEntryMode';
 import { trackDesignMySpaceClicked, trackLeadValidationFailed } from '@/utils/analytics';
@@ -21,10 +20,12 @@ import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
+// Mirrors the studio's project-value slabs; "Under 30 Lakhs" sits below them.
 const BUDGET_OPTIONS = [
-  { value: 'up-to-30-lakhs', label: 'Up to 30 Lakhs' },
+  { value: 'under-30-lakhs', label: 'Under 30 Lakhs' },
   { value: '30-50-lakhs', label: '30 - 50 Lakhs' },
-  { value: '50-lakhs-1-crore', label: '50 Lakhs - 1 Crore' },
+  { value: '50-70-lakhs', label: '50 - 70 Lakhs' },
+  { value: '70-lakhs-1-crore', label: '70 Lakhs - 1 Crore' },
   { value: '1-crore-plus', label: '1 Crore+' },
 ];
 
@@ -35,12 +36,13 @@ interface ContactProps {
 }
 
 const Contact = ({ embedded = false }: ContactProps) => {
+  // The form renders twice on the home page (section + hero dialog); unique ids keep labels bound to their own inputs.
+  const fid = (id: string) => (embedded ? `dlg-${id}` : id);
   const [honeypot, setHoneypot] = useState('');
   const [projectType, setProjectType] = useState('');
   const [apartmentSize, setApartmentSize] = useState('');
   const [propertyStatus, setPropertyStatus] = useState('');
   const [interiorsBudget, setInteriorsBudget] = useState('');
-  const [nextStep, setNextStep] = useState('');
   const [consultationDate, setConsultationDate] = useState<Date>();
   const [propertyLocation, setPropertyLocation] = useState('hyderabad');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,8 +82,8 @@ const Contact = ({ embedded = false }: ContactProps) => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'mokhadesigns@outlook.com',
-      action: 'mailto:mokhadesigns@outlook.com'
+      details: 'mokhadesigns@gmail.com',
+      action: 'mailto:mokhadesigns@gmail.com'
     },
     {
       icon: MapPin,
@@ -211,12 +213,10 @@ const Contact = ({ embedded = false }: ContactProps) => {
     setIsSubmitting(true);
 
     try {
-      const formElement = document.querySelector('form') as HTMLFormElement;
-      const formData = new FormData(formElement);
-      
-      const name = formData.get('name') as string;
-      const email = formData.get('email') as string;
-      const commercialSize = formData.get('commercial-size') as string;
+      // Read from component state, not the DOM: the page can hold two copies
+      // of this form (section + dialog), and querySelector would pick the wrong one.
+      const name = nameValue;
+      const email = emailValue;
 
       // Get normalized phone number for storage
       const phoneValidation = validatePhone(phoneValue, propertyLocation);
@@ -247,9 +247,9 @@ const Contact = ({ embedded = false }: ContactProps) => {
         propertyLocation,
         projectType,
         propertyType: '',
-        propertySize: projectType === 'commercial' ? commercialSize : apartmentSize,
+        propertySize: apartmentSize,
         propertyStatus: propertyStatus || '',
-        nextStep,
+        nextStep: 'consultation',
         consultationDate: consultationDate ? format(consultationDate, 'PPP') : '',
         visitorLocation,
         deviceType,
@@ -290,6 +290,26 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formElement = e.currentTarget; // capture before any await; React nulls it afterwards
+
+    setNameTouched(true);
+    setPhoneTouched(true);
+    const nameCheck = validateFullName(nameValue);
+    if (!nameCheck.isValid) {
+      setNameError(nameCheck.error);
+      toast({ title: "Missing Information", description: nameCheck.error, variant: "destructive" });
+      return;
+    }
+    const phoneCheck = validatePhone(phoneValue, propertyLocation);
+    if (!phoneCheck.valid) {
+      setPhoneError(phoneCheck.error);
+      toast({ title: "Missing Information", description: phoneCheck.error, variant: "destructive" });
+      return;
+    }
+    if (!propertyStatus) {
+      toast({ title: "Missing Information", description: "Please tell us the property status.", variant: "destructive" });
+      return;
+    }
 
     if (projectType && !interiorsBudget) {
       toast({
@@ -320,29 +340,17 @@ const Contact = ({ embedded = false }: ContactProps) => {
         });
       }
 
-      // Show success message
-      if (nextStep === 'direct-call') {
-        toast({
-          title: "Thank You!",
-          description: "Your information has been saved. Save our contact to call us.",
-        });
-        // Trigger vCard download
-        downloadVCard();
-      } else {
-        toast({
-          title: "Thank You!",
-          description: "We'll contact you soon to schedule your consultation.",
-        });
-      }
+      toast({
+        title: "Thank you",
+        description: "We'll call you shortly to set up the design call.",
+      });
 
       // Reset form
-      const formElement = e.currentTarget;
       formElement.reset();
       setProjectType('');
       setApartmentSize('');
       setPropertyStatus('');
       setInteriorsBudget('');
-      setNextStep('');
       setConsultationDate(undefined);
       setPropertyLocation('');
       setEntryMode(null);
@@ -385,11 +393,11 @@ const Contact = ({ embedded = false }: ContactProps) => {
       {/* Basic Information */}
       <div className="space-y-4">
         <div>
-          <Label htmlFor="name" className="text-sm font-medium text-foreground">
+          <Label htmlFor={fid("name")} className="text-sm font-medium text-foreground">
             Full Name *
           </Label>
           <Input 
-            id="name"
+            id={fid("name")}
             name="name"
             placeholder="Your full name"
             className={cn(
@@ -411,11 +419,11 @@ const Contact = ({ embedded = false }: ContactProps) => {
         </div>
 
         <div>
-          <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+          <Label htmlFor={fid("phone")} className="text-sm font-medium text-foreground">
             Phone Number *
           </Label>
             <Input 
-              id="phone"
+              id={fid("phone")}
               name="phone"
               type="tel"
               inputMode="numeric"
@@ -437,7 +445,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
         </div>
 
         <div ref={locationRef} className="rounded-lg">
-          <Label htmlFor="location" className="text-sm font-medium text-foreground">
+          <Label htmlFor={fid("location")} className="text-sm font-medium text-foreground">
             Property Location *
           </Label>
           <Select value={propertyLocation} onValueChange={setPropertyLocation} required>
@@ -464,8 +472,8 @@ const Contact = ({ embedded = false }: ContactProps) => {
           </Label>
           <RadioGroup value={projectType} onValueChange={setProjectType} className="flex gap-6" required>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="residential" id="residential" />
-              <Label htmlFor="residential">Residential</Label>
+              <RadioGroupItem value="residential" id={fid("residential")} />
+              <Label htmlFor={fid("residential")}>Residential</Label>
             </div>
           </RadioGroup>
         </div>
@@ -478,16 +486,16 @@ const Contact = ({ embedded = false }: ContactProps) => {
             </Label>
             <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="3bhk" id="3bhk" />
-                <Label htmlFor="3bhk">3BHK</Label>
+                <RadioGroupItem value="3bhk" id={fid("3bhk")} />
+                <Label htmlFor={fid("3bhk")}>3BHK</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="4bhk" id="4bhk" />
-                <Label htmlFor="4bhk">4BHK</Label>
+                <RadioGroupItem value="4bhk" id={fid("4bhk")} />
+                <Label htmlFor={fid("4bhk")}>4BHK</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="5bhk" id="5bhk" />
-                <Label htmlFor="5bhk">5BHK+</Label>
+                <RadioGroupItem value="5bhk" id={fid("5bhk")} />
+                <Label htmlFor={fid("5bhk")}>5BHK+</Label>
               </div>
             </RadioGroup>
           </div>
@@ -496,11 +504,11 @@ const Contact = ({ embedded = false }: ContactProps) => {
         {/* Conditional: Commercial Property Size */}
         {projectType === 'commercial' && (
           <div>
-            <Label htmlFor="commercial-size" className="text-sm font-medium text-foreground">
+            <Label htmlFor={fid("commercial-size")} className="text-sm font-medium text-foreground">
               Commercial Property Size (sqft) *
             </Label>
             <Input 
-              id="commercial-size"
+              id={fid("commercial-size")}
               name="commercial-size"
               type="number" 
               placeholder="Enter size in square feet"
@@ -519,16 +527,16 @@ const Contact = ({ embedded = false }: ContactProps) => {
             </Label>
             <RadioGroup value={propertyStatus} onValueChange={setPropertyStatus} className="space-y-2">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="handed-over" id="handed-over" />
-                <Label htmlFor="handed-over">Handed Over</Label>
+                <RadioGroupItem value="handed-over" id={fid("handed-over")} />
+                <Label htmlFor={fid("handed-over")}>Handed Over</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="1-3-months" id="1-3-months" />
-                <Label htmlFor="1-3-months">1–3 Months</Label>
+                <RadioGroupItem value="1-3-months" id={fid("1-3-months")} />
+                <Label htmlFor={fid("1-3-months")}>1–3 Months</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="3-6-months" id="3-6-months" />
-                <Label htmlFor="3-6-months">3–6 Months</Label>
+                <RadioGroupItem value="3-6-months" id={fid("3-6-months")} />
+                <Label htmlFor={fid("3-6-months")}>3–6 Months</Label>
               </div>
             </RadioGroup>
           </div>
@@ -543,8 +551,8 @@ const Contact = ({ embedded = false }: ContactProps) => {
             <RadioGroup value={interiorsBudget} onValueChange={setInteriorsBudget} className="space-y-2">
               {BUDGET_OPTIONS.map((b) => (
                 <div key={b.value} className="flex items-center space-x-2">
-                  <RadioGroupItem value={b.value} id={`budget-${b.value}`} />
-                  <Label htmlFor={`budget-${b.value}`}>{b.label}</Label>
+                  <RadioGroupItem value={b.value} id={fid(`budget-${b.value}`)} />
+                  <Label htmlFor={fid(`budget-${b.value}`)}>{b.label}</Label>
                 </div>
               ))}
             </RadioGroup>
@@ -552,30 +560,12 @@ const Contact = ({ embedded = false }: ContactProps) => {
         )}
       </div>
 
-      {/* Next Step Preference */}
+      {/* Preferred call date */}
       {projectType && (
         <div className="space-y-4 pt-4 border-t border-border">
-          <div>
-            <Label className="text-sm font-medium text-foreground mb-3 block">
-              How would you like to proceed?
-            </Label>
-            <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="consultation" id="consultation" />
-                <Label htmlFor="consultation">Schedule a free consultation</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="direct-call" id="direct-call" />
-                <Label htmlFor="direct-call">I'll call you directly</Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* Conditional: Calendar Picker */}
-          {nextStep === 'consultation' && (
             <div>
               <Label className="text-sm font-medium text-foreground mb-3 block">
-                Preferred Consultation Date
+                Preferred date for the call (optional)
               </Label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -602,7 +592,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
                 </PopoverContent>
               </Popover>
             </div>
-          )}
         </div>
       )}
 
@@ -666,7 +655,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
             />
             <div className="flex flex-col gap-1 text-[16px]">
               <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
-              <a href="mailto:mokhadesigns@outlook.com" className="text-foreground hover:text-muted-foreground">mokhadesigns@outlook.com</a>
+              <a href="mailto:mokhadesigns@gmail.com" className="text-foreground hover:text-muted-foreground">mokhadesigns@gmail.com</a>
               <span className="text-muted-foreground">Manikonda, Hyderabad · Mon to Fri, 9 am to 6 pm</span>
             </div>
           </div>

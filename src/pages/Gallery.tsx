@@ -13,7 +13,7 @@ import kitchen4 from '@/assets/gallery/kitchen-4.jpg';
 import kitchen5 from '@/assets/gallery/kitchen-5.jpg';
 import kitchen6 from '@/assets/gallery/kitchen-6.jpg';
 import kitchen7 from '@/assets/gallery/kitchen-7.jpg';
-import kitchenVideo1 from '@/assets/gallery/kitchen-7.mov';
+import kitchenVideo1 from '@/assets/gallery/kitchen-7.mp4';
 import kitchen8 from '@/assets/gallery/kitchen-8.jpg';
 import kitchen9 from '@/assets/gallery/kitchen-9.jpg';
 

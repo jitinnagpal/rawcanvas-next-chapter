@@ -29,7 +29,8 @@ const Header = () => {
     setIsMenuOpen(false);
     if (location.pathname === '/') {
       e.preventDefault();
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+      // Wait for the mobile menu to collapse first; scrolling while it closes overshoots the form.
+      setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50);
     }
   };
 
