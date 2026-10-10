@@ -374,7 +374,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
   };
 
   const formHeading = (
-    <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
+    <h3 className="text-[22px] md:text-2xl font-heading font-semibold text-foreground mb-5 md:mb-6">
       Request a Design Call
     </h3>
   );
@@ -639,13 +639,13 @@ const Contact = ({ embedded = false }: ContactProps) => {
   }
 
   return (
-    <section id="contact" className="bg-secondary">
-      <div className="container-max px-5 md:px-10 py-20 md:py-24">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-start">
-          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
+    <section id="contact" className="bg-secondary scroll-mt-16 md:scroll-mt-[76px]">
+      <div className="container-max px-5 md:px-10 py-16 md:py-24">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-start">
+          <div className="flex flex-col gap-4 md:gap-6 lg:sticky lg:top-28">
             <p className="eyebrow">Start a project</p>
             <h2 className="section-title">Planning a home in Hyderabad?</h2>
-            <p className="text-[17px] leading-relaxed text-foreground/75 max-w-[520px]">
+            <p className="text-[16px] md:text-[17px] leading-relaxed text-foreground/75 max-w-[520px]">
               Tell us about the space, your timeline and your budget. Prerna takes it from there on a design call,
               and works through costs with you as the options take shape.
             </p>
@@ -653,19 +653,27 @@ const Contact = ({ embedded = false }: ContactProps) => {
               src="/images/site/balcony.jpg"
               alt="Balcony garden with red cushions overlooking green lawns"
               loading="lazy"
-              className="w-full h-[260px] md:h-[340px] object-cover"
+              className="hidden lg:block w-full h-[340px] object-cover"
             />
-            <div className="flex flex-col gap-1 text-[16px]">
+            <div className="hidden lg:flex flex-col gap-1 text-[16px]">
               <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
               <a href="mailto:mokha.designs@gmail.com" className="text-foreground hover:text-muted-foreground">mokha.designs@gmail.com</a>
-              <span className="text-muted-foreground">Manikonda, Hyderabad · Mon to Fri, 9 am to 6 pm</span>
+              <span className="text-muted-foreground mt-1">Manikonda, Hyderabad</span>
+              <span className="text-muted-foreground">Mon to Fri, 9&nbsp;am to 6&nbsp;pm</span>
             </div>
           </div>
 
-          <div className="elegant-card font-sans">
+          <div className="elegant-card font-sans !p-5 sm:!p-8">
             {formHeading}
             {formContent}
             {whatsappFooter}
+          </div>
+
+          <div className="lg:hidden flex flex-col gap-1 text-[16px]">
+            <a href="tel:+919908392200" className="text-foreground hover:text-muted-foreground">+91 99083 92200</a>
+            <a href="mailto:mokha.designs@gmail.com" className="text-foreground hover:text-muted-foreground">mokha.designs@gmail.com</a>
+            <span className="text-muted-foreground mt-1">Manikonda, Hyderabad</span>
+              <span className="text-muted-foreground">Mon to Fri, 9&nbsp;am to 6&nbsp;pm</span>
           </div>
         </div>
       </div>

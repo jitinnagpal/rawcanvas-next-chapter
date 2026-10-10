@@ -43,45 +43,47 @@ const rooms = [
 ];
 
 const Portfolio = () => (
-  <section id="work" className="container-max px-5 md:px-10 pt-20 md:pt-24 pb-10">
-    <div className="flex flex-wrap items-end justify-between gap-5 mb-10">
+  <section id="work" className="container-max px-5 md:px-10 pt-16 md:pt-24 pb-10 scroll-mt-16 md:scroll-mt-[76px]">
+    <div className="flex flex-wrap items-end justify-between gap-4 md:gap-5 mb-8 md:mb-10">
       <h2 className="section-title">Recent homes</h2>
-      <p className="text-[17px] text-foreground/75 max-w-[460px]">
+      <p className="text-[16px] md:text-[17px] text-foreground/75 max-w-[460px]">
         Photographed as lived in, not staged. Every room below is a finished Mokha Designs project.
       </p>
     </div>
 
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-9 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((it) => (
         <figure key={it.src} className={`flex flex-col gap-3 ${it.wide ? 'sm:col-span-2' : ''}`}>
           <img
             src={it.src}
             alt={it.alt}
             loading="lazy"
-            className={`w-full object-cover ${it.wide ? 'h-[320px] sm:h-[460px] lg:h-[520px]' : 'h-[320px] sm:h-[400px] lg:h-[440px]'}`}
+            className={`-mx-5 w-[calc(100%+2.5rem)] max-w-none sm:mx-0 sm:w-full object-cover ${it.wide ? 'h-[300px] sm:h-[460px] lg:h-[520px]' : 'h-[300px] sm:h-[400px] lg:h-[440px]'}`}
           />
-          <figcaption className="text-[15px] text-foreground/75">
+          <figcaption className="text-[14px] md:text-[15px] leading-snug text-foreground/75">
             <span className="font-medium text-foreground">{it.title}</span> {it.note}
           </figcaption>
         </figure>
       ))}
     </div>
 
-    <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 text-[16px]">
-      <span className="text-muted-foreground">Browse by room:</span>
-      {rooms.map((r) => (
-        <Link key={r.to} to={r.to} className="underline underline-offset-4 decoration-border hover:decoration-foreground">
-          {r.label}
-        </Link>
-      ))}
-      <a
-        href="/brochures/mokha-designs-portfolio.pdf"
-        target="_blank"
-        rel="noopener"
-        className="underline underline-offset-4 decoration-border hover:decoration-foreground"
-      >
-        Portfolio PDF
-      </a>
+    <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+      <span className="text-[15px] text-muted-foreground">Browse by room</span>
+      <div className="flex flex-wrap gap-2.5">
+        {rooms.map((r) => (
+          <Link key={r.to} to={r.to} className="rounded-full border border-border px-4 py-2.5 text-[15px] text-foreground hover:border-foreground transition-colors">
+            {r.label}
+          </Link>
+        ))}
+        <a
+          href="/brochures/mokha-designs-portfolio.pdf"
+          target="_blank"
+          rel="noopener"
+          className="rounded-full border border-border px-4 py-2.5 text-[15px] text-foreground hover:border-foreground transition-colors"
+        >
+          Portfolio PDF
+        </a>
+      </div>
     </div>
   </section>
 );

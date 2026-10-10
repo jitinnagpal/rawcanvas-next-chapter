@@ -124,18 +124,18 @@ const Gallery = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="section-padding">
+      <main className="px-5 md:px-10 pt-6 pb-16 md:py-24">
         <div className="container-max">
           {/* Header */}
-          <div className="mb-12">
-            <Button variant="ghost" className="mb-6" onClick={handleBackToPortfolio}>
+          <div className="mb-8 md:mb-12">
+            <Button variant="ghost" className="mb-4 md:mb-6 -ml-4" onClick={handleBackToPortfolio}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Portfolio
             </Button>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
+            <h1 className="text-[32px] md:text-5xl font-heading font-medium tracking-tight text-foreground mb-3 md:mb-4">
               {gallery.title}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl">
+            <p className="text-[16px] md:text-xl text-muted-foreground max-w-3xl">
               {gallery.description}
             </p>
           </div>

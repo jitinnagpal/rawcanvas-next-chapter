@@ -21,13 +21,13 @@ const testimonials = [
 
 const Testimonials = () => (
   <section id="testimonials" className="bg-card">
-    <div className="container-max px-5 md:px-10 py-20 md:py-24 flex flex-col gap-10">
+    <div className="container-max px-5 md:px-10 py-16 md:py-24 flex flex-col gap-8 md:gap-10">
       <h2 className="section-title">From our clients</h2>
-      <div className="grid gap-10 md:grid-cols-3">
+      <div className="grid md:grid-cols-3 md:gap-10 divide-y divide-border md:divide-y-0">
         {testimonials.map((t) => (
-          <blockquote key={t.who} className="flex flex-col gap-4">
-            <p className="text-[17px] leading-[1.7] text-foreground">"{t.quote}"</p>
-            <footer className="text-[15px] text-muted-foreground">
+          <blockquote key={t.who} className="flex flex-col gap-3 md:gap-4 py-7 first:pt-0 last:pb-0 md:py-0">
+            <p className="text-[16px] md:text-[17px] leading-[1.7] text-foreground">&ldquo;{t.quote}&rdquo;</p>
+            <footer className="text-[14px] md:text-[15px] text-muted-foreground">
               {t.who}, {t.what}
             </footer>
           </blockquote>
