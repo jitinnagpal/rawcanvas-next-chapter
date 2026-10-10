@@ -4,7 +4,10 @@
  * Lives inside the leads Google Sheet (Extensions > Apps Script) and is
  * deployed as a web app (Execute as: Me, Who has access: Anyone).
  * The website form POSTs JSON here; each submission becomes one row in the
- * "Website" tab, columns A:Y, same layout as the old Supabase function.
+ * "Website" tab. Columns A:X keep the old Supabase layout (by position).
+ * Interiors Budget is found by its header name, wherever that column sits,
+ * and is created after the last header if missing. Columns the team uses
+ * for follow-ups (Follow Up Owner onwards) are never written.
  *
  * Source of truth for this file: google-apps-script/lead-intake.gs in the
  * rawcanvas-next-chapter repo. After editing, paste into the Apps Script
@@ -12,14 +15,12 @@
  * URL stays the same.
  */
 
-var HEADERS = [
-  'Name', 'Phone', 'Email', 'Property Location', 'Project Type', 'Property Type',
-  'Property Size', 'Property Status', 'Next Step', 'Consultation Date',
-  'Visitor Location', 'Device Type', 'Browser', 'Timestamp', 'Intent',
-  'Scope of Work', 'Finish Level', 'Storage Requirement', 'Upgrades', 'BHK Size',
-  'Entry Mode (legacy)', 'Estimate Low', 'Estimate High', 'Size Multiplier',
-  'Interiors Budget',
-];
+// Columns A:X, by position: Name, Phone, Email, Property Location, Project
+// Type, Property Type, Property Size, Property Status, Next Step, Consultation
+// Date, Visitor Location, Device, Browser, Timestamp, Intent, Scope of Work,
+// Finish Level, Storage Requirement, Upgrades, BHK Size, Entry Mode (legacy,
+// blank), Estimate Low, Estimate High, Size Multiplier.
+var BUDGET_HEADER = 'Interiors Budget';
 
 function doPost(e) {
   try {
@@ -43,14 +44,15 @@ function doPost(e) {
       d.intent || 'quick_estimate', d.scopeOfWork, d.finishLevel, d.storageRequirement,
       d.upgrades, d.bhkSize, '',
       d.estimateLow, d.estimateHigh, d.sizeMultiplier,
-      d.interiorsBudget,
     ].map(clean_);
 
     var lock = LockService.getScriptLock();
     lock.waitLock(20000);
     try {
       var sheet = leadsSheet_();
-      ensureBudgetHeader_(sheet);
+      var budgetCol = budgetColumn_(sheet);
+      while (row.length < budgetCol) row.push('');
+      row[budgetCol - 1] = clean_(d.interiorsBudget);
       sheet.appendRow(row);
     } finally {
       lock.releaseLock();
@@ -67,19 +69,18 @@ function doGet() {
   return json_({ ok: true });
 }
 
-// Run once from the editor to write headers into an empty row 1, or to
-// check the existing ones. Never overwrites a non-empty header cell.
-function setupHeaders() {
-  var sheet = leadsSheet_();
-  var current = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
-  for (var i = 0; i < HEADERS.length; i++) {
-    if (current[i] === '' || current[i] === null) sheet.getRange(1, i + 1).setValue(HEADERS[i]);
+// 1-based column of the Interiors Budget header; appended after the last
+// header if it does not exist yet.
+function budgetColumn_(sheet) {
+  var lastCol = sheet.getLastColumn();
+  var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  for (var i = 0; i < headers.length; i++) {
+    if (String(headers[i]).trim() === BUDGET_HEADER) return i + 1;
   }
-}
-
-function ensureBudgetHeader_(sheet) {
-  var cell = sheet.getRange(1, 25); // Y1
-  if (cell.getValue() === '') cell.setValue('Interiors Budget');
+  var last = headers.length;
+  while (last > 0 && String(headers[last - 1]).trim() === '') last--;
+  sheet.getRange(1, last + 1).setValue(BUDGET_HEADER);
+  return last + 1;
 }
 
 // Stringify, trim, cap length, and neutralise anything a spreadsheet would

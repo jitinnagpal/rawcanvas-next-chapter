@@ -8,7 +8,7 @@
  * existing deployment keeps the same URL).
  */
 export const LEADS_ENDPOINT =
-  import.meta.env.VITE_LEADS_ENDPOINT || 
+  import.meta.env.VITE_LEADS_ENDPOINT ||
   'https://script.google.com/macros/s/AKfycbzz0o3ym29l3wQCOZXtEhLspKaqdF-mktrh2Xc_TvrOL1UL_Jhxpz0_udQoyhwEhDU/exec';
 
 export async function submitLeadToSheet(data: Record<string, unknown>): Promise<void> {
