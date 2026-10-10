@@ -6,7 +6,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Kitchen images
-import kitchen1 from '@/assets/gallery/kitchen-1.jpg';
 import kitchen2 from '@/assets/gallery/kitchen-2.jpg';
 import kitchen3 from '@/assets/gallery/kitchen-3.jpg';
 import kitchen4 from '@/assets/gallery/kitchen-4.jpg';
@@ -14,31 +13,26 @@ import kitchen5 from '@/assets/gallery/kitchen-5.jpg';
 import kitchen6 from '@/assets/gallery/kitchen-6.jpg';
 import kitchen7 from '@/assets/gallery/kitchen-7.jpg';
 import kitchenVideo1 from '@/assets/gallery/kitchen-7.mp4';
-import kitchen8 from '@/assets/gallery/kitchen-8.jpg';
-import kitchen9 from '@/assets/gallery/kitchen-9.jpg';
 
 // Bedroom images
 import bedroom1 from '@/assets/gallery/bedroom-1.jpg';
-import bedroom2 from '@/assets/gallery/bedroom-2.jpg';
 import bedroom3 from '@/assets/gallery/bedroom-3.jpg';
 import bedroom4 from '@/assets/gallery/bedroom-4.jpg';
-import bedroom5 from '@/assets/gallery/bedroom-5.jpg';
 
 // Living space images
 import living1 from '@/assets/gallery/living-1.jpg';
-import living2 from '@/assets/gallery/living-2.jpg';
 import living3 from '@/assets/gallery/living-3.jpg';
 import living4 from '@/assets/gallery/living-4.jpg';
 import living5 from '@/assets/gallery/living-5.jpg';
 import living6 from '@/assets/gallery/living-6.jpg';
-import living7 from '@/assets/gallery/living-7.jpg';
 import living8 from '@/assets/gallery/living-8.jpg';
 import living9 from '@/assets/gallery/living-9.jpg';
 import living10 from '@/assets/gallery/living-10.jpg';
-import living11 from '@/assets/gallery/living-11.jpg';
 
 type GalleryImage = { src: string; alt: string; type?: 'video'; poster?: string; caption?: string };
 type GalleryCategory = { title: string; description: string; images: GalleryImage[] };
+
+const SHOWROOM = 'Kitchen Stories showroom, Hyderabad.';
 
 const galleryData: Record<string, GalleryCategory> = {
   kitchen: {
@@ -47,19 +41,21 @@ const galleryData: Record<string, GalleryCategory> = {
       'Planned around how your household cooks: deep drawers over doors, counters kept clear, and appliances placed where the work happens.',
     images: [
       {
-        src: kitchen1,
+        src: '/images/site/kitchen-ocean.jpg',
         alt: 'Kitchen with sea-blue base units under white upper cabinets',
         caption:
           'For a family that loves the ocean and surfing: sea-blue base units under white uppers, with the theme carried through the home by a sand-textured abstract waves wallpaper.',
       },
-      { src: kitchen2, alt: 'White kitchen with deep drawers and a marble-look backsplash' },
-      { src: kitchen3, alt: 'Kitchen in navy lacquer and light oak with tall built-in ovens' },
-      { src: kitchen4, alt: 'Grey kitchen with an island and open display shelving' },
       { src: kitchen5, alt: 'Sage green kitchen with a grey island set for two' },
-      { src: kitchen6, alt: 'Grey kitchen with an island hob and a steel chimney' },
-      { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video' as const, poster: kitchen7 },
-      { src: kitchen8, alt: 'End of a kitchen island with open shelving' },
-      { src: kitchen9, alt: 'Frosted-glass crockery unit beside a tile mosaic wall' },
+      { src: kitchen2, alt: 'White kitchen with deep drawers and a marble-look backsplash' },
+      {
+        src: kitchen3,
+        alt: 'Kitchen in navy lacquer and light oak with tall built-in ovens',
+        caption: 'Designed by Prerna for the Kitchen Stories showroom, Hyderabad.',
+      },
+      { src: kitchen4, alt: 'Grey kitchen with an island and open display shelving', caption: SHOWROOM },
+      { src: kitchen6, alt: 'Grey kitchen with an island hob and a steel chimney', caption: SHOWROOM },
+      { src: kitchenVideo1, alt: 'Kitchen walkthrough video', type: 'video' as const, poster: kitchen7, caption: SHOWROOM },
     ]
   },
   bedroom: {
@@ -67,11 +63,10 @@ const galleryData: Record<string, GalleryCategory> = {
     description:
       'Kept calm: one considered wall behind the bed, layered light in place of a single ceiling fixture, and wardrobes built into the plan rather than added at the end.',
     images: [
+      { src: '/images/site/bedroom-slatted.jpg', alt: 'Bedroom with a slatted wood ceiling feature running down behind the bed' },
       { src: bedroom1, alt: 'Bedroom with a grasscloth headboard wall and sunburst mirror' },
-      { src: bedroom2, alt: 'White bedroom with a slatted wood ceiling feature and mirrored wardrobe' },
       { src: bedroom3, alt: 'Bedroom with feather-print wallpaper and a marble-look wardrobe' },
       { src: bedroom4, alt: 'Grey guest bedroom with a block-print throw' },
-      { src: bedroom5, alt: 'Bedroom corner with a window seat and roman blind' },
     ]
   },
   living: {
@@ -79,17 +74,22 @@ const galleryData: Record<string, GalleryCategory> = {
     description:
       'Living rooms, bars, studies, entrances and balconies. Each is planned for daily use first, then finished with the materials and pieces that make it yours.',
     images: [
-      { src: living1, alt: 'Living room in grey and blue with brass coffee tables' },
-      { src: living2, alt: 'Living room with a TV wall and glass coffee tables' },
-      { src: living3, alt: 'Long living room with tufted sofas and crystal pendant lights' },
+      { src: '/images/site/living-mauve.jpg', alt: 'Living room in mauve velvet under a large abstract canvas, lit by daylight' },
+      { src: '/images/site/bar-birds.jpg', alt: 'Home bar with a fluted wood wall, brass birds in flight and teal velvet chairs' },
+      { src: '/images/site/lounge-screens.jpg', alt: 'Lounge behind brass-framed fluted-glass screens under a slatted wood ceiling' },
       { src: living4, alt: 'Lounge with a burnt-orange textured wall and slatted ceiling' },
       { src: living5, alt: 'Home bar with teal stools and a slatted ceiling' },
-      { src: living6, alt: 'Entrance corridor with a carved panel and runner rug' },
-      { src: living7, alt: 'Study corner with a grey bar cabinet and a telescope' },
+      { src: living1, alt: 'Living room in grey and blue with brass coffee tables' },
+      { src: living3, alt: 'Long living room with tufted sofas and crystal pendant lights' },
       { src: living8, alt: 'Reading corner with solid wood shelving and a hand-painted wall' },
       { src: living9, alt: 'Armchair corner against a hand-painted wall' },
+      {
+        src: '/images/site/surfboard-corner.jpg',
+        alt: 'Corner with a red surfboard, two cane chairs and a wooden book stand',
+        caption: 'The ocean-loving family again: a surfboard given a corner of its own.',
+      },
       { src: living10, alt: 'Balcony with a turf floor, red cushions and hanging planters' },
-      { src: living11, alt: 'Entrance foyer with a wood-panelled door wall and a white shoe cabinet' },
+      { src: living6, alt: 'Entrance corridor with a carved panel and runner rug' },
     ]
   },
 };
@@ -148,7 +148,7 @@ const Gallery = () => {
 
           {/* Gallery Grid */}
           {gallery.images.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
               {gallery.images.map((image, index) => (
                 <div 
                   key={index}

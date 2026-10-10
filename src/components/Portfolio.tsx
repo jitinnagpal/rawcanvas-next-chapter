@@ -1,14 +1,27 @@
 import { Link } from 'react-router-dom';
 
-type Item = { src: string; alt: string; title: string; note: string; wide?: boolean; tall?: boolean };
+type Item = { src: string; alt: string; title: string; note: string; wide?: boolean; tall?: boolean; pos?: string };
 
 const items: Item[] = [
   {
-    src: '/images/site/study-bar.jpg',
-    alt: 'Study with a bar counter, teal stools and a balcony door',
-    title: 'Study and bar, apartment, Hyderabad.',
-    note: 'A balcony door kept clear so the room works on daylight till evening.',
+    src: '/images/site/bar-birds.jpg',
+    alt: 'Home bar with a fluted wood wall, brass birds in flight and teal velvet chairs',
+    title: 'Bar wall, apartment, Hyderabad.',
+    note: 'Fluted wood, brass birds in flight, and a backlit mirror over the wash counter.',
     wide: true,
+  },
+  {
+    src: '/images/site/lounge-screens.jpg',
+    alt: 'Lounge behind brass-framed fluted-glass screens under a slatted wood ceiling',
+    title: 'Lounge.',
+    note: 'Brass-framed glass screens divide it from the entrance without closing it off.',
+  },
+  {
+    src: '/images/site/kitchen-ocean.jpg',
+    alt: 'Kitchen with sea-blue base units under white upper cabinets',
+    title: 'Kitchen.',
+    note: 'Sea-blue base units for a family that loves the ocean.',
+    pos: '18% 50%',
   },
   {
     src: '/images/site/reading-nook.jpg',
@@ -17,22 +30,10 @@ const items: Item[] = [
     note: 'Hand-painted wall, solid wood shelving.',
   },
   {
-    src: '/images/site/kitchen-white.jpg',
-    alt: 'White modular kitchen with marble-look backsplash and deep drawers',
-    title: 'Kitchen.',
-    note: 'Deep drawers over doors, marble-look backsplash.',
-  },
-  {
-    src: '/images/site/bedroom-grey.jpg',
-    alt: 'Guest bedroom in grey with a block-print throw',
-    title: 'Guest bedroom.',
-    note: 'Quiet greys, block-print throw.',
-  },
-  {
-    src: '/images/site/corridor.jpg',
-    alt: 'Entrance corridor with carved panel, console and runner rug',
-    title: 'Entrance.',
-    note: 'A long corridor turned into a gallery.',
+    src: '/images/site/bedroom-slatted.jpg',
+    alt: 'Bedroom with a slatted wood ceiling feature running down behind the bed',
+    title: 'Bedroom.',
+    note: 'A slatted ceiling that runs down the wall to become the headboard.',
   },
 ];
 
@@ -58,6 +59,7 @@ const Portfolio = () => (
             src={it.src}
             alt={it.alt}
             loading="lazy"
+            style={it.pos ? { objectPosition: it.pos } : undefined}
             className={`-mx-5 w-[calc(100%+2.5rem)] max-w-none sm:mx-0 sm:w-full object-cover ${it.wide ? 'h-[300px] sm:h-[460px] lg:h-[520px]' : 'h-[300px] sm:h-[400px] lg:h-[440px]'}`}
           />
           <figcaption className="text-[14px] md:text-[15px] leading-snug text-foreground/75">

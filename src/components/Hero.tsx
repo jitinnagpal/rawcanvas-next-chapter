@@ -42,8 +42,8 @@ const Hero = () => {
             </div>
           </div>
           <img
-            src="/images/site/living-grey.jpg"
-            alt="Living room with grey sofas, blue rug and brass coffee table, designed by Mokha Designs"
+            src="/images/site/living-mauve.jpg"
+            alt="Living room in mauve velvet under a large abstract canvas, lit by daylight through sheer curtains, designed by Mokha Designs"
             className="order-1 lg:order-2 -mx-5 w-[calc(100%+2.5rem)] max-w-none sm:mx-0 sm:w-full h-[44vh] min-h-[300px] max-h-[420px] sm:max-h-none sm:h-[480px] lg:h-[620px] object-cover sm:rounded-[4px]"
             fetchPriority="high"
           />
