@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useState, useEffect, useRef } from 'react';
 import { submitLeadToSheet } from '@/utils/leads';
+import { getAttribution } from '@/utils/attribution';
 import { useToast } from '@/hooks/use-toast';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 import { useEntryMode } from '@/hooks/useEntryMode';
@@ -264,6 +265,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
         bhkSize: apartmentSize || '',
         sizeMultiplier: null,
         interiorsBudget: budgetLabel(interiorsBudget),
+        source: getAttribution(),
         website: honeypot,
       };
 

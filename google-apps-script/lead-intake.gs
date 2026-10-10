@@ -5,8 +5,8 @@
  * deployed as a web app (Execute as: Me, Who has access: Anyone).
  * The website form POSTs JSON here; each submission becomes one row in the
  * "Website" tab. Columns A:X keep the old Supabase layout (by position).
- * Interiors Budget is found by its header name, wherever that column sits,
- * and is created after the last header if missing. Columns the team uses
+ * Interiors Budget and Lead Source are found by header name, wherever those
+ * columns sit, and are created after the last header if missing. Columns the team uses
  * for follow-ups (Follow Up Owner onwards) are never written.
  *
  * Source of truth for this file: google-apps-script/lead-intake.gs in the
@@ -20,7 +20,11 @@
 // Date, Visitor Location, Device, Browser, Timestamp, Intent, Scope of Work,
 // Finish Level, Storage Requirement, Upgrades, BHK Size, Entry Mode (legacy,
 // blank), Estimate Low, Estimate High, Size Multiplier.
-var BUDGET_HEADER = 'Interiors Budget';
+// Extra columns written by header name (created at the end if missing).
+var NAMED_COLUMNS = {
+  'Interiors Budget': function (d) { return d.interiorsBudget; },
+  'Lead Source': function (d) { return d.source; },
+};
 
 function doPost(e) {
   try {
@@ -50,9 +54,11 @@ function doPost(e) {
     lock.waitLock(20000);
     try {
       var sheet = leadsSheet_();
-      var budgetCol = budgetColumn_(sheet);
-      while (row.length < budgetCol) row.push('');
-      row[budgetCol - 1] = clean_(d.interiorsBudget);
+      for (var header in NAMED_COLUMNS) {
+        var col = columnFor_(sheet, header);
+        while (row.length < col) row.push('');
+        row[col - 1] = clean_(NAMED_COLUMNS[header](d));
+      }
       sheet.appendRow(row);
     } finally {
       lock.releaseLock();
@@ -69,17 +75,17 @@ function doGet() {
   return json_({ ok: true });
 }
 
-// 1-based column of the Interiors Budget header; appended after the last
-// header if it does not exist yet.
-function budgetColumn_(sheet) {
+// 1-based column of the given header; appended after the last header if it
+// does not exist yet.
+function columnFor_(sheet, header) {
   var lastCol = sheet.getLastColumn();
   var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   for (var i = 0; i < headers.length; i++) {
-    if (String(headers[i]).trim() === BUDGET_HEADER) return i + 1;
+    if (String(headers[i]).trim() === header) return i + 1;
   }
   var last = headers.length;
   while (last > 0 && String(headers[last - 1]).trim() === '') last--;
-  sheet.getRange(1, last + 1).setValue(BUDGET_HEADER);
+  sheet.getRange(1, last + 1).setValue(header);
   return last + 1;
 }
 
