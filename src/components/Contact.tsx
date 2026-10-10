@@ -10,7 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useState, useEffect, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { submitLeadToSheet } from '@/utils/leads';
 import { useToast } from '@/hooks/use-toast';
 import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
@@ -36,6 +36,7 @@ interface ContactProps {
 }
 
 const Contact = ({ embedded = false }: ContactProps) => {
+  const [honeypot, setHoneypot] = useState('');
   const [projectType, setProjectType] = useState('');
   const [apartmentSize, setApartmentSize] = useState('');
   const [propertyStatus, setPropertyStatus] = useState('');
@@ -463,21 +464,13 @@ const Contact = ({ embedded = false }: ContactProps) => {
         bhkSize: apartmentSize || '',
         sizeMultiplier: null,
         interiorsBudget: budgetLabel(interiorsBudget),
+        website: honeypot,
       };
 
       console.log('Submitting form data:', submissionData);
 
-      // Call edge function to submit to Google Sheets
-      const { data, error } = await supabase.functions.invoke('submit-contact-form', {
-        body: submissionData,
-      });
-
-      if (error) {
-        console.error('Error submitting form:', error);
-        throw error;
-      }
-
-      console.log('Form submitted successfully:', data);
+      // Append the lead straight to the Google Sheet (Apps Script web app)
+      await submitLeadToSheet(submissionData);
       return true;
 
     } catch (error) {
@@ -645,6 +638,17 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
   const formContent = (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot for bots: hidden from people and screen readers */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+      />
       {/* Basic Information */}
       <div className="space-y-4">
         <div>
