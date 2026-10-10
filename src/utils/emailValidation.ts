@@ -177,7 +177,7 @@ export function validateEmail(value: string): EmailValidationResult {
   if (isJunkEmail(normalizedValue)) {
     return {
       isValid: false,
-      error: 'Please enter your real email so we can share the estimate.',
+      error: 'Please enter your real email so we can reach you.',
       normalizedValue,
     };
   }
@@ -188,7 +188,7 @@ export function validateEmail(value: string): EmailValidationResult {
   if (genericDomains.includes(domain) && hasJunkLocalPart(normalizedValue)) {
     return {
       isValid: false,
-      error: 'Please enter your real email so we can share the estimate.',
+      error: 'Please enter your real email so we can reach you.',
       normalizedValue,
     };
   }

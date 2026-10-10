@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-type EntryMode = 'estimate' | 'consult' | null;
+type EntryMode = 'consult' | null;
 
 // Simple state management using a module-level variable
 let currentEntryMode: EntryMode = null;

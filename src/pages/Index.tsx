@@ -20,7 +20,8 @@ const Index = () => {
     const intentParam = searchParams.get('intent');
     
     if (intentParam === 'estimate' || intentParam === 'consultation') {
-      setGlobalEntryMode(intentParam === 'estimate' ? 'estimate' : 'consult');
+      // Old ad links may still carry ?intent=estimate; both land on the design-call form.
+      setGlobalEntryMode('consult');
       
       setTimeout(() => {
         document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });

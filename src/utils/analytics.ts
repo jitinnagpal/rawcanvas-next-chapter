@@ -20,22 +20,6 @@ export const trackEstimateCostClicked = () => {
   trackEvent('estimate_cost_clicked', { source: 'hero' });
 };
 
-export const trackEstimateGenerateClicked = () => {
-  trackEvent('estimate_generate_clicked');
-};
-
-export const trackEstimateGenerated = (data: {
-  scope: string;
-  status: string;
-  location: string;
-  totalLow: number | null;
-  totalHigh: number | null;
-  entryMode: string;
-  bhkSize: string;
-}) => {
-  trackEvent('estimate_generated', data);
-};
-
 export const trackDesignMySpaceClicked = (data: {
   entryMode: string;
   estimateWasGenerated: boolean;

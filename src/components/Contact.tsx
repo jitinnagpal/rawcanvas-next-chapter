@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock, Send, Calendar as CalendarIcon, Calculator } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Calendar as CalendarIcon } from 'lucide-react';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,8 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { downloadVCard } from '@/utils/generateVCard';
 import { detectDeviceType, detectBrowser, getVisitorLocation } from '@/utils/detectDevice';
 import { useEntryMode } from '@/hooks/useEntryMode';
-import { calculateEstimate, type EstimateResult, type ScopeOfWork, type PropertyStatus, type BHKSize } from '@/utils/estimateCalculator';
-import { trackEstimateGenerateClicked, trackEstimateGenerated, trackDesignMySpaceClicked, trackLeadValidationFailed } from '@/utils/analytics';
+import { trackDesignMySpaceClicked, trackLeadValidationFailed } from '@/utils/analytics';
 import { validatePhone, normalizePhone, shouldShowValidation } from '@/utils/phoneValidation';
 import { validateFullName } from '@/utils/nameValidation';
 import { validateEmail } from '@/utils/emailValidation';
@@ -46,17 +45,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
   const [propertyLocation, setPropertyLocation] = useState('hyderabad');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Intent selection - cost estimate vs consultation
-  const [intent, setIntent] = useState<'estimate' | 'consultation'>('consultation');
-  
-  // New estimate fields
-  const [scopeOfWork, setScopeOfWork] = useState<ScopeOfWork | ''>('');
-  
-  // Estimate state
-  const [estimateResult, setEstimateResult] = useState<EstimateResult | null>(null);
-  const [estimateWasGenerated, setEstimateWasGenerated] = useState(false);
-  const [highlightMissingFields, setHighlightMissingFields] = useState(false);
-  
   // Phone validation state
   const [phoneValue, setPhoneValue] = useState('');
   const [phoneError, setPhoneError] = useState<string | undefined>();
@@ -74,40 +62,13 @@ const Contact = ({ embedded = false }: ContactProps) => {
   const [emailWarning, setEmailWarning] = useState<{ message: string; suggestedValue?: string } | undefined>();
   const [emailTouched, setEmailTouched] = useState(false);
   
-  // Progress tracking for estimate flow
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 3;
-  
   const { entryMode, setEntryMode } = useEntryMode();
   const { toast } = useToast();
-  
-  // Sync intent with entry mode from header/hero
-  useEffect(() => {
-    if (entryMode === 'estimate') {
-      setIntent('estimate');
-    } else if (entryMode === 'consult') {
-      setIntent('consultation');
-    }
-  }, [entryMode]);
-  
-  // Update step based on form progress
-  useEffect(() => {
-    if (intent === 'estimate') {
-      if (!propertyLocation || !projectType) {
-        setCurrentStep(1);
-      } else if (!propertyStatus || !scopeOfWork || (scopeOfWork === 'design-execution' && !apartmentSize)) {
-        setCurrentStep(2);
-      } else {
-        setCurrentStep(3);
-      }
-    }
-  }, [intent, propertyLocation, projectType, propertyStatus, scopeOfWork, apartmentSize]);
   
   // Refs for scrolling to missing fields
   const locationRef = useRef<HTMLDivElement>(null);
   const sizeRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
-  const scopeRef = useRef<HTMLDivElement>(null);
 
   const contactInfo = [
     {
@@ -135,46 +96,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
       action: '#'
     }
   ];
-
-  // Check if all estimate required fields are filled
-  const isEstimateReady = () => {
-    return (
-      propertyLocation &&
-      projectType === 'residential' &&
-      propertyStatus &&
-      scopeOfWork &&
-      (scopeOfWork === 'design-only' || apartmentSize)
-    );
-  };
-
-  // Find first missing estimate field and scroll to it
-  const scrollToFirstMissingField = () => {
-    if (!propertyLocation) {
-      locationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-    if (projectType !== 'residential') {
-      // Can't estimate for commercial
-      toast({
-        title: "Residential Only",
-        description: "Cost estimates are currently available for residential projects only.",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (!propertyStatus) {
-      statusRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-    if (!scopeOfWork) {
-      scopeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-    if (scopeOfWork === 'design-execution' && !apartmentSize) {
-      sizeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-  };
 
   // Reset highlight when entry mode changes (removed auto-focus behavior)
 
@@ -286,122 +207,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
     }
   };
 
-  // Check if contact fields are valid for estimate
-  const areContactFieldsValid = (): { valid: boolean; message?: string; field?: string } => {
-    // Validate name using the new validation
-    const nameValidation = validateFullName(nameValue);
-    if (!nameValidation.isValid) {
-      return { valid: false, message: nameValidation.error, field: 'name' };
-    }
-    
-    // Validate phone
-    if (!phoneValue.trim()) {
-      return { valid: false, message: "Phone number is required.", field: 'phone' };
-    }
-    
-    // Use city-aware phone validation
-    const phoneValidation = validatePhone(phoneValue, propertyLocation);
-    if (!phoneValidation.valid) {
-      return { valid: false, message: phoneValidation.error, field: 'phone' };
-    }
-    
-    // Validate email only if provided (it's optional)
-    if (emailValue.trim()) {
-      const emailValidation = validateEmail(emailValue);
-      if (!emailValidation.isValid) {
-        return { valid: false, message: emailValidation.error, field: 'email' };
-      }
-    }
-    
-    if (!propertyLocation) {
-      return { valid: false, message: "Please select a property location.", field: 'location' };
-    }
-    if (!projectType) {
-      return { valid: false, message: "Please select a project type.", field: 'projectType' };
-    }
-    
-    return { valid: true };
-  };
-
-  const handleGenerateEstimate = async () => {
-    trackEstimateGenerateClicked();
-    
-    // First validate contact fields (mandatory for estimate too)
-    // Set touched state to show errors
-    setNameTouched(true);
-    setPhoneTouched(true);
-    if (emailValue.trim()) setEmailTouched(true);
-    
-    const contactValidation = areContactFieldsValid();
-    if (!contactValidation.valid) {
-      // Track validation failure
-      if (contactValidation.field === 'name') {
-        trackLeadValidationFailed({ field: 'full_name', reason: contactValidation.message || 'validation_failed' });
-        // Update name error state
-        setNameError(contactValidation.message);
-      } else if (contactValidation.field === 'email') {
-        trackLeadValidationFailed({ field: 'email', reason: contactValidation.message || 'validation_failed' });
-        setEmailError(contactValidation.message);
-      }
-      
-      toast({
-        title: "Missing Information",
-        description: contactValidation.message,
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (!interiorsBudget) {
-      toast({
-        title: "Missing Information",
-        description: "Please choose an interiors budget range.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Then validate estimate-specific fields
-    if (!isEstimateReady()) {
-      setHighlightMissingFields(true);
-      scrollToFirstMissingField();
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields to generate an estimate.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const result = calculateEstimate({
-      scope: scopeOfWork as ScopeOfWork,
-      propertyStatus: propertyStatus as PropertyStatus,
-      bhkSize: apartmentSize ? (apartmentSize as BHKSize) : undefined,
-    });
-
-    setEstimateResult(result);
-    setEstimateWasGenerated(true);
-
-    // Track analytics
-    trackEstimateGenerated({
-      scope: scopeOfWork,
-      status: propertyStatus,
-      location: propertyLocation,
-      totalLow: result.totalLow,
-      totalHigh: result.totalHigh,
-      entryMode: entryMode || 'direct',
-      bhkSize: apartmentSize,
-    });
-
-    // Also submit the lead
-    const leadSuccess = await submitLead(true);
-
-    // Fire Meta Pixel Lead event on successful estimate submission
-    if (leadSuccess && typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Lead', { source: 'estimator' });
-    }
-  };
-
   const submitLead = async (fromEstimate: boolean = false) => {
     setIsSubmitting(true);
 
@@ -435,10 +240,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
       const browser = detectBrowser();
       const visitorLocation = await getVisitorLocation();
 
-      // Prepare submission data with new fields
-      // Map intent to sheet values: 'estimate' -> 'quick_estimate', 'consultation' -> 'designer_consultation'
-      const intentValue = intent === 'estimate' ? 'quick_estimate' : 'designer_consultation';
-      
       const submissionData = {
         name: name.trim(),
         phone: normalizedPhoneDigits, // Store normalized digits
@@ -453,14 +254,13 @@ const Contact = ({ embedded = false }: ContactProps) => {
         visitorLocation,
         deviceType,
         browser,
-        // New estimate fields
-        scopeOfWork: scopeOfWork || '',
+        scopeOfWork: '',
         finishLevel: '',
         storageRequirement: '',
         upgrades: '',
-        intent: intentValue, // 'quick_estimate' or 'designer_consultation'
-        estimateLow: estimateResult?.totalLow ?? null,
-        estimateHigh: estimateResult?.totalHigh ?? null,
+        intent: 'designer_consultation',
+        estimateLow: null,
+        estimateHigh: null,
         bhkSize: apartmentSize || '',
         sizeMultiplier: null,
         interiorsBudget: budgetLabel(interiorsBudget),
@@ -502,7 +302,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
     
     trackDesignMySpaceClicked({
       entryMode: entryMode || 'direct',
-      estimateWasGenerated,
+      estimateWasGenerated: false,
     });
 
     const success = await submitLead(false);
@@ -545,10 +345,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
       setNextStep('');
       setConsultationDate(undefined);
       setPropertyLocation('');
-      setScopeOfWork('');
-      setEstimateResult(null);
-      setEstimateWasGenerated(false);
-      setHighlightMissingFields(false);
       setEntryMode(null);
       // Reset phone state
       setPhoneValue('');
@@ -567,72 +363,9 @@ const Contact = ({ embedded = false }: ContactProps) => {
     }
   };
 
-  const getMissingFieldClass = (value: string | string[]) => {
-    if (!highlightMissingFields) return '';
-    const isEmpty = Array.isArray(value) ? value.length === 0 : !value;
-    return isEmpty ? 'ring-2 ring-destructive/50 ring-offset-2' : '';
-  };
-
-  const intentToggle = (
-    <div className="mb-6">
-      <div className="flex rounded-lg bg-muted p-1 gap-1">
-        <button
-          type="button"
-          onClick={() => setIntent('consultation')}
-          className={cn(
-            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-            intent === 'consultation' 
-              ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          <span>Book a Design Call</span>
-          <span className={cn(
-            "text-xs",
-            intent === 'consultation' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-          )}>
-            Discuss ideas, budget & feasibility
-          </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setIntent('estimate')}
-          className={cn(
-            "flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all flex flex-col items-center justify-center gap-1",
-            intent === 'estimate' 
-              ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          <span>Get a Quick Estimate</span>
-          <span className={cn(
-            "text-xs",
-            intent === 'estimate' ? "text-primary-foreground/80" : "text-muted-foreground/70"
-          )}>
-            ~1 minute · No commitment
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-
-  const progressIndicator = intent === 'estimate' ? (
-    <div className="mb-6">
-      <div className="text-sm text-muted-foreground mb-2">
-        <span>Step {currentStep} of {totalSteps}</span>
-      </div>
-      <div className="h-2 bg-muted rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-primary transition-all duration-300 rounded-full"
-          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-        />
-      </div>
-    </div>
-  ) : null;
-
   const formHeading = (
     <h3 className="text-2xl font-heading font-bold text-foreground mb-6">
-      {intent === 'estimate' ? 'Tell Us a Bit About Your Space' : 'Request a Design Call'}
+      Request a Design Call
     </h3>
   );
 
@@ -703,7 +436,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
           )}
         </div>
 
-        <div ref={locationRef} className={cn("rounded-lg", getMissingFieldClass(propertyLocation))}>
+        <div ref={locationRef} className="rounded-lg">
           <Label htmlFor="location" className="text-sm font-medium text-foreground">
             Property Location *
           </Label>
@@ -739,9 +472,9 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
         {/* Conditional: Residential Property Size */}
         {projectType === 'residential' && (
-          <div ref={sizeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(apartmentSize))}>
+          <div ref={sizeRef} className="rounded-lg p-2 -m-2">
             <Label className="text-sm font-medium text-foreground mb-3 block">
-              Residential Property Size{scopeOfWork === 'design-execution' ? ' *' : ''}
+              Residential Property Size
             </Label>
             <RadioGroup value={apartmentSize} onValueChange={setApartmentSize} className="flex gap-4">
               <div className="flex items-center space-x-2">
@@ -780,7 +513,7 @@ const Contact = ({ embedded = false }: ContactProps) => {
 
         {/* Property Status */}
         {projectType && (
-          <div ref={statusRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(propertyStatus))}>
+          <div ref={statusRef} className="rounded-lg p-2 -m-2">
             <Label className="text-sm font-medium text-foreground mb-3 block">
               Property Status *
             </Label>
@@ -819,70 +552,12 @@ const Contact = ({ embedded = false }: ContactProps) => {
         )}
       </div>
 
-      {/* Estimate Fields - Only for Residential and estimate intent */}
-      {projectType === 'residential' && intent === 'estimate' && (
-        <div className="space-y-4 pt-4 border-t border-border">
-          <div className="flex items-center gap-2 mb-2">
-            <Calculator className="w-5 h-5 text-primary" />
-            <span className="text-sm font-semibold text-primary">Cost Estimate Details</span>
-          </div>
-
-          {/* Scope of Work */}
-          <div ref={scopeRef} className={cn("rounded-lg p-2 -m-2", getMissingFieldClass(scopeOfWork))}>
-            <Label className="text-sm font-medium text-foreground mb-3 block">
-              Scope of Work *
-            </Label>
-            <RadioGroup value={scopeOfWork} onValueChange={(v) => setScopeOfWork(v as ScopeOfWork)} className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="design-only" id="design-only" />
-                <Label htmlFor="design-only">Design Only</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="design-execution" id="design-execution" />
-                <Label htmlFor="design-execution">Design &amp; Execution</Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* Generate Estimate Button */}
-          <Button 
-            type="button"
-            size="lg"
-            className="w-full bg-primary hover:bg-primary/90"
-            onClick={handleGenerateEstimate}
-            disabled={isSubmitting}
-          >
-            <Calculator className="w-5 h-5 mr-2" />
-            Generate Estimate
-          </Button>
-          <p className="text-xs text-center text-muted-foreground">
-            You'll also receive a detailed consultation if needed.
-          </p>
-
-          {/* Estimate Result */}
-          {estimateResult && (
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-2">Estimated cost</p>
-                <p className="text-2xl md:text-3xl font-bold text-primary">
-                  {estimateResult.displayText}
-                </p>
-              </div>
-              
-              <p className="text-xs text-muted-foreground text-center">
-                This is an estimate. Final cost depends on site measurements, detailed scope, and material selections. Talk to us to get a detailed quote.
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Next Step Preference - for consultation intent or after estimate */}
-      {projectType && (intent === 'consultation' || estimateWasGenerated) && (
+      {/* Next Step Preference */}
+      {projectType && (
         <div className="space-y-4 pt-4 border-t border-border">
           <div>
             <Label className="text-sm font-medium text-foreground mb-3 block">
-              {intent === 'consultation' ? 'How would you like to proceed?' : 'Next Step Preference'}
+              How would you like to proceed?
             </Label>
             <RadioGroup value={nextStep} onValueChange={setNextStep} className="space-y-2">
               <div className="flex items-center space-x-2">
@@ -931,42 +606,21 @@ const Contact = ({ embedded = false }: ContactProps) => {
         </div>
       )}
 
-      {/* Submit Button - different based on intent */}
-      {intent === 'consultation' && (
-        <Button 
-          type="submit" 
-          size="lg" 
-          className="w-full bg-primary hover:bg-primary/90"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>Processing...</>
-          ) : (
-            <>
-              <Phone className="w-5 h-5 mr-2" />
-              Request a Design Call
-            </>
-          )}
-        </Button>
-      )}
-      
-      {intent === 'estimate' && estimateWasGenerated && (
-        <Button 
-          type="submit" 
-          size="lg" 
-          className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>Processing...</>
-          ) : (
-            <>
-              <Send className="w-5 h-5 mr-2" />
-              Request Detailed Quote
-            </>
-          )}
-        </Button>
-      )}
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full bg-primary hover:bg-primary/90"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <>Processing...</>
+        ) : (
+          <>
+            <Phone className="w-5 h-5 mr-2" />
+            Request a Design Call
+          </>
+        )}
+      </Button>
     </form>
   );
 
@@ -986,8 +640,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
   if (embedded) {
     return (
       <div className="font-sans p-2">
-        {intentToggle}
-        {progressIndicator}
         {formHeading}
         {formContent}
         {whatsappFooter}
@@ -1003,8 +655,8 @@ const Contact = ({ embedded = false }: ContactProps) => {
             <p className="eyebrow">Start a project</p>
             <h2 className="section-title">Planning a home in Hyderabad?</h2>
             <p className="text-[17px] leading-relaxed text-foreground/75 max-w-[520px]">
-              Tell us about the space and your timeline. A call with Prerna is the best first step, or get a quick
-              estimate range in about a minute.
+              Tell us about the space, your timeline and your budget. Prerna takes it from there on a design call,
+              and works through costs with you as the options take shape.
             </p>
             <img
               src="/images/site/balcony.jpg"
@@ -1020,8 +672,6 @@ const Contact = ({ embedded = false }: ContactProps) => {
           </div>
 
           <div className="elegant-card font-sans">
-            {intentToggle}
-            {progressIndicator}
             {formHeading}
             {formContent}
             {whatsappFooter}
