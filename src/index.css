@@ -35,9 +35,9 @@
     --accent-dark: 41 63% 26%;
 
     /* WhatsApp */
-    --whatsapp: 142 70% 35%;
+    --whatsapp: 142 70% 49%; /* #25D366, WhatsApp brand green */
     --whatsapp-foreground: 142 70% 30%;
-    --whatsapp-hover: 142 70% 28%;
+    --whatsapp-hover: 142 70% 42%;
 
     --muted: 38 30% 91%;
     --muted-foreground: 37 8% 38%;   /* #6A6358, 5:1 on ground */
@@ -114,12 +114,12 @@
   }
 
   .whatsapp-inline-link {
-    color: hsl(var(--whatsapp-foreground));
+    color: hsl(var(--foreground));
     transition: color 200ms ease-in-out;
   }
 
   .whatsapp-inline-link:hover {
-    color: hsl(var(--whatsapp-hover));
+    color: hsl(var(--muted-foreground));
   }
 }
 

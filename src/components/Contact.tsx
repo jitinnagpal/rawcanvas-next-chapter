@@ -620,9 +620,9 @@ const Contact = ({ embedded = false }: ContactProps) => {
       Prefer a quicker response?{' '}
       <button
         onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'contact_form')}
-        className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline hover:no-underline"
+        className="whatsapp-inline-link inline-flex items-center gap-2 font-medium underline underline-offset-4 decoration-border hover:decoration-foreground"
       >
-        <WhatsAppIcon className="w-4 h-4" withBubble />
+        <WhatsAppIcon className="w-[18px] h-[18px]" />
         Chat on WhatsApp
       </button>
     </p>

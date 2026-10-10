@@ -1,34 +1,16 @@
-import { useState, useEffect } from 'react';
 import { handleWhatsAppClick, WHATSAPP_DEFAULT_MESSAGE } from '@/utils/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-const FloatingWhatsApp = () => {
-  const [pulse, setPulse] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPulse(true);
-      setTimeout(() => setPulse(false), 1000);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <button
-      onClick={() =>
-        handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'floating')
-      }
-      className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full hidden md:flex items-center justify-center border border-whatsapp bg-card transition-all hover:scale-110 ${
-        pulse ? 'animate-pulse' : ''
-      }`}
-      style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)', transition: 'border-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out' }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = 'hsl(var(--whatsapp-hover))')}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = 'hsl(var(--whatsapp))')}
-      aria-label="Chat on WhatsApp"
-    >
-      <WhatsAppIcon className="w-5 h-5" withBubble />
-    </button>
-  );
-};
+// Desktop only; on mobile the sticky bottom bar carries WhatsApp.
+const FloatingWhatsApp = () => (
+  <button
+    onClick={() => handleWhatsAppClick(WHATSAPP_DEFAULT_MESSAGE, 'floating')}
+    className="group fixed bottom-6 right-6 z-50 hidden md:flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp shadow-[0_6px_20px_rgba(0,0,0,0.14)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-whatsapp-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+    aria-label="Chat with Mokha Designs on WhatsApp"
+    title="Chat on WhatsApp"
+  >
+    <WhatsAppIcon className="h-7 w-7" tone="white" />
+  </button>
+);
 
 export default FloatingWhatsApp;

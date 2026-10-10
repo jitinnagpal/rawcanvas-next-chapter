@@ -19,7 +19,7 @@ const StickyMobileCTA = () => {
           onClick={handleWhatsApp}
           className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-foreground text-foreground py-3 text-[15px] font-medium min-h-[48px]"
         >
-          <WhatsAppIcon className="w-4 h-4" />
+          <WhatsAppIcon className="w-[18px] h-[18px]" />
           WhatsApp
         </button>
         <button
